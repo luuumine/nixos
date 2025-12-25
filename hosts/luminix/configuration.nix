@@ -71,6 +71,9 @@
     brave
     mangohud
     rofi
+
+    stow
+    tree
   ];
 
   system.stateVersion = "25.11";
