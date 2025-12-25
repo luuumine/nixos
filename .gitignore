@@ -1,0 +1,10 @@
+# ignore everythig by default
+
+# allow root config
+!.gitignore
+!flake.nix
+!flake.lock
+
+# allow hosts
+!hosts/
+!hosts/**
