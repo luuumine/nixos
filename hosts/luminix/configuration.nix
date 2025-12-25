@@ -63,6 +63,7 @@
   # System packages.
   environment.systemPackages = with pkgs; [
     nano
+    vim
     neovim
     git
     kitty
