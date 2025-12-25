@@ -60,6 +60,8 @@
   programs.steam.gamescopeSession.enable = true;
   programs.gamemode.enable = true;
 
+  hardware.wooting.enable = true;
+
   # System packages.
   environment.systemPackages = with pkgs; [
     nano
