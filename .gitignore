@@ -1,4 +1,5 @@
 # ignore everythig by default
+*
 
 # allow root config
 !.gitignore
