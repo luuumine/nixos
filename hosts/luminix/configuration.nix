@@ -77,6 +77,7 @@
 
     stow
     tree
+    vesktop
   ];
 
   system.stateVersion = "25.11";
