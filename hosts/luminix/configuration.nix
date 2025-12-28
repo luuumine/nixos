@@ -77,7 +77,8 @@
 
     stow
     tree
-    vesktop
+    vesktop # Discord client
+    olympus # Celeste mod loader
   ];
 
   system.stateVersion = "25.11";
