@@ -1,6 +1,11 @@
 { config, pkgs, ... }:
 
 {
+  programs.fzf = {
+    enable = true;
+    enableZshIntegration = true;
+  };
+
   programs.zsh = {
     enable = true;
 
@@ -23,7 +28,7 @@
       lsa = "ls -a";
       lsl = "ls -lah";
     };
-    
+
     initContent = ''
       # Basic Zsh behaviors
       setopt autocd
