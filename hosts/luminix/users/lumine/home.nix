@@ -2,7 +2,10 @@
 
 {
   home-manager.users.lumine = {
-    imports = [ ./packages.nix ];
+    imports = [ 
+      ./packages.nix
+      ./zsh.nix
+    ];
 
     home.username = "lumine";
     home.homeDirectory = "/home/lumine";
