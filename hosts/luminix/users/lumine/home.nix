@@ -5,6 +5,7 @@
     imports = [ 
       ./packages.nix
       ./zsh.nix
+      ./hyprpaper.nix
     ];
 
     home.username = "lumine";
