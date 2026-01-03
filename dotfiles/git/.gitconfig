@@ -1,0 +1,27 @@
+[user]
+    name = Romain Delhommais
+    email = romain@delhommais.com
+    signingKey = ~/.ssh/id_ed25519.pub
+
+[gpg]
+    format = ssh
+
+[gpg "ssh"]
+    allowedSignersFile = ~/.config/git/allowed_signers
+
+[commit]
+    gpgsign = true
+
+[tag]
+    gpgsign = true
+
+[init]
+    defaultBranch = main
+
+[push]
+    default = current
+    autoSetupRemote = true
+
+[color]
+    ui = auto
+
