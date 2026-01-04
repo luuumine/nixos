@@ -5,6 +5,7 @@
     ./hardware-configuration.nix
     ./storage.nix
     ./system.nix
+    ./wireguard.nix
 
     # Users
     ./users/lumine/home.nix
@@ -26,6 +27,15 @@
   # Shell
   programs.zsh.enable = true;
   users.defaultUserShell = pkgs.zsh;
+
+  # SSH
+  services.openssh = {
+    enable = true;
+    settings.PasswordAuthentication = false;
+  };
+
+  # agenix
+  age.identityPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
 
   # Sudo & Users
   security.sudo.wheelNeedsPassword = true;
