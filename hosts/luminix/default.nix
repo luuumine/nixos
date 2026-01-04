@@ -48,13 +48,13 @@
   # Packages
   environment.systemPackages = with pkgs;
   [
+    fastfetch
     git
     nano
-    vim
     neovim
-    tree
     stow
-    fastfetch
+    tree
+    vim
   ];
 
   system.stateVersion = "25.11";
