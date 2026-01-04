@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ ... }:
 
 let
   wallpaper = ./wallpapers/nix-catppuccin-mocha.png;
