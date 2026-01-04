@@ -48,13 +48,24 @@
   # Packages
   environment.systemPackages = with pkgs;
   [
+    bind
+    curl
+    eza
     fastfetch
+    file
     git
+    htop
+    killall
     nano
     neovim
+    pciutils
     stow
     tree
+    unzip
+    usbutils
     vim
+    wget
+    zip
   ];
 
   system.stateVersion = "25.11";
