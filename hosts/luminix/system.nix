@@ -29,5 +29,9 @@
     wants = ["graphical-session-pre.target"];
     after = ["graphical-session-pre.target"];
   };
+
+  environment.sessionVariables = {
+    NIXOS_OZONE_WL = "1";
+  };
 }
 
