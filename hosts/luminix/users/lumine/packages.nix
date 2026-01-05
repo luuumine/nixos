@@ -7,7 +7,7 @@
     mangohud
     btop
     rofi
-    vesktop
+    discord-canary
     olympus
   ];
 }
