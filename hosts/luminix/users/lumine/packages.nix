@@ -2,13 +2,14 @@
 
 {
   home.packages = with pkgs; [
-    kitty
     brave
-    mangohud
     btop
-    rofi
     discord-canary
+    kitty
+    mangohud
     olympus
+    prismlauncher
+    rofi
   ];
 }
 
