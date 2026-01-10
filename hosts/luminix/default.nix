@@ -56,6 +56,7 @@
     git
     htop
     killall
+    lm_sensors
     nano
     neovim
     pciutils
