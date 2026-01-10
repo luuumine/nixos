@@ -1,6 +1,9 @@
-{ ... }:
+{ pkgs, ... }:
 
 {
+  # Kernel
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+
   # Bootloader
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -32,6 +35,11 @@
 
   environment.sessionVariables = {
     NIXOS_OZONE_WL = "1";
+  };
+
+  hardware.graphics = {
+    enable = true;
+    enable32Bit = true;
   };
 }
 
