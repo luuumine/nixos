@@ -10,6 +10,7 @@
     mpv
     olympus
     prismlauncher
+    qbittorrent
     rofi
   ];
 }
