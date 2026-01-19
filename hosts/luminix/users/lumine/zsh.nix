@@ -6,6 +6,15 @@
     enableZshIntegration = true;
   };
 
+  programs.eza = {
+    enable = true;
+    git = true;
+    extraOptions = [
+      "--group-directories-first"
+      "--header"
+    ];
+  };
+
   programs.zsh = {
     enable = true;
 
@@ -25,8 +34,15 @@
 
     # Aliases
     shellAliases = {
-      lsa = "ls -a";
-      lsl = "ls -lah";
+      # Default eza overrides
+      ls = "eza";
+      la = "eza -a";
+      ll = "eza -l";
+      lla = "eza -la";
+
+      # Tree views
+      lt = "eza --tree";
+      lta = "eza --tree -a --ignore-glob='**/.git'";
     };
 
     initContent = ''
