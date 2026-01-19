@@ -21,5 +21,13 @@
       ];
     };
   };
+
+  systemd.services.wg-quick-home = {
+    after = [
+      "network-online.target"
+      "systemd-resolved.service"
+    ];
+    wants = [ "network-online.target" ];
+  };
 }
 
