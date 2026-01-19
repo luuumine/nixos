@@ -5,7 +5,7 @@
     ./hardware-configuration.nix
     ./storage.nix
     ./system.nix
-    ./wireguard.nix
+    ./vpn
 
     # Users
     ./users/lumine/home.nix

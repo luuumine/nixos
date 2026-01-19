@@ -4,5 +4,6 @@ let
 in
 {
   "wg-home.age".publicKeys = [ lumine luminix ];
+  "wg-mullvad.age".publicKeys = [ lumine luminix ];
 }
 
