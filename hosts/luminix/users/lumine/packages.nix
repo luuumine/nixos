@@ -7,6 +7,7 @@
     discord-canary
     kitty
     mangohud
+    mpv
     olympus
     prismlauncher
     rofi
