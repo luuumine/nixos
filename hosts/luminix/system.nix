@@ -5,7 +5,14 @@
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
   # Bootloader
-  boot.loader.systemd-boot.enable = true;
+  boot.loader.systemd-boot = {
+    enable = true;
+    configurationLimit = 5;
+    consoleMode = "max";
+    memtest86.enable = true;
+  };
+
+  boot.loader.timeout = 5;
   boot.loader.efi.canTouchEfiVariables = true;
 
   # Luks & SSD
