@@ -6,6 +6,7 @@
       ./packages.nix
       ./zsh.nix
       ./hyprpaper.nix
+      ../../../../modules/nvim.nix
     ];
 
     home.username = "lumine";
