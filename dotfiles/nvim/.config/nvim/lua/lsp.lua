@@ -19,3 +19,21 @@ if has_nixd then
   vim.lsp.enable("nixd", {})
 end
 
+-- Lua
+local has_lua_ls = vim.fn.executable("lua-language-server") == 1
+if has_lua_ls then
+  vim.lsp.config("lua_ls", {
+    settings = {
+      Lua = {
+        diagnostics = {
+          globals = { "vim" },
+        },
+        workspace = {
+          library = vim.api.nvim_get_runtime_file("", true),
+          checkThirdParty = false,
+        },
+      },
+    },
+  })
+  vim.lsp.enable("lua_ls")
+end
