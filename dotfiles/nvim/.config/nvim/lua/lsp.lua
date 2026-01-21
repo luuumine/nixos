@@ -39,3 +39,16 @@ if has_lua_ls then
   })
   vim.lsp.enable("lua_ls")
 end
+
+-- Diagnostics UI
+vim.diagnostic.config({
+  update_in_insert = true,
+  virtual_text = {
+    spacing = 4,
+    prefix = "●",
+  },
+  float = {
+    border = "rounded",
+    source = "if_many",
+  },
+})
