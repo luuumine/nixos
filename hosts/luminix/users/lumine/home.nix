@@ -11,6 +11,7 @@ in
       ./zsh.nix
       ./hyprpaper.nix
       "${modules}/nvim.nix"
+      "${modules}/starship.nix"
       "${dev}/lua.nix"
       "${dev}/nix.nix"
       "${dev}/python.nix"
