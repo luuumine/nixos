@@ -7,6 +7,8 @@
       ./zsh.nix
       ./hyprpaper.nix
       ../../../../modules/nvim.nix
+      ../../../../modules/dev/python.nix
+      ../../../../modules/dev/rust.nix
     ];
 
     home.username = "lumine";
