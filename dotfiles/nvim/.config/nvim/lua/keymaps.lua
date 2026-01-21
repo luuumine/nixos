@@ -1,30 +1,42 @@
+local set = vim.keymap.set
+
 -- Native nvim
-vim.keymap.set("n", "<leader>pv", vim.cmd.Ex)
+set("n", "<leader>pv", vim.cmd.Ex)
+
+-- Global Diagnostics (Shortened)
+set("n", "<leader>vd", vim.diagnostic.open_float, { desc = "Line error" })
+set("n", "[d", vim.diagnostic.goto_prev, { desc = "Prev error" })
+set("n", "]d", vim.diagnostic.goto_next, { desc = "Next error" })
 
 -- Telescope
 local status, telescope = pcall(require, "telescope.builtin")
 if status then
-  vim.keymap.set("n", "<leader>pf", function()
-    telescope.find_files()
-  end, { desc = "Find Files" })
-  vim.keymap.set("n", "<C-p>", function()
-    telescope.git_files()
-  end, { desc = "Git Files" })
-  vim.keymap.set("n", "<leader>ps", function()
-    telescope.grep_string({ search = vim.fn.input("Grep > ") });
+  set("n", "<leader>pf", telescope.find_files, { desc = "Find Files" })
+  set("n", "<C-p>", telescope.git_files, { desc = "Git Files" })
+  set("n", "<leader>ps", function()
+    telescope.grep_string({ search = vim.fn.input("Grep > ") })
   end, { desc = "Grep search" })
 end
 
 -- Undotree
-vim.keymap.set("n", "<leader>u", function()
-  vim.cmd.UndotreeToggle()
-end, { desc = "Toggle Undotree" })
+set("n", "<leader>u", vim.cmd.UndotreeToggle, { desc = "Undotree" })
 
 -- Gitsigns
 local status, gitsigns = pcall(require, "gitsigns")
 if status then
-  vim.keymap.set("n", "<leader>gb", function()
-    gitsigns.toggle_current_line_blame()
-  end, { desc = "Toggle Git Blame" })
+  set("n", "<leader>gb", gitsigns.toggle_current_line_blame, { desc = "Git Blame" })
 end
+
+-- LSPs
+vim.api.nvim_create_autocmd("LspAttach", {
+  group = vim.api.nvim_create_augroup("UserLspConfig", {}),
+  callback = function(event)
+    local opts = { buffer = event.buf }
+
+    set("n", "gd", vim.lsp.buf.definition, opts)
+    set("n", "K", vim.lsp.buf.hover, opts)
+    set("n", "<leader>vrn", vim.lsp.buf.rename, opts)
+    set("n", "<leader>D", vim.lsp.buf.type_definition, opts)
+  end,
+})
 
