@@ -2,6 +2,10 @@ local set = vim.keymap.set
 
 -- Native nvim
 set("n", "<leader>pv", vim.cmd.Ex)
+set("n", "<leader>v-", "<cmd>vsplit<cmd>", { desc = "Vertical split" })
+set("n", "<leader>h-", "<cmd>split<cmd>", { desc = "Horizontal split" })
+set("n", "<leader>tv", "<cmd>vsplit | terminal<cr>a", { desc = "Vertical terminal" })
+set("t", "<esc>", [[<C-\><C-n>]], { desc = "Exit terminal mode" })
 
 -- Global Diagnostics (Shortened)
 set("n", "<leader>vd", vim.diagnostic.open_float, { desc = "Line error" })
@@ -13,6 +17,14 @@ local status, telescope = pcall(require, "telescope.builtin")
 if status then
   set("n", "<leader>pf", telescope.find_files, { desc = "Find Files" })
   set("n", "<C-p>", telescope.git_files, { desc = "Git Files" })
+  set("n", "<leader>pa", function()
+    telescope.find_files({
+      no_ignore = true,
+      hidden = true,
+      file_ignore_patterns = { ".git/" },
+    })
+  end, { desc = "Find All Files" })
+  set("n", "<leader>ps", telescope.live_grep, { desc = "Grep search" })
   set("n", "<leader>ps", function()
     telescope.grep_string({ search = vim.fn.input("Grep > ") })
   end, { desc = "Grep search" })
@@ -40,4 +52,3 @@ vim.api.nvim_create_autocmd("LspAttach", {
     set("n", "<leader>f", vim.lsp.buf.format, opts)
   end,
 })
-
