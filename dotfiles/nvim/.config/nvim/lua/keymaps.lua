@@ -37,6 +37,7 @@ vim.api.nvim_create_autocmd("LspAttach", {
     set("n", "K", vim.lsp.buf.hover, opts)
     set("n", "<leader>vrn", vim.lsp.buf.rename, opts)
     set("n", "<leader>D", vim.lsp.buf.type_definition, opts)
+    set("n", "<leader>f", vim.lsp.buf.format, opts)
   end,
 })
 

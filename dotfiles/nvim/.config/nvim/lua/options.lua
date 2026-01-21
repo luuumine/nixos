@@ -25,6 +25,8 @@ vim.opt.incsearch = true
 vim.opt.updatetime = 50
 vim.opt.timeoutlen = 300
 vim.opt.mouse = ""
+vim.opt.eol = true
+vim.opt.fixeol = true
 
 -- Persistent undo for undotree
 vim.opt.undofile = true
