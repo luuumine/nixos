@@ -12,6 +12,7 @@ in
       ./hyprpaper.nix
       "${modules}/nvim.nix"
       "${modules}/starship.nix"
+      "${modules}/media"
       "${dev}/lua.nix"
       "${dev}/nix.nix"
       "${dev}/python.nix"
