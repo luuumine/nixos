@@ -63,16 +63,16 @@ in
         style = "bold red";
 
         # Numbers
-        staged = "[+$count](green) ";
-        modified = "[~$count](yellow) ";
-        deleted = "[-$count](red) ";
-        untracked = "[?$count](magenta) ";
-        renamed = "[r$count](cyan) ";
+        staged = "[+$count](green)";
+        modified = "[~$count](yellow)";
+        deleted = "[-$count](red)";
+        untracked = "[?$count](magenta)";
+        renamed = "[r$count](cyan)";
 
         # Sync status
-        ahead = "⇡$count ";
-        behind = "⇣$count ";
-        diverged = "⇕⇡$ahead_count⇣$behind_count ";
+        ahead = "⇡$count";
+        behind = "⇣$count";
+        diverged = "⇕⇡$ahead_count⇣$behind_count";
       };
 
       character = {
