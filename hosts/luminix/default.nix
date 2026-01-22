@@ -45,13 +45,6 @@
     extraGroups = [ "wheel" "networkmanager" ];
   };
 
-  programs.neovim = {
-    enable = true;
-    defaultEditor = true;
-    viAlias = true;
-    vimAlias = true;
-  };
-
   # Packages
   environment.systemPackages = with pkgs;
   [
@@ -64,8 +57,6 @@
     htop
     killall
     lm_sensors
-    nano
-    neovim
     pciutils
     stow
     tree
