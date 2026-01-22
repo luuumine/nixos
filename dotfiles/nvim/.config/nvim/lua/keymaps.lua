@@ -2,8 +2,8 @@ local set = vim.keymap.set
 
 -- Native nvim
 set("n", "<leader>pv", vim.cmd.Ex)
-set("n", "<leader>v-", "<cmd>vsplit<cmd>", { desc = "Vertical split" })
-set("n", "<leader>h-", "<cmd>split<cmd>", { desc = "Horizontal split" })
+set("n", "<leader>v-", "<cmd>vsplit<cr>", { desc = "Vertical split" })
+set("n", "<leader>h-", "<cmd>split<cr>", { desc = "Horizontal split" })
 set("n", "<leader>tv", "<cmd>vsplit | terminal<cr>a", { desc = "Vertical terminal" })
 set("t", "<esc>", [[<C-\><C-n>]], { desc = "Exit terminal mode" })
 
@@ -25,7 +25,7 @@ if status then
     })
   end, { desc = "Find All Files" })
   set("n", "<leader>ps", telescope.live_grep, { desc = "Grep search" })
-  set("n", "<leader>ps", function()
+  set("n", "<leader>pS", function()
     telescope.grep_string({ search = vim.fn.input("Grep > ") })
   end, { desc = "Grep search" })
 end
