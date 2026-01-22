@@ -8,10 +8,8 @@ in
   home-manager.users.lumine = {
     imports = [
       ./packages.nix
-      ./zsh.nix
-      ./hyprpaper.nix
-      "${modules}/nvim.nix"
-      "${modules}/starship.nix"
+      "${modules}/core"
+      "${modules}/desktop"
       "${modules}/media"
       "${dev}/lua.nix"
       "${dev}/nix.nix"

@@ -50,16 +50,10 @@
   [
     bind
     curl
-    eza
-    fastfetch
     file
     git
-    htop
-    killall
     lm_sensors
     pciutils
-    stow
-    tree
     unzip
     usbutils
     vim

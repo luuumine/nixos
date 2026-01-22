@@ -22,7 +22,6 @@
         name = "treesitter-parsers";
         paths = (pkgs.vimPlugins.nvim-treesitter.withAllGrammars).dependencies;
       };
-    in 
-      "${parsers}/parser";
+    in
+    "${parsers}/parser";
 }
-
