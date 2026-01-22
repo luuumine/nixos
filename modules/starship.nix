@@ -33,29 +33,33 @@ in
       username = {
         show_always = true;
         format = "[$user]($style)";
+        style_user = "bold blue";
       };
 
       hostname = {
         ssh_only = false;
         format = "[$hostname]($style)";
+        style = "bold blue";
       };
 
       directory = {
         truncate_to_repo = true;
         truncation_length = 3;
         format = "[$path]($style) ";
+        style = "bold cyan";
       };
 
       git_branch = {
         symbol = "";
         format = "on [$branch]($style) ";
+        style = "bold purple";
       };
 
       git_commit = {
         commit_hash_length = 7;
-        only_detached = false;
+        only_detached = true;
         format = "at [$hash]($style) ";
-        style = "italic grey";
+        style = "bright-black";
       };
 
       git_status = {
@@ -66,7 +70,7 @@ in
         staged = "[+$count](green)";
         modified = "[~$count](yellow)";
         deleted = "[-$count](red)";
-        untracked = "[?$count](magenta)";
+        untracked = "[?$count](purple)";
         renamed = "[r$count](cyan)";
 
         # Sync status
