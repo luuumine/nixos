@@ -30,6 +30,14 @@ in
 
       add_newline = true;
 
+      nix_shell = {
+        symbol = "❄️ ";
+        format = "via [$symbol$name]($style) ";
+        impure_msg = "";
+        pure_msg = "";
+        style = "bold blue";
+      };
+
       username = {
         show_always = true;
         format = "[$user]($style)";
