@@ -12,4 +12,3 @@ require("keymaps")
 
 -- Load LSPs
 require("lsp")
-
