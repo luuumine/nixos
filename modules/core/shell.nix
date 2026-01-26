@@ -43,6 +43,9 @@
       # Tree views
       lt = "eza --tree";
       lta = "eza --tree -a --ignore-glob='**/.git'";
+
+      # Nix develop
+      nd = "nix develop";
     };
 
     initContent = ''
@@ -55,6 +58,16 @@
       bindkey '^[[1;5D' backward-word
       bindkey '^H'      backward-kill-word
       bindkey '^ '      autosuggest-accept
+
+      # Redirect nix develop to zsh
+      nix() {
+        if [[ $1 = "develop" ]]; then
+          shift
+          command nix develop -c zsh "$@"
+        else
+          command nix "$@"
+        fi
+      }
     '';
   };
 
