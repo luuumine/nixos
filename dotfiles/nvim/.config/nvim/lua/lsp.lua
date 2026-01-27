@@ -65,6 +65,20 @@ if has_astro then
 	vim.lsp.enable("astro")
 end
 
+-- CSS
+local has_css = vim.fn.executable("vscode-css-language-server") == 1
+if has_css then
+	vim.lsp.config("cssls", {})
+	vim.lsp.enable("cssls")
+end
+
+-- JSON
+local has_json = vim.fn.executable("vscode-json-language-server") == 1
+if has_json then
+	vim.lsp.config("jsonls", {})
+	vim.lsp.enable("jsonls")
+end
+
 -- Diagnostics UI
 vim.diagnostic.config({
 	update_in_insert = true,

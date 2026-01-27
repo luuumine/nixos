@@ -72,6 +72,9 @@ return {
 					javascript = { "prettier" },
 					typescript = { "prettier" },
 					astro = { "prettier" },
+					css = { "prettier" },
+					json = { "prettier" },
+					jsonc = { "prettier" },
 				},
 				format_on_save = {
 					timeout_ms = 500,
