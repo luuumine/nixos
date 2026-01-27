@@ -54,15 +54,12 @@ end
 -- Astro
 local has_astro = vim.fn.executable("astro-ls") == 1
 if has_astro then
-	local ts_path = ""
-	if vim.fn.executable("tsc") == 1 then
-		ts_path = vim.fn.exepath("tsc"):gsub("/bin/tsc$", "/lib/node_modules/typescript/lib")
-	end
+	-- Use the local project typescript library
+	local project_ts_path = vim.fn.getcwd() .. "/node_modules/typescript/lib"
+
 	vim.lsp.config("astro", {
 		init_options = {
-			typescript = {
-				tsdk = ts_path,
-			},
+			typescript = { tsdk = project_ts_path },
 		},
 	})
 	vim.lsp.enable("astro")
