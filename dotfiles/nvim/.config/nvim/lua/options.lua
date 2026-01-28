@@ -20,6 +20,7 @@ vim.opt.colorcolumn = "88"
 vim.opt.ignorecase = true
 vim.opt.smartcase = true
 vim.opt.incsearch = true
+vim.opt.hlsearch = false
 
 -- System & Performance
 vim.opt.updatetime = 50
