@@ -6,6 +6,7 @@
     ./storage.nix
     ./system.nix
     ./vpn
+    ../../modules/nix.nix
 
     # Users
     ./users/lumine/home.nix
@@ -16,13 +17,6 @@
   time.timeZone = "Europe/Paris";
   i18n.defaultLocale = "en_US.UTF-8";
   console.keyMap = "us";
-
-  # Nix Settings
-  nix.settings = {
-    experimental-features = [ "nix-command" "flakes" ];
-    use-xdg-base-directories = true;
-  };
-  nixpkgs.config.allowUnfree = true;
 
   # Shell
   programs.zsh.enable = true;
@@ -42,12 +36,14 @@
 
   users.users.lumine = {
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" ];
+    extraGroups = [
+      "wheel"
+      "networkmanager"
+    ];
   };
 
   # Packages
-  environment.systemPackages = with pkgs;
-  [
+  environment.systemPackages = with pkgs; [
     bind
     curl
     file
@@ -63,4 +59,3 @@
 
   system.stateVersion = "25.11";
 }
-
