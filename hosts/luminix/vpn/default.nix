@@ -1,4 +1,4 @@
-{ lib, ... }:
+{ ... }:
 
 {
   imports = [
@@ -10,17 +10,18 @@
     vpnSecretsDir = ../../../secrets;
   };
 
-  networking.nameservers = lib.mkForce [ "10.0.0.1" ];
-
   systemd.services =
     let
       vpnDeps = {
-        after = [ "network-online.target" "systemd-resolved.service" ];
+        after = [
+          "network-online.target"
+          "systemd-resolved.service"
+        ];
         wants = [ "network-online.target" ];
       };
-    in {
+    in
+    {
       wg-quick-home = vpnDeps;
       wg-quick-mullvad = vpnDeps;
     };
 }
-
