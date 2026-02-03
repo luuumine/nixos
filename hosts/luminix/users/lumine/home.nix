@@ -2,7 +2,6 @@
 
 let
   modules = ../../../../modules;
-  dev = "${modules}/dev";
 in
 {
   home-manager.users.lumine = {
@@ -11,10 +10,7 @@ in
       "${modules}/core"
       "${modules}/desktop"
       "${modules}/media"
-      "${dev}/lua.nix"
-      "${dev}/nix.nix"
-      "${dev}/python.nix"
-      "${dev}/rust.nix"
+      "${modules}/dev"
     ];
 
     home.username = "lumine";
