@@ -39,10 +39,7 @@
       la = "eza -a";
       ll = "eza -l";
       lla = "eza -la";
-
-      # Tree views
       lt = "eza --tree";
-      lta = "eza --tree -a --ignore-glob='**/.git'";
 
       # Nix develop
       nd = "nix develop";
