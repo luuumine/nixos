@@ -79,6 +79,17 @@ if has_json then
 	vim.lsp.enable("jsonls")
 end
 
+-- QML
+local has_qmlls = vim.fn.executable("qmlls") == 1
+if has_qmlls then
+	vim.lsp.config("qmlls", {
+		cmd = { "qmlls", "-E" },
+		filetypes = { "qml", "qmljs" },
+		single_file_support = true,
+	})
+	vim.lsp.enable("qmlls")
+end
+
 -- Diagnostics UI
 vim.diagnostic.config({
 	update_in_insert = true,

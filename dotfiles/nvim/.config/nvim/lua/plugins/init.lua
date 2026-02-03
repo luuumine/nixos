@@ -46,6 +46,8 @@ return {
 					"rust",
 					"vim",
 					"vimdoc",
+					"javascript",
+					"qml",
 				},
 				highlight = { enable = true },
 				indent = { enable = true },
@@ -75,6 +77,7 @@ return {
 					css = { "prettier" },
 					json = { "prettier" },
 					jsonc = { "prettier" },
+					qml = { "qmlformat" },
 				},
 				format_on_save = {
 					timeout_ms = 500,
