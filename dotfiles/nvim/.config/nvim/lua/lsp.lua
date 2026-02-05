@@ -92,6 +92,7 @@ end
 
 -- Diagnostics UI
 vim.diagnostic.config({
+	severity_sort = true,
 	update_in_insert = true,
 	virtual_text = {
 		spacing = 4,
