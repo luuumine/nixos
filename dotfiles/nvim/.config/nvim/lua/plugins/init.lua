@@ -77,6 +77,7 @@ return {
 					css = { "prettier" },
 					json = { "prettier" },
 					jsonc = { "prettier" },
+					html = { "prettier" },
 					qml = { "qmlformat" },
 				},
 				format_on_save = {
