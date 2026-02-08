@@ -10,22 +10,29 @@
     agenix.url = "github:ryantm/agenix";
   };
 
-  outputs = { self, nixpkgs, home-manager, agenix, ... }@inputs: {
-    nixosConfigurations  = {
-      luminix = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs; };
-        modules = [ 
-          ./hosts/luminix/default.nix
-          home-manager.nixosModules.home-manager
-          {
-            home-manager.useGlobalPkgs = true;
-            home-manager.useUserPackages = true;
-            home-manager.extraSpecialArgs = { inherit inputs; };
-          }
-          agenix.nixosModules.default
-        ];
+  outputs =
+    {
+      self,
+      nixpkgs,
+      home-manager,
+      agenix,
+      ...
+    }@inputs:
+    {
+      nixosConfigurations = {
+        luminix = nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs; };
+          modules = [
+            ./hosts/luminix/default.nix
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.extraSpecialArgs = { inherit inputs; };
+            }
+            agenix.nixosModules.default
+          ];
+        };
       };
     };
-  };
 }
-
