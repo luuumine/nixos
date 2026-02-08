@@ -9,8 +9,12 @@ set("t", "<esc>", [[<C-\><C-n>]], { desc = "Exit terminal mode" })
 
 -- Global Diagnostics (Shortened)
 set("n", "<leader>vd", vim.diagnostic.open_float, { desc = "Line error" })
-set("n", "[d", vim.diagnostic.goto_prev, { desc = "Prev error" })
-set("n", "]d", vim.diagnostic.goto_next, { desc = "Next error" })
+set("n", "[d", function()
+	vim.diagnostic.jump({ count = -1, float = true })
+end, { desc = "Prev error" })
+set("n", "]d", function()
+	vim.diagnostic.jump({ count = 1, float = true })
+end, { desc = "Next error" })
 
 -- Telescope
 local status, telescope = pcall(require, "telescope.builtin")
