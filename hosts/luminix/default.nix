@@ -7,6 +7,7 @@
     ./system.nix
     ./vpn
     ../../modules/nix.nix
+    ./audio.nix
 
     # Users
     ./users/lumine/home.nix
