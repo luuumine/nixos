@@ -6,7 +6,7 @@
   networking.wg-quick.interfaces.home = {
     address = [ "10.0.0.4/32" ];
     dns = [ "10.0.0.1" ];
-    mtu = 1280;
+    mtu = 1000;
 
     privateKeyFile = config.age.secrets.wg-home.path;
 
