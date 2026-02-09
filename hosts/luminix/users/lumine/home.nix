@@ -1,16 +1,13 @@
-{ config, pkgs, ... }:
+{ config, modulesFolder, ... }:
 
-let
-  modules = ../../../../modules;
-in
 {
   home-manager.users.lumine = {
     imports = [
       ./packages.nix
-      "${modules}/core"
-      "${modules}/desktop"
-      "${modules}/media"
-      "${modules}/dev"
+      "${modulesFolder}/core"
+      "${modulesFolder}/desktop"
+      "${modulesFolder}/media"
+      "${modulesFolder}/dev"
     ];
 
     home.username = "lumine";

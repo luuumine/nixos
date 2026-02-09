@@ -21,14 +21,20 @@
     {
       nixosConfigurations = {
         luminix = nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs; };
+          specialArgs = {
+            inherit inputs;
+            modulesFolder = ./modules;
+          };
           modules = [
             ./hosts/luminix/default.nix
             home-manager.nixosModules.home-manager
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-              home-manager.extraSpecialArgs = { inherit inputs; };
+              home-manager.extraSpecialArgs = {
+                inherit inputs;
+                modulesFolder = ./modules;
+              };
             }
             agenix.nixosModules.default
           ];
