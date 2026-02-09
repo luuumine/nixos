@@ -8,6 +8,7 @@
     ./vpn
     ../../modules/nix.nix
     ./audio.nix
+    ./bluetooth.nix
 
     # Users
     ./users/lumine/home.nix
