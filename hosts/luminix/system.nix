@@ -49,5 +49,10 @@
     enable32Bit = true;
   };
 
+  environment.systemPackages = with pkgs; [
+    rocmPackages.amdsmi
+    libdrm
+  ];
+
   programs.nix-ld.enable = true;
 }
