@@ -14,7 +14,7 @@
       {
         publicKey = "966PZhJ0mDSsOkMoTrVNe7XTVQaBjVCI96+AceRPAmQ=";
         allowedIPs = [ "10.0.0.1/32" ];
-        endpoint = "vpn.delhommais.com:51820";
+        endpoint = "vpn.luuumine.com:51820";
         persistentKeepalive = 25;
       }
     ];
