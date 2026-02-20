@@ -40,6 +40,7 @@
       ll = "eza -l";
       lla = "eza -la";
       lt = "eza --tree";
+      llt = "eza -l --tree";
 
       # Nix develop
       nd = "nix develop";
