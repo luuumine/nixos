@@ -26,6 +26,7 @@
       share = true;
       findNoDups = true;
       ignoreAllDups = true;
+      ignoreSpace = true;
     };
 
     # Plugins
