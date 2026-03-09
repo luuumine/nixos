@@ -2,6 +2,7 @@
 
 {
   home.packages = with pkgs; [
+    age
     brave
     btop
     discord-canary
