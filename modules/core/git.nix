@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ lib, ... }:
 
 {
   programs.git = {
@@ -6,15 +6,15 @@
 
     signing = {
       format = "ssh";
-      key = "~/.ssh/id_ed25519.pub";
+      key = lib.mkDefault "~/.ssh/id_ed25519.pub";
       signByDefault = true;
     };
 
     settings = {
       gpg.ssh.allowedSignersFile = "~/.config/git/allowed_signers";
 
-      user.name = "Romain Delhommais";
-      user.email = "romain@delhommais.com";
+      user.name = lib.mkDefault "Romain Delhommais";
+      user.email = lib.mkDefault "romain@delhommais.com";
 
       init.defaultBranch = "main";
 
