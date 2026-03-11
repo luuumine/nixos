@@ -6,7 +6,6 @@
     brave
     btop
     discord-canary
-    kitty
     mangohud
     olympus
     prismlauncher
