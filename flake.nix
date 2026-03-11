@@ -23,7 +23,7 @@
         luminix = nixpkgs.lib.nixosSystem {
           specialArgs = {
             inherit inputs;
-            modulesFolder = ./modules;
+            modules = ./modules;
           };
           modules = [
             ./hosts/luminix/default.nix

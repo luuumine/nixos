@@ -1,4 +1,4 @@
-{ pkgs, modulesFolder, ... }:
+{ pkgs, modules, ... }:
 
 {
   imports = [
@@ -6,10 +6,7 @@
     ./storage.nix
     ./system.nix
     ./vpn
-    "${modulesFolder}/nix.nix"
-    "${modulesFolder}/font.nix"
-    "${modulesFolder}/audio.nix"
-    "${modulesFolder}/bluetooth.nix"
+    "${modules}/nixos"
 
     # Users
     ./users/lumine/home.nix
