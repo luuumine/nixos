@@ -9,6 +9,3 @@ require("lazynvim")
 
 -- Load keymaps
 require("keymaps")
-
--- Load LSPs
-require("lsp")
