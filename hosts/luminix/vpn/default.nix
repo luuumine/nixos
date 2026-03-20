@@ -6,10 +6,6 @@
     ./mullvad.nix
   ];
 
-  _module.args = {
-    vpnSecretsDir = ../../../secrets;
-  };
-
   systemd.services =
     let
       vpnDeps = {

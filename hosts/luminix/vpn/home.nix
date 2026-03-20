@@ -1,7 +1,7 @@
-{ config, vpnSecretsDir, ... }:
+{ config, ... }:
 
 {
-  age.secrets.wg-home.file = "${vpnSecretsDir}/wg-home.age";
+  age.secrets.wg-home.file = ./secrets/wg-home.age;
 
   networking.wg-quick.interfaces.home = {
     address = [ "10.0.0.4/32" ];

@@ -1,7 +1,7 @@
-{ config, vpnSecretsDir, ... }:
+{ config, ... }:
 
 {
-  age.secrets.wg-mullvad.file = "${vpnSecretsDir}/wg-mullvad.age";
+  age.secrets.wg-mullvad.file = ./secrets/wg-mullvad.age;
 
   networking.wg-quick.interfaces.mullvad = {
     address = [
