@@ -42,6 +42,7 @@
       "render"
       "video"
     ];
+    initialPassword = "";
   };
 
   # Packages
