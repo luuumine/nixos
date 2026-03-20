@@ -39,6 +39,17 @@
             agenix.nixosModules.default
           ];
         };
+
+        luminova = nixpkgs.lib.nixosSystem {
+          specialArgs = {
+            inherit inputs;
+            modules = ./modules;
+          };
+          modules = [
+            ./hosts/luminova/default.nix
+            agenix.nixosModules.default
+          ];
+        };
       };
     };
 }
