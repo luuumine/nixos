@@ -5,6 +5,9 @@
     ./storage.nix
     ./system.nix
     "${modules}/nixos"
+
+    # Users
+    ./users/lumine/home.nix
   ];
 
   networking.hostName = "luminova";
