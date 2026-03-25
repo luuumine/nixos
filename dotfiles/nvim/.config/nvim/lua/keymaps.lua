@@ -29,9 +29,6 @@ if status then
 		})
 	end, { desc = "Find All Files" })
 	set("n", "<leader>ps", telescope.live_grep, { desc = "Grep search" })
-	set("n", "<leader>pS", function()
-		telescope.grep_string({ search = vim.fn.input("Grep > ") })
-	end, { desc = "Grep search" })
 end
 
 -- Undotree
