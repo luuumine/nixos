@@ -18,6 +18,9 @@ return {
 			-- Nix
 			enable_if("nixd", "nixd")
 
+			-- C/C++
+			enable_if("clangd", "clangd")
+
 			-- Lua
 			enable_if("lua-language-server", "lua_ls", {
 				settings = {
