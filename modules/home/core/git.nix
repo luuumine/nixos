@@ -11,6 +11,10 @@
     };
 
     settings = {
+      alias = {
+        sts = "status --short";
+      };
+
       gpg.ssh.allowedSignersFile = "~/.config/git/allowed_signers";
 
       user.name = lib.mkDefault "Romain Delhommais";
