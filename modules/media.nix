@@ -26,7 +26,7 @@ in
   };
 
   config = {
-    home-managers.users.${userName} = lib.mkMerge [
+    home-manager.users.${userName} = lib.mkMerge [
       # Image tools
       (lib.mkIf cfg.images.enable {
         home.packages = [

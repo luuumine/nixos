@@ -1,6 +1,13 @@
-{ pkgs, lib, ... }:
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 
 let
+  cfg = config.lumine.starship;
+  userName = config.lumine.user.name;
   langList = [
     "nix_shell"
     "c"
@@ -15,81 +22,87 @@ let
   allLangs = lib.concatMapStrings (lang: "$" + lang) langList;
 in
 {
-  programs.starship = {
-    enable = true;
-    enableZshIntegration = true;
+  options.lumine.starship.enable = lib.mkEnableOption "starship";
 
-    settings = {
-      command_timeout = 500;
-      scan_timeout = 30;
+  config = lib.mkIf cfg.enable {
+    home-manager.users.${userName} = {
+      programs.starship = {
+        enable = true;
+        enableZshIntegration = true;
 
-      format = ''
-        $username@$hostname: $directory$git_branch$git_commit$git_status${allLangs}
-        $character
-      '';
+        settings = {
+          command_timeout = 500;
+          scan_timeout = 30;
 
-      add_newline = true;
+          format = ''
+            $username@$hostname: $directory$git_branch$git_commit$git_status${allLangs}
+            $character
+          '';
 
-      nix_shell = {
-        symbol = "❄️ ";
-        format = "via [$symbol$name]($style) ";
-        impure_msg = "";
-        pure_msg = "";
-        style = "bold blue";
-      };
+          add_newline = true;
 
-      username = {
-        show_always = true;
-        format = "[$user]($style)";
-        style_user = "bold blue";
-      };
+          nix_shell = {
+            symbol = "❄️ ";
+            format = "via [$symbol$name]($style) ";
+            impure_msg = "";
+            pure_msg = "";
+            style = "bold blue";
+          };
 
-      hostname = {
-        ssh_only = false;
-        format = "[$hostname]($style)";
-        style = "bold blue";
-      };
+          username = {
+            show_always = true;
+            format = "[$user]($style)";
+            style_user = "bold blue";
+          };
 
-      directory = {
-        truncate_to_repo = true;
-        truncation_length = 3;
-        format = "[$path]($style) ";
-        style = "bold cyan";
-      };
+          hostname = {
+            ssh_only = false;
+            format = "[$hostname]($style)";
+            style = "bold blue";
+          };
 
-      git_branch = {
-        symbol = "";
-        format = "on [$branch]($style) ";
-        style = "bold purple";
-      };
+          directory = {
+            truncate_to_repo = true;
+            truncation_length = 3;
+            format = "[$path]($style) ";
+            style = "bold cyan";
+          };
 
-      git_commit = {
-        commit_hash_length = 7;
-        only_detached = true;
-        format = "at [$hash]($style) ";
-        style = "bright-black";
-      };
+          git_branch = {
+            symbol = "";
+            format = "on [$branch]($style) ";
+            style = "bold purple";
+          };
 
-      git_status = {
-        format = "([\\[$all_status$ahead_behind\\]]($style) )";
-        style = "bold red";
+          git_commit = {
+            commit_hash_length = 7;
+            only_detached = true;
+            format = "at [$hash]($style) ";
+            style = "bright-black";
+          };
 
-        # Numbers
-        staged = "[+$count](green)";
-        modified = "[~$count](yellow)";
-        deleted = "[-$count](red)";
-        untracked = "[?$count](purple)";
-        renamed = "[r$count](cyan)";
+          git_status = {
+            format = "([\\[$all_status$ahead_behind\\]]($style) )";
+            style = "bold red";
 
-        # Sync status
-        ahead = "⇡$count";
-        behind = "⇣$count";
-        diverged = "⇕⇡$ahead_count⇣$behind_count";
-      };
+            # Numbers
+            staged = "[+$count](green)";
+            modified = "[~$count](yellow)";
+            deleted = "[-$count](red)";
+            untracked = "[?$count](purple)";
+            renamed = "[r$count](cyan)";
 
-      character = {
-        success_symbol = "[>](bold green) ";
-        error_symbol = "[>](bold red) ";
+            # Sync status
+            ahead = "⇡$count";
+            behind = "⇣$count";
+            diverged = "⇕⇡$ahead_count⇣$behind_count";
+          };
+
+          character = {
+            success_symbol = "[>](bold green) ";
+            error_symbol = "[>](bold red) ";
+          };
+        };
       };
     };
   };
