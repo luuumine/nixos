@@ -15,6 +15,7 @@
     ./shell.nix
     ./ssh.nix
     ./starship.nix
+    ./system.nix
     ./terminal.nix
     ./user.nix
   ];

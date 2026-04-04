@@ -12,12 +12,19 @@ in
   options.lumine.user = {
     name = lib.mkOption {
       type = lib.types.str;
-      default = "lumine";
-      description = "user account name";
+      example = "lumine";
+      description = "user account name (required)";
     };
   };
 
   config = {
+    assertions = [
+      {
+        assertion = cfg.name != null && cfg.name != "";
+        message = "lumine.user.name must be set";
+      }
+    ];
+
     users.users.${cfg.name} = {
       isNormalUser = true;
       extraGroups = [

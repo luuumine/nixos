@@ -7,6 +7,16 @@ in
 {
   options.lumine.programs.git = {
     enable = lib.mkEnableOption "git configuration";
+    user = {
+      name = lib.mkOption {
+        type = lib.types.str;
+        default = "Romain Delhommais";
+      };
+      email = lib.mkOption {
+        type = lib.types.str;
+        default = "romain@delhommais.com";
+      };
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -27,8 +37,8 @@ in
 
           gpg.ssh.allowedSignersFile = "~/.config/git/allowed_signers";
 
-          user.name = lib.mkDefault "Romain Delhommais";
-          user.email = lib.mkDefault "romain@delhommais.com";
+          user.name = cfg.user.name;
+          user.email = cfg.user.email;
 
           init.defaultBranch = "main";
 

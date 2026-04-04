@@ -4,17 +4,6 @@
   # Kernel
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  # Bootloader
-  boot.loader.systemd-boot = {
-    enable = true;
-    configurationLimit = 5;
-    consoleMode = "max";
-    memtest86.enable = true;
-  };
-
-  boot.loader.timeout = 5;
-  boot.loader.efi.canTouchEfiVariables = true;
-
   # Luks & SSD
   boot.initrd.secrets."/root/keys/data.key" = /root/keys/data.key;
   boot.initrd.luks.devices.cryptdata.keyFile = "/root/keys/data.key";
@@ -30,18 +19,12 @@
   programs.gamemode.enable = true;
   hardware.wooting.enable = true;
 
-  networking.networkmanager.enable = true;
-
   systemd.user.targets.hyprland-session = {
     description = "Hyprland compositor session";
     documentation = [ "man:systemd.special(7)" ];
     bindsTo = [ "graphical-session.target" ];
     wants = [ "graphical-session-pre.target" ];
     after = [ "graphical-session-pre.target" ];
-  };
-
-  environment.sessionVariables = {
-    NIXOS_OZONE_WL = "1";
   };
 
   hardware.graphics = {
