@@ -6,40 +6,42 @@
     ./storage.nix
     ./system.nix
     ./vpn
-
-    # Users
-    ./users/lumine/home.nix
   ];
 
   lumine = {
-    system.hostname = "luminix";
     user.name = "lumine";
+    system = {
+      enable = true;
+      shell = pkgs.bash;
+      hostname = "luminix";
+    };
 
     nix.enable = true;
     audio.enable = true;
-    bluetooth.enable = false;
     fonts.enable = true;
+    terminal.enable = true;
+    shell.enable = true;
+    starship.enable = true;
+    git.enable = true;
+    nvim.enable = true;
+    bluetooth.enable = false;
+
+    hyprpaper.enable = true;
+    hyprshot.enable = true;
+    quickshell.enable = true;
 
   };
 
-  # Shell
-  programs.zsh.enable = true;
-  users.defaultUserShell = pkgs.zsh;
-
-  # Packages
-  environment.systemPackages = with pkgs; [
-    bind
-    curl
-    file
-    git
-    lm_sensors
-    pciutils
-    unzip
-    usbutils
-    vim
-    wget
-    zip
-  ];
-
-  system.stateVersion = "25.11";
+  home-manager.users.lumine = {
+    home.packages = with pkgs; [
+      age
+      brave
+      discord-canary
+      mangohud
+      olympus
+      prismlauncher
+      qbittorrent
+      rofi
+    ];
+  };
 }

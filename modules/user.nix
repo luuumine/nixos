@@ -34,7 +34,6 @@ in
         "video"
       ];
       initialPassword = "";
-      shell = pkgs.zsh;
     };
 
     home-manager.users.${cfg.name} = {

@@ -1,11 +1,11 @@
 { config, lib, ... }:
 
 let
-  cfg = config.lumine.programs.git;
+  cfg = config.lumine.git;
   userName = config.lumine.user.name;
 in
 {
-  options.lumine.programs.git = {
+  options.lumine.git = {
     enable = lib.mkEnableOption "git configuration";
     user = {
       name = lib.mkOption {

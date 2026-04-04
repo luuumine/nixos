@@ -10,8 +10,16 @@ let
 in
 {
   options.lumine.system = {
+    enable = lib.mkEnableOption "core system config";
+
     hostname = lib.mkOption {
       type = lib.types.str;
+    };
+
+    shell = lib.mkOption {
+      type = lib.types.package;
+      default = pkgs.bash;
+      description = "root user shell";
     };
 
     locale = lib.mkOption {
@@ -30,7 +38,7 @@ in
     };
   };
 
-  config = {
+  config = lib.mkIf cfg.enable {
     assertions = [
       {
         assertion = cfg.hostname != null && cfg.hostname != "";
@@ -38,10 +46,25 @@ in
       }
     ];
 
+    users.defaultUserShell = cfg.shell;
+
     networking.hostName = cfg.hostname;
     i18n.defaultLocale = cfg.locale;
     console.keyMap = cfg.keymap;
     time.timeZone = cfg.timezone;
+
+    environment.systemPackages = [
+      pkgs.bind
+      pkgs.curl
+      pkgs.file
+      pkgs.git
+      pkgs.lm_sensors
+      pkgs.unzip
+      pkgs.usbutils
+      pkgs.vim
+      pkgs.zip
+    ]
+    ++ [ cfg.shell ];
 
     security.sudo.wheelNeedsPassword = true;
 
@@ -64,6 +87,7 @@ in
     boot.loader.timeout = lib.mkDefault 5;
     boot.loader.efi.canTouchEfiVariables = lib.mkDefault true;
 
+    system.stateVersion = "25.11";
   };
 
 }
