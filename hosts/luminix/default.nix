@@ -1,4 +1,4 @@
-{ pkgs, modules, ... }:
+{ pkgs, ... }:
 
 {
   imports = [
@@ -6,11 +6,17 @@
     ./storage.nix
     ./system.nix
     ./vpn
-    "${modules}/nixos"
 
     # Users
     ./users/lumine/home.nix
   ];
+
+  lumine = {
+    nix.enable = true;
+    audio.enable = true;
+    bluetooth.enable = false;
+    fonts.enable = true;
+  };
 
   # Identity & Localization
   networking.hostName = "luminix";

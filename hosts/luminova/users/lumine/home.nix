@@ -1,11 +1,10 @@
-
 { config, modules, ... }:
 
 {
   home-manager.users.lumine = {
     imports = [
-      "${modules}/home/core"
-      "${modules}/home/dev"
+      # "${modules}/home/core"
+      # "${modules}/home/dev"
     ];
 
     home.username = "lumine";

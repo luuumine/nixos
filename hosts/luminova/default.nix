@@ -4,7 +4,7 @@
   imports = [
     ./storage.nix
     ./system.nix
-    "${modules}/nixos"
+    # "${modules}/nixos"
 
     # Users
     ./users/lumine/home.nix
