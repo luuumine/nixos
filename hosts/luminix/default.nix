@@ -17,6 +17,23 @@
     };
 
     nix.enable = true;
+
+    apps = {
+      enable = true;
+      extraSystemApps = [
+        pkgs.age
+      ];
+      extraUserApps = [
+        pkgs.brave
+        pkgs.discord-canary
+        pkgs.mangohud
+        pkgs.olympus
+        pkgs.prismlauncher
+        pkgs.qbittorrent
+        pkgs.rofi
+      ];
+    };
+
     audio.enable = true;
     fonts.enable = true;
     terminal.enable = true;
@@ -29,19 +46,5 @@
     hyprpaper.enable = true;
     hyprshot.enable = true;
     quickshell.enable = true;
-
-  };
-
-  home-manager.users.lumine = {
-    home.packages = with pkgs; [
-      age
-      brave
-      discord-canary
-      mangohud
-      olympus
-      prismlauncher
-      qbittorrent
-      rofi
-    ];
   };
 }
