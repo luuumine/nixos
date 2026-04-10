@@ -38,6 +38,8 @@
     gaming.enable = true;
 
     audio.enable = true;
+    media.enable = true;
+
     fonts.enable = true;
     shell.enable = true;
     starship.enable = true;
