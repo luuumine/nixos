@@ -7,6 +7,7 @@
 
 let
   cfg = config.lumine.desktop;
+  userName = config.lumine.user.name;
   gpu = config.lumine.system.gpuBrand;
 in
 {
@@ -42,9 +43,11 @@ in
       {
         programs.hyprland.enable = true;
 
-        home.packages = with pkgs; [
-          wl-clipboard
-        ];
+        home-manager.users.${userName} = {
+          home.packages = with pkgs; [
+            wl-clipboard
+          ];
+        };
 
         hardware.graphics = {
           enable = true;
@@ -71,7 +74,7 @@ in
       (lib.mkIf (gpu == "intel") {
         services.xserver.videoDrivers = [ "modesetting" ];
         environment.systemPackages = [
-          pkgs.intel-cpu-tools
+          pkgs.intel-gpu-tools
         ];
       })
     ]
