@@ -8,12 +8,12 @@
 let
   cfg = config.lumine.shell;
   userName = config.lumine.user.name;
+  gpu = config.lumine.system.gpuBrand;
 in
 {
   options.lumine.shell.enable = lib.mkEnableOption "shell";
 
   config = lib.mkIf cfg.enable {
-
     programs.zsh.enable = true;
     users.users.${userName}.shell = pkgs.zsh;
 
@@ -21,13 +21,23 @@ in
       { config, ... }:
       {
         home.packages = with pkgs; [
-          btop-rocm
           fastfetch
           htop
           killall
           stow
           tree
         ];
+
+        programs.btop = {
+          enable = true;
+          package =
+            if gpu == "amd" then
+              pkgs.btop-rocm
+            else if gpu == "nvidia" then
+              pkgs.btop-cuda
+            else
+              pkgs.btop;
+        };
 
         programs.fzf = {
           enable = true;
