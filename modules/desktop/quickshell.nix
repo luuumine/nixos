@@ -6,11 +6,11 @@
 }:
 
 let
-  cfg = config.lumine.quickshell;
+  cfg = config.lumine.desktop.quickshell;
   userName = config.lumine.user.name;
 in
 {
-  options.lumine.quickshell.enable = lib.mkEnableOption "quiskehll";
+  options.lumine.desktop.quickshell.enable = lib.mkEnableOption "quiskehll";
 
   config = lib.mkIf cfg.enable {
     home-manager.users.${userName} = {

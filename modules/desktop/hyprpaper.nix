@@ -1,7 +1,7 @@
 { config, lib, ... }:
 
 let
-  cfg = config.lumine.hyprpaper;
+  cfg = config.lumine.desktop.hyprpaper;
   userName = config.lumine.user.name;
   wallpapers = import ./wallpapers;
   monitorWallpapers = {
@@ -10,7 +10,7 @@ let
   };
 in
 {
-  options.lumine.hyprpaper.enable = lib.mkEnableOption "hyprpaper";
+  options.lumine.desktop.hyprpaper.enable = lib.mkEnableOption "hyprpaper";
 
   config = lib.mkIf cfg.enable {
     home-manager.users.${userName} = {

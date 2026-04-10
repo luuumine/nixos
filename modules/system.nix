@@ -36,6 +36,17 @@ in
       type = lib.types.str;
       default = "Europe/Paris";
     };
+
+    gpuBrand = lib.mkOption {
+      type = lib.types.enum [
+        "amd"
+        "intel"
+        "nvidia"
+        "none"
+      ];
+      default = "none";
+      description = "gpu manufacturer for hardware acceleration";
+    };
   };
 
   config = lib.mkIf cfg.enable {

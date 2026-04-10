@@ -5,19 +5,16 @@
     ./apps.nix
     ./audio.nix
     ./bluetooth.nix
+    ./desktop
     ./fonts.nix
     ./git.nix
-    ./hyprpaper.nix
-    ./hyprshot.nix
     ./media.nix
     ./nix.nix
     ./nvim.nix
-    ./quickshell.nix
     ./shell.nix
     ./ssh.nix
     ./starship.nix
     ./system.nix
-    ./terminal.nix
     ./user.nix
   ];
 }

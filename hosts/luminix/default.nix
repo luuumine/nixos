@@ -14,6 +14,7 @@
       enable = true;
       shell = pkgs.bash;
       hostname = "luminix";
+      gpuBrand = "amd";
     };
 
     nix.enable = true;
@@ -34,17 +35,14 @@
       ];
     };
 
+    desktop.enable = true;
+
     audio.enable = true;
     fonts.enable = true;
-    terminal.enable = true;
     shell.enable = true;
     starship.enable = true;
     git.enable = true;
     nvim.enable = true;
     bluetooth.enable = false;
-
-    hyprpaper.enable = true;
-    hyprshot.enable = true;
-    quickshell.enable = true;
   };
 }

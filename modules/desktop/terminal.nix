@@ -6,11 +6,11 @@
 }:
 
 let
-  cfg = config.lumine.terminal;
+  cfg = config.lumine.desktop.terminal;
   userName = config.lumine.user.name;
 in
 {
-  options.lumine.terminal = {
+  options.lumine.desktop.terminal = {
     enable = lib.mkEnableOption "terminal";
   };
 
