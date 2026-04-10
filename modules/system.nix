@@ -57,6 +57,10 @@ in
       }
     ];
 
+    boot.kernelPackages = pkgs.linuxPackages_latest;
+
+    programs.nix-ld.enable = true;
+
     users.defaultUserShell = cfg.shell;
 
     networking.hostName = cfg.hostname;

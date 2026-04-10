@@ -78,4 +78,10 @@
       "nodatacow"
     ];
   };
+
+  boot.initrd.secrets."/root/keys/data.key" = /root/keys/data.key;
+  boot.initrd.luks.devices.cryptdata.keyFile = "/root/keys/data.key";
+
+  boot.initrd.luks.devices.cryptroot.allowDiscards = true;
+  boot.initrd.luks.devices.cryptdata.allowDiscards = true;
 }

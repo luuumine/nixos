@@ -4,7 +4,6 @@
   imports = [
     ./hardware-configuration.nix
     ./storage.nix
-    ./system.nix
     ./vpn
   ];
 

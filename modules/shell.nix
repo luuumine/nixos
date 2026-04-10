@@ -20,6 +20,15 @@ in
     home-manager.users.${userName} =
       { config, ... }:
       {
+        home.packages = with pkgs; [
+          btop-rocm
+          fastfetch
+          htop
+          killall
+          stow
+          tree
+        ];
+
         programs.fzf = {
           enable = true;
           enableZshIntegration = true;
@@ -89,9 +98,6 @@ in
           '';
         };
 
-        home.packages = with pkgs; [
-          wl-clipboard
-        ];
       };
   };
 }

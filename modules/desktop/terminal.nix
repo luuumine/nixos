@@ -17,15 +17,6 @@ in
   config = lib.mkIf cfg.enable {
 
     home-manager.users.${userName} = {
-      home.packages = with pkgs; [
-        btop-rocm
-        fastfetch
-        htop
-        killall
-        stow
-        tree
-      ];
-
       programs.kitty = {
         enable = true;
 

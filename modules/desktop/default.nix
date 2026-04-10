@@ -42,6 +42,10 @@ in
       {
         programs.hyprland.enable = true;
 
+        home.packages = with pkgs; [
+          wl-clipboard
+        ];
+
         hardware.graphics = {
           enable = true;
           enable32Bit = true;
