@@ -7,6 +7,7 @@
     ./bluetooth.nix
     ./desktop
     ./fonts.nix
+    ./gaming.nix
     ./git.nix
     ./media.nix
     ./nix.nix

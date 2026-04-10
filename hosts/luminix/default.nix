@@ -36,6 +36,7 @@
     };
 
     desktop.enable = true;
+    gaming.enable = true;
 
     audio.enable = true;
     fonts.enable = true;
