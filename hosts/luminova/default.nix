@@ -1,56 +1,25 @@
-{ pkgs, modules, ... }:
+{ lib, pkgs, ... }:
 
 {
-  imports = [
-    ./storage.nix
-    ./system.nix
-    # "${modules}/nixos"
-
-    # Users
-    ./users/lumine/home.nix
-  ];
-
-  networking.hostName = "luminova";
-  time.timeZone = "Europe/Paris";
-  i18n.defaultLocale = "en_US.UTF-8";
-
-  programs.zsh.enable = true;
-  users.defaultUserShell = pkgs.zsh;
-
-  services.openssh = {
-    enable = true;
-    settings.PasswordAuthentication = false;
+  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
+  fileSystems."/" = {
+    device = "/dev/disk/by-label/nixos";
+    fsType = "ext4";
   };
 
-  age.identityPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
+  lumine = {
+    user.name = "lumine";
+    system = {
+      enable = true;
+      shell = pkgs.zsh;
+      hostname = "luminova";
+    };
 
-  security.sudo.wheelNeedsPassword = true;
+    nix.enable = true;
 
-  users.users.lumine = {
-    isNormalUser = true;
-    extraGroups = [
-      "wheel"
-      "networkmanager"
-      "video"
-      "render"
-    ];
-    initialPassword = "";
+    shell.enable = true;
+    starship.enable = true;
+    git.enable = true;
+    nvim.enable = true;
   };
-
-  environment.systemPackages = with pkgs; [
-    bind
-    curl
-    file
-    git
-    lm_sensors
-    pciutils
-    unzip
-    usbutils
-    vim
-    wget
-    zip
-  ];
-
-  system.stateVersion = "25.11";
-
 }

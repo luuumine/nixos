@@ -29,34 +29,26 @@
             {
               home-manager.useGlobalPkgs = true;
               home-manager.useUserPackages = true;
-              home-manager.extraSpecialArgs = {
-                inherit inputs;
-                modulesFolder = ./modules;
-              };
+              home-manager.extraSpecialArgs = { inherit inputs; };
             }
             agenix.nixosModules.default
           ];
         };
 
-        # luminova = nixpkgs.lib.nixosSystem {
-        #   specialArgs = {
-        #     inherit inputs;
-        #     modules = ./modules;
-        #   };
-        #   modules = [
-        #     ./hosts/luminova/default.nix
-        #     home-manager.nixosModules.home-manager
-        #     {
-        #       home-manager.useGlobalPkgs = true;
-        #       home-manager.useUserPackages = true;
-        #       home-manager.extraSpecialArgs = {
-        #         inherit inputs;
-        #         modulesFolder = ./modules;
-        #       };
-        #     }
-        #     agenix.nixosModules.default
-        #   ];
-        # };
+        luminova = nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs; };
+          modules = [
+            ./hosts/luminova/default.nix
+            ./modules
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.extraSpecialArgs = { inherit inputs; };
+            }
+            agenix.nixosModules.default
+          ];
+        };
       };
     };
 }
