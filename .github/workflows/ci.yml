@@ -47,6 +47,9 @@ jobs:
         run: |
           HOSTS=$(nix eval .#nixosConfigurations --apply builtins.attrNames --json)
           echo "hosts=$HOSTS" >> "$GITHUB_OUTPUT"
+      - name: show detected hosts
+        run: |
+          echo "detected hosts: ${{ steps.set-hosts.outputs.hosts }}" >> $GITHUB_STEP_SUMMARY
 
   build-hosts:
     name: build nixos (${{ matrix.host }})
