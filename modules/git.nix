@@ -1,4 +1,9 @@
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.lumine.git;
@@ -20,9 +25,16 @@ in
   };
 
   config = lib.mkIf cfg.enable {
+    environment.systemPackages = [
+      pkgs.git
+      pkgs.git-lfs
+    ];
+
     home-manager.users.${userName} = {
       programs.git = {
         enable = true;
+
+        lfs.enable = true;
 
         signing = {
           format = "ssh";
