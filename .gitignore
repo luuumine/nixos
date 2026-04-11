@@ -1,2 +1,5 @@
 # Nix / Flake artifacts
 result
+
+# VM disks
+*.qcow2
