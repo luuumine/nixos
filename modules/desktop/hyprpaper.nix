@@ -1,12 +1,17 @@
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.lumine.desktop.hyprpaper;
   userName = config.lumine.user.name;
-  wallpapers = import ./wallpapers;
+  wallpapers = import ./wallpapers.nix { inherit pkgs; };
   monitorWallpapers = {
-    "DP-1" = wallpapers.isla-nix;
-    "DP-2" = wallpapers.isla-figure;
+    "DP-1" = wallpapers.isla-1;
+    "DP-2" = wallpapers.isla-2-figure;
   };
 in
 {
