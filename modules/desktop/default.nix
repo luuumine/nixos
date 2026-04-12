@@ -12,6 +12,7 @@ let
 in
 {
   imports = [
+    ./cursor.nix
     ./hyprpaper.nix
     ./hyprshot.nix
     ./quickshell.nix
@@ -35,6 +36,7 @@ in
         ];
       }
       {
+        lumine.desktop.cursor.enable = lib.mkDefault true;
         lumine.desktop.hyprpaper.enable = lib.mkDefault true;
         lumine.desktop.hyprshot.enable = lib.mkDefault true;
         lumine.desktop.quickshell.enable = lib.mkDefault true;
