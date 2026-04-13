@@ -18,6 +18,10 @@
       agenix,
       ...
     }@inputs:
+    let
+      system = "x86_64-linux";
+      pkgs = nixpkgs.legacyPackages.${system};
+    in
     {
       nixosConfigurations = {
         luminix = nixpkgs.lib.nixosSystem {
@@ -49,6 +53,19 @@
             agenix.nixosModules.default
           ];
         };
+      };
+
+      devShells.${system}.quickshell = pkgs.mkShell {
+        buildInputs = with pkgs; [
+          quickshell
+          kdePackages.qtdeclarative
+        ];
+
+        shellHook = ''
+          echo "Quickshell Development Environment Active"
+          export QML2_IMPORT_PATH="${pkgs.quickshell}/lib/qt-6/qml:${pkgs.kdePackages.qtdeclarative}/lib/qt-6/qml:$QML2_IMPORT_PATH"
+          export QML_IMPORT_PATH="$QML2_IMPORT_PATH"
+        '';
       };
     };
 }
