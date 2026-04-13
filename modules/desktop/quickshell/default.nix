@@ -14,9 +14,14 @@ in
 
   config = lib.mkIf cfg.enable {
     home-manager.users.${userName} = {
-      home.packages = with pkgs; [
-        quickshell
-      ];
+      programs.quickshell = {
+        enable = true;
+        configs = {
+          "lumine" = ./lumine;
+        };
+        activeConfig = "lumine";
+        systemd.enable = true;
+      };
     };
   };
 }
