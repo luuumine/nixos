@@ -78,8 +78,10 @@ in
             la = "eza -a";
             ll = "eza -l";
             lla = "eza -la";
+
             lt = "eza --tree";
             llt = "eza -l --tree";
+            lat = "eza -a --tree";
 
             # Nix develop
             nd = "nix develop";
