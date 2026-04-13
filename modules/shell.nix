@@ -81,7 +81,7 @@ in
 
             lt = "eza --tree";
             llt = "eza -l --tree";
-            lat = "eza -a --tree";
+            ltg = "eza -a --tree --git-ignore";
 
             # Nix develop
             nd = "nix develop";
