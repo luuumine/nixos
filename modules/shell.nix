@@ -98,7 +98,7 @@ in
             nix() {
               if [[ $1 = "develop" ]]; then
                 shift
-                command nix develop -c zsh "$@"
+                command nix develop "$@" -c zsh
               else
                 command nix "$@"
               fi
