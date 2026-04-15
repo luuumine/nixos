@@ -28,9 +28,12 @@
         pkgs.discord-canary
         pkgs.mangohud
         pkgs.olympus
-        pkgs.prismlauncher
         pkgs.qbittorrent
         pkgs.rofi
+      ]
+      ++ [
+        pkgs.prismlauncher
+        pkgs.javaPackages.compiler.openjdk25
       ];
     };
 
