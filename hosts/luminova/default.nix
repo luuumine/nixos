@@ -1,4 +1,4 @@
-{ lib, pkgs, ... }:
+{ lib, ... }:
 
 {
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
@@ -11,7 +11,6 @@
     user.name = "lumine";
     system = {
       enable = true;
-      shell = pkgs.zsh;
       hostname = "luminova";
     };
 

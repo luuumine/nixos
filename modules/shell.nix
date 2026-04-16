@@ -15,7 +15,7 @@ in
 
   config = lib.mkIf cfg.enable {
     programs.zsh.enable = true;
-    users.users.${userName}.shell = pkgs.zsh;
+    users.defaultUserShell = pkgs.zsh;
 
     home-manager.users.${userName} =
       { config, ... }:

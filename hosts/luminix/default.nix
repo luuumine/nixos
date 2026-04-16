@@ -11,7 +11,6 @@
     user.name = "lumine";
     system = {
       enable = true;
-      shell = pkgs.bash;
       hostname = "luminix";
       gpuBrand = "amd";
     };

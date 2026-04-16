@@ -16,12 +16,6 @@ in
       type = lib.types.str;
     };
 
-    shell = lib.mkOption {
-      type = lib.types.package;
-      default = pkgs.bash;
-      description = "root user shell";
-    };
-
     locale = lib.mkOption {
       type = lib.types.str;
       default = "en_US.UTF-8";
@@ -61,8 +55,6 @@ in
 
     programs.nix-ld.enable = true;
 
-    users.defaultUserShell = cfg.shell;
-
     networking.hostName = cfg.hostname;
     i18n.defaultLocale = cfg.locale;
     console.keyMap = cfg.keymap;
@@ -78,8 +70,7 @@ in
       pkgs.usbutils
       pkgs.vim
       pkgs.zip
-    ]
-    ++ [ cfg.shell ];
+    ];
 
     security.sudo.wheelNeedsPassword = true;
 
