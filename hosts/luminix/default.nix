@@ -3,7 +3,7 @@
 {
   imports = [
     ./hardware-configuration.nix
-    ./storage.nix
+    ./filesystem.nix
     ./vpn
   ];
 
