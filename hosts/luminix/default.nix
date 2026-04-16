@@ -17,6 +17,12 @@
 
     nix.enable = true;
 
+    gaming = {
+      enable = true;
+      steam.enable = true;
+      minecraft.enable = true;
+    };
+
     apps = {
       enable = true;
       extraSystemApps = [
@@ -29,17 +35,13 @@
         pkgs.olympus
         pkgs.qbittorrent
         pkgs.rofi
-      ]
-      ++ [
-        pkgs.prismlauncher
-        pkgs.javaPackages.compiler.openjdk25
+        pkgs.osu-lazer-bin
       ];
     };
 
     ssh.enable = true;
 
     desktop.enable = true;
-    gaming.enable = true;
 
     audio.enable = true;
     media.enable = true;
@@ -51,4 +53,6 @@
     nvim.enable = true;
     bluetooth.enable = false;
   };
+
+  hardware.wooting.enable = true;
 }
