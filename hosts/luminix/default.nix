@@ -13,6 +13,7 @@
       enable = true;
       hostname = "luminix";
       gpuBrand = "amd";
+      bootloaderTimeout = 1;
     };
 
     nix.enable = true;

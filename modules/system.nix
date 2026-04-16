@@ -42,6 +42,12 @@ in
       default = null;
       description = "gpu manufacturer for hardware acceleration";
     };
+
+    bootloaderTimeout = lib.mkOption {
+      type = lib.types.ints.unsigned;
+      default = 5;
+      description = "the bootloader menu timeout";
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -79,7 +85,8 @@ in
       memtest86.enable = true;
     };
 
-    boot.loader.timeout = lib.mkDefault 5;
+    boot.loader.timeout = lib.mkDefault cfg.bootloaderTimeout;
+
     boot.loader.efi.canTouchEfiVariables = lib.mkDefault true;
 
     system.stateVersion = "25.11";
