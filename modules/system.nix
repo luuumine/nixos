@@ -32,13 +32,14 @@ in
     };
 
     gpuBrand = lib.mkOption {
-      type = lib.types.enum [
-        "amd"
-        "intel"
-        "nvidia"
-        "none"
-      ];
-      default = "none";
+      type = lib.types.nullOr (
+        lib.types.enum [
+          "amd"
+          "intel"
+          "nvidia"
+        ]
+      );
+      default = null;
       description = "gpu manufacturer for hardware acceleration";
     };
   };

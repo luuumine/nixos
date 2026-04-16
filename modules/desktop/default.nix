@@ -30,8 +30,8 @@ in
             message = "nvidia graphics are not yet supported in lumine.desktop. please use \"amd\" or \"intel\".";
           }
           {
-            assertion = gpu != "none";
-            message = "lumine.desktop is enabled but lumine.system.gpuBrand is set to \"none\". please specify a gpu.";
+            assertion = gpu != null;
+            message = "lumine.desktop is enabled but lumine.system.gpuBrand is not set. please specify a gpu.";
           }
         ];
       }
