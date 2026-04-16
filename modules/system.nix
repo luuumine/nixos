@@ -60,18 +60,6 @@ in
     console.keyMap = cfg.keymap;
     time.timeZone = cfg.timezone;
 
-    environment.systemPackages = [
-      pkgs.bind
-      pkgs.curl
-      pkgs.file
-      pkgs.git
-      pkgs.lm_sensors
-      pkgs.unzip
-      pkgs.usbutils
-      pkgs.vim
-      pkgs.zip
-    ];
-
     security.sudo.wheelNeedsPassword = true;
 
     networking.networkmanager.enable = lib.mkDefault true;

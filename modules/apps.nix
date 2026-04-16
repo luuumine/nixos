@@ -1,4 +1,9 @@
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 
 let
   cfg = config.lumine.apps;
@@ -21,9 +26,28 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    environment.systemPackages = cfg.extraSystemApps;
+    environment.systemPackages = [
+      pkgs.bind
+      pkgs.curl
+      pkgs.file
+      pkgs.git
+      pkgs.lm_sensors
+      pkgs.unzip
+      pkgs.usbutils
+      pkgs.vim
+      pkgs.zip
+    ]
+    ++ cfg.extraSystemApps;
+
     home-manager.users.${userName} = {
-      home.packages = cfg.extraUserApps;
+      home.packages = [
+        pkgs.fastfetch
+        pkgs.htop
+        pkgs.killall
+        pkgs.stow
+        pkgs.tree
+      ]
+      ++ cfg.extraUserApps;
     };
   };
 }

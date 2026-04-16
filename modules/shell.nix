@@ -20,14 +20,6 @@ in
     home-manager.users.${userName} =
       { config, ... }:
       {
-        home.packages = with pkgs; [
-          fastfetch
-          htop
-          killall
-          stow
-          tree
-        ];
-
         programs.btop = {
           enable = true;
           package =
