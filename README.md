@@ -12,6 +12,7 @@ i try to keep this structured "enough" so that i understand what's going on.
 ```text
 hosts
 ├── luminix     [my main desktop]
+├── luminadel   [my server]
 └── luminova    [config for vms and such]
 ```
 
