@@ -53,6 +53,20 @@
             agenix.nixosModules.default
           ];
         };
+        luminadel = nixpkgs.lib.nixosSystem {
+          specialArgs = { inherit inputs; };
+          modules = [
+            ./hosts/luminadel/default.nix
+            ./modules
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.extraSpecialArgs = { inherit inputs; };
+            }
+            agenix.nixosModules.default
+          ];
+        };
       };
 
       devShells.${system}.quickshell = pkgs.mkShell {
