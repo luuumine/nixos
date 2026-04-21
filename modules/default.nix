@@ -2,6 +2,8 @@
 
 {
   imports = [
+    ./initrd-ssh.nix
+
     ./apps.nix
     ./audio.nix
     ./bluetooth.nix

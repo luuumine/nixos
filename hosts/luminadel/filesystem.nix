@@ -2,6 +2,8 @@
 
 {
   boot.supportedFilesystems = [ "zfs" ];
+  boot.initrd.supportedFilesystems = [ "zfs" ];
+
   networking.hostId = "0c70559e";
 
   boot.initrd.luks.devices."cryptroot" = {
