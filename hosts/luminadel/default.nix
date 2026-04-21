@@ -28,9 +28,9 @@
     starship = {
       enable = true;
       theme = {
-        username = "bold purple";
-        symbol = "bold yellow";
-        hostname = "bold purple";
+        username = "bold #C77DFF";
+        symbol = "bold #E3B505";
+        hostname = "bold #C77DFF";
         directory = "bold yellow";
       };
     };
