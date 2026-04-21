@@ -22,7 +22,32 @@ let
   allLangs = lib.concatMapStrings (lang: "$" + lang) langList;
 in
 {
-  options.lumine.starship.enable = lib.mkEnableOption "starship";
+  options.lumine.starship = {
+    enable = lib.mkEnableOption "starship";
+
+    theme = {
+      username = lib.mkOption {
+        type = lib.types.str;
+        default = "bold blue";
+        description = "style string for the username";
+      };
+      symbol = lib.mkOption {
+        type = lib.types.str;
+        default = "bold white";
+        description = "style string for the symbol";
+      };
+      hostname = lib.mkOption {
+        type = lib.types.str;
+        default = "bold blue";
+        description = "style string for the hostname";
+      };
+      directory = lib.mkOption {
+        type = lib.types.str;
+        default = "bold cyan";
+        description = "style string for the directory path";
+      };
+    };
+  };
 
   config = lib.mkIf cfg.enable {
     home-manager.users.${userName} = {
@@ -35,7 +60,7 @@ in
           scan_timeout = 30;
 
           format = ''
-            $username@$hostname: $directory$git_branch$git_commit$git_status${allLangs}
+            $username[@](${cfg.theme.symbol})$hostname: $directory$git_branch$git_commit$git_status${allLangs}
             $character
           '';
 
@@ -52,20 +77,20 @@ in
           username = {
             show_always = true;
             format = "[$user]($style)";
-            style_user = "bold blue";
+            style_user = cfg.theme.username;
           };
 
           hostname = {
             ssh_only = false;
             format = "[$hostname]($style)";
-            style = "bold blue";
+            style = cfg.theme.hostname;
           };
 
           directory = {
             truncate_to_repo = true;
             truncation_length = 3;
             format = "[$path]($style) ";
-            style = "bold cyan";
+            style = cfg.theme.directory;
           };
 
           git_branch = {
