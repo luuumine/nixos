@@ -30,7 +30,7 @@
       theme = {
         username = "bold purple";
         symbol = "bold yellow";
-        hotname = "bold purple";
+        hostname = "bold purple";
         directory = "bold yellow";
       };
     };
