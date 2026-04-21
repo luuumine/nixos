@@ -78,6 +78,8 @@ in
 
     age.identityPaths = [ "/etc/ssh/ssh_host_ed25519_key" ];
 
+    environment.enableAllTerminfo = true;
+
     boot.loader.systemd-boot = {
       enable = true;
       configurationLimit = 5;
