@@ -22,6 +22,8 @@
 
     nix.enable = true;
 
+    apps.enable = true;
+
     ssh.enable = true;
 
     shell.enable = true;
