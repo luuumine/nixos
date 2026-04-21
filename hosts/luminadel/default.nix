@@ -25,7 +25,15 @@
     ssh.enable = true;
 
     shell.enable = true;
-    starship.enable = true;
+    starship = {
+      enable = true;
+      theme = {
+        username = "bold purple";
+        symbol = "bold yellow";
+        hotname = "bold purple";
+        directory = "bold yellow";
+      };
+    };
     git.enable = true;
     nvim.enable = true;
   };
