@@ -35,5 +35,10 @@
       device = "ZROOT/home";
       fsType = "zfs";
     };
+
+    "/media" = {
+      device = "ZROOT/media";
+      fsType = "zfs";
+    };
   };
 }
