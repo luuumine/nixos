@@ -32,6 +32,11 @@
 
     ssh.enable = true;
 
+    vpn = {
+      headscale.enable = true;
+      tailscale.enable = true;
+    };
+
     shell.enable = true;
     starship = {
       enable = true;

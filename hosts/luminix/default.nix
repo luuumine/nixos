@@ -18,6 +18,8 @@
 
     nix.enable = true;
 
+    vpn.tailscale.enable = true;
+
     gaming = {
       enable = true;
       steam.enable = true;
