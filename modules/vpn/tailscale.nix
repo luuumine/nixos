@@ -10,5 +10,6 @@ in
 
   config = lib.mkIf cfg.enable {
     services.tailscale.enable = true;
+    networking.firewall.trustedInterfaces = [ "tailscale0" ];
   };
 }
