@@ -1,4 +1,10 @@
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  loginServer,
+  vpnDomain,
+  ...
+}:
 
 let
   cfg = config.lumine.network.headscale;
@@ -6,10 +12,6 @@ in
 {
   options.lumine.network.headscale = {
     enable = lib.mkEnableOption "headscale control server";
-    domain = lib.mkOption {
-      type = lib.types.str;
-      default = "luuumine.com";
-    };
     port = lib.mkOption {
       type = lib.types.port;
       default = 8080;
@@ -23,16 +25,16 @@ in
       address = "0.0.0.0";
       port = cfg.port;
       settings = {
-        server_url = "https://headscale.${cfg.domain}";
+        server_url = loginServer;
         dns = {
           magic_dns = true;
-          base_domain = "vpn.${cfg.domain}";
+          base_domain = vpnDomain;
           nameservers.global = [ "1.1.1.1" ];
         };
       };
     };
 
-    services.caddy.virtualHosts."headscale.${cfg.domain}".extraConfig = ''
+    services.caddy.virtualHosts.${loginServer}.extraConfig = ''
       reverse_proxy 127.0.0.1:${toString cfg.port}
     '';
   };

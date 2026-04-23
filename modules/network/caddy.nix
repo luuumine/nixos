@@ -9,7 +9,7 @@
 let
   cfg = config.lumine.network.caddy;
 
-  tsCfg = config.lumine.network.headscale;
+  tsCfg = config.lumine.network.tailscale;
   hsCfg = config.lumine.network.headscale;
 
   hostname = config.lumine.system.hostname;
