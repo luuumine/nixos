@@ -39,6 +39,7 @@
         enable = true;
         exitNode = true;
       };
+      mullvad.enable = true;
     };
 
     shell.enable = true;

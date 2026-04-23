@@ -9,6 +9,7 @@ in
     ./caddy.nix
     ./headscale.nix
     ./tailscale.nix
+    ./mullvad.nix
   ];
 
   _module.args = {

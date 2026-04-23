@@ -16,4 +16,5 @@ let
 in
 {
   "luminadel/caddy.age".publicKeys = users ++ [ luminadel ];
+  "luminadel/mullvad.age".publicKeys = users ++ [ luminadel ];
 }
