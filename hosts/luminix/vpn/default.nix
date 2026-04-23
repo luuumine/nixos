@@ -3,7 +3,7 @@
 {
   imports = [
     ./home.nix
-    ./mullvad.nix
+    # ./mullvad.nix
   ];
 
   systemd.services =
@@ -18,6 +18,6 @@
     in
     {
       wg-quick-home = vpnDeps;
-      wg-quick-mullvad = vpnDeps;
+      # wg-quick-mullvad = vpnDeps;
     };
 }
