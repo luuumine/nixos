@@ -50,11 +50,11 @@ in
         ${pkgs.iproute2}/bin/ip route add default dev mullvad table 51820
         ${pkgs.iproute2}/bin/ip route add 10.64.0.1 dev mullvad
         ${pkgs.iproute2}/bin/ip rule add iif tailscale0 table 51820
-        ${pkgs.iproute2}/bin/iptables -t nat -A POSTROUTING -o mullvad -j MASQUERADE
+        ${pkgs.iptables}/bin/iptables -t nat -A POSTROUTING -o mullvad -j MASQUERADE
 
         ${pkgs.iproute2}/bin/ip -6 route add default dev mullvad table 51820
         ${pkgs.iproute2}/bin/ip -6 rule add iif tailscale0 table 51820
-        ${pkgs.iproute2}/bin/ip6tables -t nat -A POSTROUTING -o mullvad -j MASQUERADE
+        ${pkgs.iptables}/bin/ip6tables -t nat -A POSTROUTING -o mullvad -j MASQUERADE
       '';
 
       preDown = ''
