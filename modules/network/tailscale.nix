@@ -7,6 +7,7 @@
 
 let
   cfg = config.lumine.network.tailscale;
+  userName = config.lumine.user.name;
 in
 {
   options.lumine.network.tailscale = {
@@ -19,6 +20,8 @@ in
   };
 
   config = lib.mkIf cfg.enable {
+    users.groups.tailscale.members = [ userName ];
+
     networking.firewall.trustedInterfaces = [ "tailscale0" ];
 
     services.tailscale = {

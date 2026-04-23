@@ -8,6 +8,7 @@
 
 let
   cfg = config.lumine.network.headscale;
+  userName = config.lumine.user.name;
 in
 {
   options.lumine.network.headscale = {
@@ -20,6 +21,8 @@ in
   };
 
   config = lib.mkIf cfg.enable {
+    users.groups.headscale.members = [ userName ];
+
     services.headscale = {
       enable = true;
       address = "0.0.0.0";
