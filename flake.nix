@@ -54,7 +54,10 @@
           ];
         };
         luminadel = nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs; };
+          specialArgs = {
+            inherit inputs;
+            secretsPath = ./secrets;
+          };
           modules = [
             ./hosts/luminadel/default.nix
             ./modules
