@@ -1,7 +1,7 @@
 { ... }:
 
 let
-  loginServer = "https://headscale.luuumine.com";
+  loginServer = "headscale.luuumine.com";
   vpnDomain = "vpn.luuumine.com";
 in
 {

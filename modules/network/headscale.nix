@@ -28,7 +28,7 @@ in
       address = "0.0.0.0";
       port = cfg.port;
       settings = {
-        server_url = loginServer;
+        server_url = "https://${loginServer}";
         dns = {
           magic_dns = true;
           base_domain = vpnDomain;
