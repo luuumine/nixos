@@ -26,7 +26,7 @@ in
     ];
 
     age.secrets.caddy_env = {
-      file = secretsPath + "/${hostname}/cloudflare.age";
+      file = secretsPath + "/${hostname}/caddy.age";
       owner = "caddy";
       group = "caddy";
     };

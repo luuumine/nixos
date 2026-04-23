@@ -15,5 +15,5 @@ let
   allKeys = users ++ systems;
 in
 {
-  "luminadel/cloudflare.age".publicKeys = users ++ [ luminadel ];
+  "luminadel/caddy.age".publicKeys = users ++ [ luminadel ];
 }
