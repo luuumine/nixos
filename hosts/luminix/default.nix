@@ -18,7 +18,7 @@
 
     nix.enable = true;
 
-    vpn.tailscale.enable = true;
+    network.tailscale.enable = true;
 
     gaming = {
       enable = true;

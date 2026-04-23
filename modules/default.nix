@@ -4,7 +4,7 @@
   imports = [
     ./initrd-ssh.nix
 
-    ./vpn
+    ./network
 
     ./apps.nix
     ./audio.nix

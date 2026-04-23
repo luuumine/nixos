@@ -1,10 +1,10 @@
 { config, lib, ... }:
 
 let
-  cfg = config.lumine.vpn.tailscale;
+  cfg = config.lumine.network.tailscale;
 in
 {
-  options.lumine.vpn.tailscale = {
+  options.lumine.network.tailscale = {
     enable = lib.mkEnableOption "tailscale client";
   };
 

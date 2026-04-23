@@ -1,10 +1,10 @@
 { config, lib, ... }:
 
 let
-  cfg = config.lumine.vpn.headscale;
+  cfg = config.lumine.network.headscale;
 in
 {
-  options.lumine.vpn.headscale = {
+  options.lumine.network.headscale = {
     enable = lib.mkEnableOption "headscale control server";
   };
 

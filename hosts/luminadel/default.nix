@@ -32,7 +32,7 @@
 
     ssh.enable = true;
 
-    vpn = {
+    network = {
       headscale.enable = true;
       tailscale.enable = true;
     };
