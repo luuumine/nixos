@@ -35,7 +35,10 @@
     network = {
       caddy.enable = true;
       headscale.enable = true;
-      tailscale.enable = true;
+      tailscale = {
+        enable = true;
+        exitNode = true;
+      };
     };
 
     shell.enable = true;
