@@ -27,7 +27,7 @@ in
             };
           };
 
-          "*.${vpnDomain} luminadel luminix" = {
+          "*.${vpnDomain} luminadel luminix luminode" = {
             identitiesOnly = true;
             identityFile = "~/.ssh/id_ed25519";
             extraOptions = {
