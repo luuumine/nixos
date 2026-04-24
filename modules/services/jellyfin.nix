@@ -58,12 +58,17 @@ in
       "d /media 0775 root media - -"
     ];
 
-    lumine.network.caddy.localService.jellyfin = lib.mkIf caddyCfg.enable 8096;
     services.caddy = lib.mkIf caddyCfg.enable {
       virtualHosts."https://watch.luuumine.com".extraConfig = ''
         bind tailscale/jellyfin
         reverse_proxy 127.0.0.1:8096
       '';
+      virtualHosts."http://jellyfin.vpn.luuumine.com, http://jellyfin" = {
+        extraConfig = ''
+          bind tailscale/jellyfin
+          reverse_proxy 127.0.0.1:8096
+        '';
+      };
     };
   };
 }

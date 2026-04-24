@@ -14,32 +14,10 @@ let
   hsCfg = config.lumine.network.headscale;
 
   hostname = config.lumine.system.hostname;
-
-  mkLocalService = name: port: {
-    "http://${name}.${vpnDomain}" = {
-      extraConfig = ''
-        bind tailscale/${name}
-        reverse_proxy 127.0.0.1:${toString port}
-      '';
-    };
-    "http://${name}" = {
-      extraConfig = ''
-        bind tailscale/${name}
-        reverse_proxy 127.0.0.1:${toString port}
-      '';
-    };
-  };
 in
 {
   options.lumine.network.caddy = {
     enable = lib.mkEnableOption "caddy reverse proxy";
-    localService = lib.mkOption {
-      type = lib.types.attrsOf lib.types.port;
-      default = { };
-      example = {
-        jellyfin = 8096;
-      };
-    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -75,8 +53,6 @@ in
           ephemeral true
         }
       '';
-
-      virtualHosts = lib.mkMerge (lib.attrsets.mapAttrsToList mkLocalService cfg.localService);
     };
 
     systemd.services.caddy = {
