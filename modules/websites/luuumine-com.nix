@@ -49,7 +49,7 @@ in
       try_files {path} {path}/ {path}.html
       file_server
 
-      handle_path /api/* {
+      handle /api/* {
         reverse_proxy 127.0.0.1:${toString cfg.backendPort}
       }
 
