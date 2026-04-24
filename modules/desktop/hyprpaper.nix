@@ -26,9 +26,10 @@ in
 
           preload = map toString (builtins.attrValues monitorWallpapers);
 
-          wallpaper = lib.attrsets.mapAttrsToList (
-            monitor: path: "${monitor}, ${toString path}"
-          ) monitorWallpapers;
+          wallpaper = lib.attrsets.mapAttrsToList (monitor: path: {
+            inherit monitor;
+            path = toString path;
+          }) monitorWallpapers;
         };
       };
     };
