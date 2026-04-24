@@ -43,6 +43,7 @@
 
     services = {
       jellyfin.enable = true;
+      automation.enable = true;
     };
 
     shell.enable = true;
