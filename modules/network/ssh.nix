@@ -44,15 +44,6 @@ in
               PubkeyAuthentication = "yes";
             };
           };
-
-          "luminode" = {
-            hostname = "10.0.0.1";
-            identitiesOnly = true;
-            identityFile = "~/.ssh/id_ed25519";
-            extraOptions = {
-              PubkeyAuthentication = "yes";
-            };
-          };
         };
       };
     };

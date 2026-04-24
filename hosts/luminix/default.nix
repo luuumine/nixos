@@ -4,7 +4,6 @@
   imports = [
     ./hardware.nix
     ./filesystem.nix
-    ./vpn
   ];
 
   lumine = {
