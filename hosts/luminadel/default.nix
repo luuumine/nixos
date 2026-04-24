@@ -46,6 +46,10 @@
       automation.enable = true;
     };
 
+    websites = {
+      luuumine-com.enable = true;
+    };
+
     shell.enable = true;
     starship = {
       enable = true;

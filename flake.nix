@@ -11,6 +11,11 @@
       url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    luuumine-website = {
+      url = "github:luuumine/luuumine.com";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =

@@ -17,4 +17,5 @@ in
 {
   "luminadel/caddy.age".publicKeys = users ++ [ luminadel ];
   "luminadel/mullvad.age".publicKeys = users ++ [ luminadel ];
+  "luminadel/luuumine-com-env.age".publicKeys = users ++ [ luminadel ];
 }

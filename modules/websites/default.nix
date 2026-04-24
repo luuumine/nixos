@@ -1,0 +1,6 @@
+{ ... }:
+{
+  imports = [
+    ./luuumine-com.nix
+  ];
+}
