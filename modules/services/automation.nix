@@ -25,6 +25,7 @@ in
       group = "media";
     };
     services.prowlarr.enable = true;
+    services.flaresolverr.enable = true;
 
     services.seerr.enable = true;
 
@@ -77,6 +78,15 @@ in
         "http://prowlarr.vpn.luuumine.com, http://prowlarr".extraConfig = ''
           bind tailscale/prowlarr
           reverse_proxy 127.0.0.1:9696
+        '';
+
+        "https://flaresolverr.luuumine.com".extraConfig = ''
+          bind tailscale/flaresolverr
+          reverse_proxy 127.0.0.1:8191
+        '';
+        "http://flaresolverr.vpn.luuumine.com, http://flaresolverr".extraConfig = ''
+          bind tailscale/flaresolverr
+          reverse_proxy 127.0.0.1:8191
         '';
 
         "https://torrent.luuumine.com".extraConfig = ''
