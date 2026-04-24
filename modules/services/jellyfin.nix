@@ -8,7 +8,7 @@ let
   cfg = config.lumine.services.jellyfin;
   userName = config.lumine.user.name;
   gpu = config.lumine.system.gpuBrand;
-  caddyEnabled = config.lumine.network.caddy.enable;
+  caddyCfg = config.lumine.network.caddy;
 in
 {
   options.lumine.services.jellyfin = {
@@ -58,7 +58,8 @@ in
       "d /media 0775 root media - -"
     ];
 
-    services.caddy = lib.mkIf caddyEnabled {
+    lumine.network.caddy.localService.jellyfin = lib.mkIf caddyCfg.enable 8096;
+    services.caddy = lib.mkIf caddyCfg.enable {
       virtualHosts."https://watch.luuumine.com".extraConfig = ''
         bind tailscale/jellyfin
         reverse_proxy 127.0.0.1:8096
