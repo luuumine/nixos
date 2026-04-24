@@ -5,6 +5,7 @@
     ./initrd-ssh.nix
 
     ./network
+    ./services
 
     ./apps.nix
     ./audio.nix

@@ -41,6 +41,10 @@
       mullvad.enable = true;
     };
 
+    services = {
+      jellyfin.enable = true;
+    };
+
     shell.enable = true;
     starship = {
       enable = true;
