@@ -31,7 +31,11 @@ in
   config = lib.mkIf cfg.enable {
     boot.kernelParams = [ "ip=::::${config.networking.hostName}::dhcp" ];
     boot.initrd = {
+      systemd.enable = true;
+      systemd.network.enable = true;
+
       availableKernelModules = cfg.networkDrivers;
+
       network = {
         enable = true;
         flushBeforeStage2 = true;
@@ -41,11 +45,8 @@ in
           authorizedKeys = cfg.authorizedKeys;
           hostKeys = [ "/etc/secrets/initrd/ssh_host_ed25519_key" ];
         };
-        postCommands = ''
-          echo 'cryptsetup-askpass' >> /root/.profile
-          echo 'exit' >> /root/.profile
-        '';
       };
+      systemd.users.root.shell = "/bin/systemd-tty-ask-password-agent";
     };
   };
 }
