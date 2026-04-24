@@ -30,9 +30,8 @@
 
     apps.enable = true;
 
-    ssh.enable = true;
-
     network = {
+      ssh.enable = true;
       caddy.enable = true;
       headscale.enable = true;
       tailscale = {

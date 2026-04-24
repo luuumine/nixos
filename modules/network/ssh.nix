@@ -1,11 +1,16 @@
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  vpnDomain,
+  ...
+}:
 
 let
-  cfg = config.lumine.ssh;
+  cfg = config.lumine.network.ssh;
   userName = config.lumine.user.name;
 in
 {
-  options.lumine.ssh.enable = lib.mkEnableOption "ssh config";
+  options.lumine.network.ssh.enable = lib.mkEnableOption "ssh config";
 
   config = lib.mkIf cfg.enable {
     home-manager.users.${userName} = {
@@ -22,6 +27,14 @@ in
             };
           };
 
+          "*.${vpnDomain} luminadel luminix" = {
+            identitiesOnly = true;
+            identityFile = "~/.ssh/id_ed25519";
+            extraOptions = {
+              PubkeyAuthentication = "yes";
+            };
+          };
+
           "github.com" = {
             hostname = "github.com";
             user = "git";
@@ -34,7 +47,6 @@ in
 
           "luminode" = {
             hostname = "10.0.0.1";
-            user = "lumine";
             identitiesOnly = true;
             identityFile = "~/.ssh/id_ed25519";
             extraOptions = {

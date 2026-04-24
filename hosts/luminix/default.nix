@@ -18,7 +18,10 @@
 
     nix.enable = true;
 
-    network.tailscale.enable = true;
+    network = {
+      ssh.enable = true;
+      tailscale.enable = true;
+    };
 
     gaming = {
       enable = true;
@@ -41,8 +44,6 @@
         pkgs.osu-lazer-bin
       ];
     };
-
-    ssh.enable = true;
 
     desktop.enable = true;
 
