@@ -17,7 +17,6 @@
     ./nix.nix
     ./nvim.nix
     ./shell.nix
-    ./ssh.nix
     ./starship.nix
     ./system.nix
     ./user.nix

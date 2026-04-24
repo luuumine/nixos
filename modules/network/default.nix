@@ -6,6 +6,7 @@ let
 in
 {
   imports = [
+    ./ssh.nix
     ./caddy.nix
     ./headscale.nix
     ./tailscale.nix
