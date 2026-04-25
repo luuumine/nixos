@@ -60,8 +60,7 @@ in
 
     services.caddy = lib.mkIf caddyCfg.enable {
       virtualHosts."https://watch.luuumine.com".extraConfig = ''
-        bind tailscale/jellyfin
-        reverse_proxy 127.0.0.1:8096
+        redir http://jellyfin.vpn.luuumine.com{uri}
       '';
       virtualHosts."http://jellyfin.vpn.luuumine.com, http://jellyfin" = {
         extraConfig = ''
