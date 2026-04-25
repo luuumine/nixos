@@ -11,6 +11,10 @@ jobs:
     steps:
       - name: checkout repository
         uses: actions/checkout@v5
+      - name: setup ssh agent
+        uses: webfactory/ssh-agent@v0.10.0
+        with:
+          ssh-private-key: ${{ secrets.CI_SSH_KEY }}
       - name: install nix
         uses: cachix/install-nix-action@v31
         with:
@@ -32,6 +36,10 @@ jobs:
     steps:
       - name: checkout repository
         uses: actions/checkout@v5
+      - name: setup ssh agent
+        uses: webfactory/ssh-agent@v0.10.0
+        with:
+          ssh-private-key: ${{ secrets.CI_SSH_KEY }}
       - name: install nix
         uses: cachix/install-nix-action@v31
         with:
@@ -61,6 +69,10 @@ jobs:
     steps:
       - name: checkout repository
         uses: actions/checkout@v5
+      - name: setup ssh agent
+        uses: webfactory/ssh-agent@v0.10.0
+        with:
+          ssh-private-key: ${{ secrets.CI_SSH_KEY }}
       - name: install nix
         uses: cachix/install-nix-action@v31
         with:
