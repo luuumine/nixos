@@ -48,6 +48,7 @@
 
     websites = {
       luuumine-com.enable = true;
+      delhommais-com.enable = true;
     };
 
     shell.enable = true;
