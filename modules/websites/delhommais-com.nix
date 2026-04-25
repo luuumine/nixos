@@ -30,13 +30,8 @@ in
       try_files {path} {path}/ {path}.html
       file_server
 
-      handle_errors 404 {
-        rewrite * /404.html
-        file_server
-      }
-
       handle_errors {
-        respond "{err.status_code} {err.status_text}"
+        redir https://delhommais.com temporary # 302
       }
     '';
   };
