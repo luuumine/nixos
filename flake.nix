@@ -58,6 +58,9 @@
             }
             agenix.nixosModules.default
             headplane.nixosModules.headplane
+            {
+              nixpkgs.overlays = [ headplane.overlays.default ];
+            }
           ];
         };
     in
