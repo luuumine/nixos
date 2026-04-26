@@ -50,7 +50,7 @@ in
       port = cfg.port;
       settings = {
         unix_socket_permission = "0770";
-        policy.path = "/var/lib/headscale/acl.yaml";
+        policy.mode = "database";
         server_url = "https://${loginServer}";
         dns = {
           magic_dns = true;
@@ -59,9 +59,6 @@ in
         };
       };
     };
-    systemd.tmpfiles.rules = [
-      "f /var/lib/headscale/acl.yaml 0640 headscale headscale - {\"acls\":[{\"action\":\"accept\",\"src\":[\"*\"],\"dst\":[\"*:*\"]}]}"
-    ];
 
     services.headplane = lib.mkIf cfg.headplane.enable {
       enable = true;
