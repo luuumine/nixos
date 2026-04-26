@@ -35,7 +35,11 @@
       caddy.enable = true;
       headscale = {
         enable = true;
-        headplane.enable = true;
+        port = 8080;
+        headplane = {
+          enable = true;
+          port = 8081;
+        };
       };
       tailscale = {
         enable = true;
