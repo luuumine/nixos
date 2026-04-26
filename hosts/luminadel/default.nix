@@ -33,7 +33,10 @@
     network = {
       ssh.enable = true;
       caddy.enable = true;
-      headscale.enable = true;
+      headscale = {
+        enable = true;
+        headplane.enable = true;
+      };
       tailscale = {
         enable = true;
         exitNode = true;
