@@ -33,45 +33,16 @@
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
-    in
-    {
-      nixosConfigurations = {
-        luminix = nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs; };
-          modules = [
-            ./hosts/luminix/default.nix
-            ./modules
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.extraSpecialArgs = { inherit inputs; };
-            }
-            agenix.nixosModules.default
-          ];
-        };
 
-        luminova = nixpkgs.lib.nixosSystem {
-          specialArgs = { inherit inputs; };
-          modules = [
-            ./hosts/luminova/default.nix
-            ./modules
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.extraSpecialArgs = { inherit inputs; };
-            }
-            agenix.nixosModules.default
-          ];
-        };
-        luminadel = nixpkgs.lib.nixosSystem {
+      mkHost =
+        hostName:
+        nixpkgs.lib.nixosSystem {
           specialArgs = {
             inherit inputs;
             secretsPath = ./secrets;
           };
           modules = [
-            ./hosts/luminadel/default.nix
+            ./hosts/${hostName}
             ./modules
             home-manager.nixosModules.home-manager
             {
@@ -82,6 +53,12 @@
             agenix.nixosModules.default
           ];
         };
+    in
+    {
+      nixosConfigurations = {
+        luminix = mkHost "luminix";
+        luminova = mkHost "luminova";
+        luminadel = mkHost "luminadel";
       };
 
       devShells.${system}.quickshell = pkgs.mkShell {
