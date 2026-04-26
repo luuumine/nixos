@@ -70,6 +70,7 @@ in
           host = "127.0.0.1";
           port = cfg.headplane.port;
           cookie_secret_path = config.age.secrets.headplane_cookie.path;
+          cookie_secure = false; # allow serving over http
         };
         headscale = {
           url = "http://127.0.0.1:${toString cfg.port}";
