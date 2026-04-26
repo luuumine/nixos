@@ -28,6 +28,7 @@ in
       address = "0.0.0.0";
       port = cfg.port;
       settings = {
+        unix_socket_permission = "0770";
         server_url = "https://${loginServer}";
         dns = {
           magic_dns = true;
