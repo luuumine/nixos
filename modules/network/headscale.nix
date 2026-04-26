@@ -25,7 +25,7 @@ in
 
     services.headscale = {
       enable = true;
-      address = "0.0.0.0";
+      address = "127.0.0.1";
       port = cfg.port;
       settings = {
         unix_socket_permission = "0770";
