@@ -2,6 +2,7 @@
   config,
   lib,
   loginServer,
+  secretsPath,
   vpnDomain,
   ...
 }:
@@ -9,6 +10,7 @@
 let
   cfg = config.lumine.network.headscale;
   userName = config.lumine.user.name;
+  hostname = config.lumine.system.hostname;
 in
 {
   options.lumine.network.headscale = {
@@ -18,10 +20,29 @@ in
       default = 8080;
       description = "internal headscale port";
     };
+    headplane = {
+      enable = lib.mkEnableOption "headplane ui for headscale";
+      port = lib.mkOption {
+        type = lib.types.port;
+        default = 3000;
+        description = "internal headplane port";
+      };
+    };
   };
 
   config = lib.mkIf cfg.enable {
     users.groups.headscale.members = [ userName ];
+
+    age.secrets = lib.mkIf cfg.headplane.enable {
+      headplane_cookie = {
+        file = secretsPath + "/${hostname}/headscale_cookie.age";
+        owner = "headplane";
+      };
+      headscale_api_key = {
+        file = secretsPath + "/${hostname}/headscale_api_key.age";
+        owner = "headplane";
+      };
+    };
 
     services.headscale = {
       enable = true;
@@ -29,6 +50,7 @@ in
       port = cfg.port;
       settings = {
         unix_socket_permission = "0770";
+        policy.path = "/var/lib/headscale/acl.yaml";
         server_url = "https://${loginServer}";
         dns = {
           magic_dns = true;
@@ -37,9 +59,37 @@ in
         };
       };
     };
+    systemd.tmpfiles.rules = [
+      "f /var/lib/headscale/acl.yaml 0640 headscale headscale - {\"acls\":[{\"action\":\"accept\",\"src\":[\"*\"],\"dst\":[\"*:*\"]}]}"
+    ];
 
-    services.caddy.virtualHosts.${loginServer}.extraConfig = ''
-      reverse_proxy 127.0.0.1:${toString cfg.port}
-    '';
+    services.headplane = lib.mkIf cfg.headplane.enable {
+      enable = true;
+      settings = {
+        server = {
+          host = "127.0.0.1";
+          port = cfg.headplane.port;
+          cookie_secret_path = config.age.secrets.headplane_cookie.path;
+        };
+        headscale = {
+          url = "http://127.0.0.1:${toString cfg.port}";
+          public_url = "https://${loginServer}";
+          api_key_path = config.age.secrets.headscale_api_key.path;
+        };
+      };
+
+    };
+
+    services.caddy.virtualHosts = {
+      ${loginServer}.extraConfig = ''
+        reverse_proxy 127.0.0.1:${toString cfg.port}
+      '';
+      "http://plane.${vpnDomain}, http://plane" = lib.mkIf cfg.headplane.enable {
+        extraConfig = ''
+          bind tailscale/plane
+          reverse_proxy 127.0.0.1:${toString cfg.headplane.port}
+        '';
+      };
+    };
   };
 }
