@@ -35,12 +35,12 @@ in
 
     age.secrets = lib.mkIf cfg.headplane.enable {
       headplane_cookie = {
-        file = secretsPath + "/${hostname}/headscale_cookie.age";
-        owner = "headplane";
+        file = secretsPath + "/${hostname}/headplane_cookie.age";
+        owner = "headscale";
       };
       headscale_api_key = {
         file = secretsPath + "/${hostname}/headscale_api_key.age";
-        owner = "headplane";
+        owner = "headscale";
       };
     };
 
