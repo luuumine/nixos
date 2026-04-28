@@ -6,6 +6,8 @@
 
   networking.hostId = "0c70559e";
 
+  boot.zfs.extraPools = [ "TANK" ];
+
   boot.initrd.luks.devices."cryptroot" = {
     device = "/dev/disk/by-uuid/9a559a0c-72d1-4620-af33-821e635627b5";
     allowDiscards = true;
@@ -14,6 +16,14 @@
   boot.initrd.systemd.services."zfs-import-ZROOT" = {
     requires = [ "dev-mapper-cryptroot.device" ];
     after = [ "dev-mapper-cryptroot.device" ];
+  };
+
+  environment.etc.crypttab.text = ''
+    crypttank /dev/disk/by-id/ata-ST8000VN004-3CP101_WWZBF4TM /root/tank.key luks
+  '';
+  systemd.services."zfs-import-TANK" = {
+    requires = [ "systemd-cryptsetup@crypttank.service" ];
+    after = [ "systemd-cryptsetup@crypttank.service" ];
   };
 
   fileSystems = {
@@ -42,7 +52,12 @@
     };
 
     "/media" = {
-      device = "ZROOT/media";
+      device = "TANK/media";
+      fsType = "zfs";
+    };
+
+    "/backups" = {
+      device = "TANK/backups";
       fsType = "zfs";
     };
   };
