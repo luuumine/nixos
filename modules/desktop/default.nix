@@ -15,7 +15,7 @@ in
     ./cursor.nix
     ./hyprpaper.nix
     ./hyprshot.nix
-    ./quickshell
+    ./quickshell.nix
     ./terminal.nix
   ];
 
