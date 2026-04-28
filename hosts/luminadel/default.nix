@@ -51,6 +51,7 @@
     services = {
       jellyfin.enable = true;
       automation.enable = true;
+      immich.enable = true;
     };
 
     websites = {
