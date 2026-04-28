@@ -38,7 +38,6 @@
         pkgs.discord-canary
         pkgs.mangohud
         pkgs.olympus
-        pkgs.qbittorrent
         pkgs.rofi
         pkgs.osu-lazer-bin
       ];
