@@ -9,6 +9,7 @@ let
   cfg = config.lumine.services.immich;
   userName = config.lumine.user.name;
   gpu = config.lumine.system.gpuBrand;
+  caddyCfg = config.lumine.network.caddy;
 in
 {
   options.lumine.services.immich = {
@@ -48,6 +49,15 @@ in
 
     systemd.tmpfiles.settings.immich = {
       "/var/lib/immich".e.mode = lib.mkForce "0750";
+    };
+
+    services.caddy = lib.mkIf caddyCfg.enable {
+      virtualHosts."https://photos.delhommais.com".extraConfig = ''
+        request_body {
+          max_size 5000MB
+        }
+        reverse_proxy 127.0.0.1:${toString cfg.port}
+      '';
     };
   };
 }
