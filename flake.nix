@@ -69,6 +69,7 @@
         luminix = mkHost "luminix";
         luminova = mkHost "luminova";
         luminadel = mkHost "luminadel";
+        luminout = mkHost "luminout";
       };
 
       packages.${system} = import ./packages {
