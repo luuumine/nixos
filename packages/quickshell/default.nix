@@ -1,6 +1,5 @@
 {
   stdenv,
-  makeWrapper,
   quickshell,
   kdePackages,
   ...
