@@ -30,9 +30,11 @@ in
       enable = true;
       openFirewall = false;
 
+      forceEncodingConfig = gpu != null;
+
       hardwareAcceleration = {
         enable = gpu != null;
-        device = "/dev/dri/renderD128";
+        device = lib.mkIf (gpu != null) (lib.mkDefault "/dev/dri/renderD128");
         type =
           if gpu == "intel" then
             "qsv"
@@ -42,6 +44,22 @@ in
             "nvenc"
           else
             "none";
+      };
+      transcoding = lib.mkIf (gpu != null) {
+        enableHardwareEncoding = true;
+        hardwareDecodingCodecs = {
+          h264 = true;
+          hevc = true;
+          vp8 = true;
+          vp9 = true;
+          vc1 = true;
+          av1 = true;
+          hevc10bit = true;
+        };
+        hardwareEncodingCodecs = {
+          hevc = true;
+          av1 = true;
+        };
       };
     };
 
