@@ -22,6 +22,10 @@ in
         (lib.mkIf (gpu == "intel") [
           pkgs.intel-media-driver
           pkgs.intel-vaapi-driver
+          pkgs.libva-vdpau-driver
+          pkgs.libvdpau-va-gl
+          pkgs.intel-compute-runtime
+          pkgs.vpl-gpu-rt
         ])
       ];
     };
