@@ -36,6 +36,7 @@
       extraUserApps = [
         pkgs.brave
         pkgs.discord-canary
+        pkgs.libresprite
         pkgs.mangohud
         pkgs.olympus
         pkgs.rofi
