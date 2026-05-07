@@ -13,6 +13,10 @@ in
     enable = lib.mkEnableOption "system fonts";
   };
   config = lib.mkIf cfg.enable {
+    fonts = {
+      fontDir.enable = true;
+      enableDefaultPackages = true;
+    };
     fonts.packages = with pkgs; [
       inter
       nerd-fonts.jetbrains-mono
