@@ -155,11 +155,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1777330354,
-        "narHash": "sha256-uXJCuZLgTmBxJzSztUT1KOsxLzigr8M41pVwTpPTgBg=",
+        "lastModified": 1778192781,
+        "narHash": "sha256-2TYJhHSzP8JAAWDlMbJiulqLaCbMGeT0MG4fqgen3Dc=",
         "owner": "luuumine",
         "repo": "luuumine.com",
-        "rev": "11a5293657a59d4d865981026aede910559a8ff9",
+        "rev": "5c065e8eeb693317abc058a2d046af14db870e73",
         "type": "github"
       },
       "original": {
