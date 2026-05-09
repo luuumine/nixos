@@ -19,12 +19,21 @@
 
     nix.enable = true;
 
-    apps.enable = true;
-
     network = {
       ssh.enable = true;
       tailscale.enable = true;
     };
+
+    desktop.enable = true;
+    apps = {
+      enable = true;
+      extraUserApps = [
+        pkgs.brave
+        pkgs.discord-canary
+        pkgs.rofi
+      ];
+    };
+    audio.enable = true;
 
     shell.enable = true;
     starship.enable = true;
