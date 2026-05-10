@@ -70,6 +70,7 @@
         luminova = mkHost "luminova";
         luminadel = mkHost "luminadel";
         luminout = mkHost "luminout";
+        luminode = mkHost "luminode";
       };
 
       packages.${system} = import ./packages {
