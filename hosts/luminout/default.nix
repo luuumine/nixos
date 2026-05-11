@@ -6,7 +6,7 @@
     ./filesystem.nix
   ];
 
-  boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_19;
+  boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_18;
 
   lumine = {
     user.name = "lumine";
@@ -35,7 +35,7 @@
       enable = true;
       extraUserApps = [
         pkgs.brave
-        pkgs.discord-canary
+        pkgs.discord
         pkgs.rofi
       ];
     };

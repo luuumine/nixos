@@ -3,6 +3,7 @@
 {
   boot.supportedFilesystems = [ "zfs" ];
   boot.initrd.supportedFilesystems = [ "zfs" ];
+  boot.zfs.forceImportRoot = false;
 
   networking.hostId = "667f583d";
 
@@ -21,8 +22,8 @@
       device = "/dev/disk/by-uuid/9EF2-ECB2";
       fsType = "vfat";
       options = [
-	"fmask=0022"
-	"dmask=0022"
+        "fmask=0022"
+        "dmask=0022"
       ];
     };
 
@@ -42,4 +43,3 @@
     };
   };
 }
-

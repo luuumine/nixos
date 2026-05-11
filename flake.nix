@@ -13,11 +13,6 @@
       inputs.home-manager.follows = "home-manager";
     };
 
-    headplane = {
-      url = "github:tale/headplane";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     luuumine-website = {
       url = "github:luuumine/luuumine.com";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -34,7 +29,6 @@
       nixpkgs,
       home-manager,
       agenix,
-      headplane,
       ...
     }@inputs:
     let
@@ -57,10 +51,6 @@
               home-manager.extraSpecialArgs = { inherit inputs; };
             }
             agenix.nixosModules.default
-            headplane.nixosModules.headplane
-            {
-              nixpkgs.overlays = [ headplane.overlays.default ];
-            }
           ];
         };
     in

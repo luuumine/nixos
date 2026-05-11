@@ -48,7 +48,7 @@
       ];
       extraUserApps = [
         pkgs.brave
-        pkgs.discord-canary
+        pkgs.discord
         pkgs.libresprite
         pkgs.mangohud
         pkgs.olympus

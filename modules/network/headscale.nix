@@ -38,10 +38,6 @@ in
         file = secretsPath + "/${hostname}/headplane_cookie.age";
         owner = "headscale";
       };
-      headscale_api_key = {
-        file = secretsPath + "/${hostname}/headscale_api_key.age";
-        owner = "headscale";
-      };
     };
 
     services.headscale = {
@@ -72,7 +68,6 @@ in
         headscale = {
           url = "http://127.0.0.1:${toString cfg.port}";
           public_url = "https://${loginServer}";
-          api_key_path = config.age.secrets.headscale_api_key.path;
         };
       };
 

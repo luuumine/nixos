@@ -3,6 +3,7 @@
 {
   boot.supportedFilesystems = [ "zfs" ];
   boot.initrd.supportedFilesystems = [ "zfs" ];
+  boot.zfs.forceImportRoot = false;
 
   networking.hostId = "0bc23f27";
 
