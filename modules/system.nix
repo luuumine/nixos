@@ -7,6 +7,7 @@
 
 let
   cfg = config.lumine.system;
+  types = import ./types { inherit lib; };
 in
 {
   options.lumine.system = {
@@ -48,6 +49,11 @@ in
       default = 5;
       description = "the bootloader menu timeout";
     };
+
+    displays = lib.mkOption {
+      type = lib.types.listOf types.display;
+      default = [ ];
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -59,6 +65,11 @@ in
     ];
 
     boot.kernelPackages = lib.mkDefault pkgs.linuxPackages_latest;
+
+    environment.pathsToLink = [
+      "/share/applications"
+      "/share/xdg-desktop-portal"
+    ];
 
     programs.nix-ld.enable = true;
 

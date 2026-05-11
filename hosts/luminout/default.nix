@@ -15,6 +15,12 @@
       hostname = "luminout";
       gpuBrand = "amd";
       bootloaderTimeout = 5;
+      displays = [
+        {
+          output = "eDP-1";
+          mode = "1920x1080@240";
+        }
+      ];
     };
 
     nix.enable = true;

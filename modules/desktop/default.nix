@@ -7,12 +7,12 @@
 
 let
   cfg = config.lumine.desktop;
-  userName = config.lumine.user.name;
   gpu = config.lumine.system.gpuBrand;
 in
 {
   imports = [
     ./cursor.nix
+    ./hyprland
     ./hyprpaper.nix
     ./hyprshot.nix
     ./quickshell.nix
@@ -37,34 +37,18 @@ in
       }
       {
         lumine.desktop.cursor.enable = lib.mkDefault true;
+        lumine.desktop.hyprland.enable = lib.mkDefault true;
         lumine.desktop.hyprpaper.enable = lib.mkDefault true;
         lumine.desktop.hyprshot.enable = lib.mkDefault true;
         lumine.desktop.quickshell.enable = lib.mkDefault true;
         lumine.desktop.terminal.enable = lib.mkDefault true;
-      }
-      {
-        programs.hyprland.enable = true;
-
-        home-manager.users.${userName} = {
-          home.packages = with pkgs; [
-            wl-clipboard
-          ];
-        };
 
         hardware.graphics = {
           enable = true;
           enable32Bit = true;
         };
 
-        systemd.user.targets.hyprland-session = {
-          description = "Hyprland compositor session";
-          documentation = [ "man:systemd.special(7)" ];
-          bindsTo = [ "graphical-session.target" ];
-          wants = [ "graphical-session-pre.target" ];
-          after = [ "graphical-session-pre.target" ];
-        };
       }
-
       (lib.mkIf (gpu == "amd") {
         services.xserver.videoDrivers = [ "amdgpu" ];
         environment.systemPackages = [
