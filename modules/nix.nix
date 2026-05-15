@@ -20,6 +20,10 @@ in
         "nix-command"
         "flakes"
       ];
+      trusted-users = [
+        "root"
+        "@wheel"
+      ];
       use-xdg-base-directories = true;
       auto-optimise-store = true;
     };
