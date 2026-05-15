@@ -6,8 +6,6 @@
     ./filesystem.nix
   ];
 
-  boot.kernelPackages = pkgs.linuxKernel.packages.linux_6_18;
-
   lumine = {
     user.name = "lumine";
     system = {

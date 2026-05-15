@@ -64,8 +64,6 @@ in
       }
     ];
 
-    boot.kernelPackages = lib.mkDefault pkgs.linuxPackages_latest;
-
     environment.pathsToLink = [
       "/share/applications"
       "/share/xdg-desktop-portal"
