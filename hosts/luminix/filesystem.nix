@@ -1,6 +1,12 @@
 { ... }:
 
 {
+  boot.supportedFilesystems = [ "zfs" ];
+  boot.initrd.supportedFilesystems = [ "zfs" ];
+  boot.zfs.forceImportRoot = false;
+
+  networking.hostId = "fd4d47e3";
+
   boot.initrd.luks.devices."cryptroot" = {
     device = "/dev/disk/by-uuid/f99b46ec-1178-4ed9-a8f7-37b8b1c070bc";
     allowDiscards = true;
@@ -17,72 +23,24 @@
     };
 
     "/" = {
-      device = "/dev/mapper/cryptroot";
-      fsType = "btrfs";
-      options = [
-        "subvol=@root"
-        "compress=zstd"
-        "noatime"
-        "ssd"
-        "space_cache=v2"
-      ];
+      device = "zroot/root";
+      fsType = "zfs";
     };
 
     "/nix" = {
-      device = "/dev/mapper/cryptroot";
-      fsType = "btrfs";
-      options = [
-        "subvol=@nix"
-        "compress=zstd"
-        "noatime"
-        "ssd"
-        "space_cache=v2"
-      ];
+      device = "zroot/nix";
+      fsType = "zfs";
     };
 
     "/home" = {
-      device = "/dev/mapper/cryptroot";
-      fsType = "btrfs";
-      options = [
-        "subvol=@home"
-        "compress=zstd"
-        "noatime"
-        "ssd"
-        "space_cache=v2"
-      ];
-    };
-    "/var/log" = {
-      device = "/dev/mapper/cryptroot";
-      fsType = "btrfs";
-      options = [
-        "subvol=@log"
-        "compress=zstd"
-        "noatime"
-        "ssd"
-        "space_cache=v2"
-      ];
-    };
-
-    "/var/cache" = {
-      device = "/dev/mapper/cryptroot";
-      fsType = "btrfs";
-      options = [
-        "subvol=@cache"
-        "compress=zstd"
-        "noatime"
-        "ssd"
-        "space_cache=v2"
-      ];
+      device = "zroot/home";
+      fsType = "zfs";
     };
 
     "/games" = {
-      device = "/dev/mapper/cryptroot";
-      fsType = "btrfs";
-      options = [
-        "subvol=@games"
-        "noatime"
-        "nodatacow"
-      ];
+      device = "zroot/games";
+      fsType = "zfs";
     };
   };
+
 }
