@@ -13,6 +13,8 @@ i try to keep this structured "enough" so that i understand what's going on.
 hosts
 ├── luminix     [my main desktop]
 ├── luminadel   [my server]
+├── luminode    [my backup server]
+├── luminout    [my laptop]
 └── luminova    [config for vms and such]
 ```
 
