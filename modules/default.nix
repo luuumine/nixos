@@ -10,6 +10,7 @@
 
     ./apps.nix
     ./audio.nix
+    ./backups.nix
     ./bluetooth.nix
     ./desktop
     ./fonts.nix

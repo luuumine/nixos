@@ -46,6 +46,14 @@
       mullvad.enable = true;
     };
 
+    backups = {
+      enable = true;
+      isSender = true;
+      zfsSourceDataset = "ZROOT/backups";
+      localSinkPools = [ "TANK/backups" ];
+      remoteSinks = [ "luminode" ];
+    };
+
     services = {
       jellyfin.enable = true;
       automation.enable = true;

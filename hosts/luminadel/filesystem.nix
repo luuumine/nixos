@@ -56,10 +56,5 @@
       device = "TANK/media";
       fsType = "zfs";
     };
-
-    "/backups" = {
-      device = "TANK/backups";
-      fsType = "zfs";
-    };
   };
 }

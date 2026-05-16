@@ -31,6 +31,12 @@
       tailscale.enable = true;
     };
 
+    backups = {
+      enable = true;
+      isSink = true;
+      zfsSinkDataset = "zroot/backups";
+    };
+
     shell.enable = true;
     starship = {
       enable = true;
