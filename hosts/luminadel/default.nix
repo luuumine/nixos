@@ -58,7 +58,10 @@
       jellyfin.enable = true;
       automation.enable = true;
       immich.enable = true;
-      git.enable = true;
+      git = {
+        enable = true;
+        runners = true;
+      };
     };
 
     websites = {

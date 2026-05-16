@@ -1,13 +1,22 @@
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  secretsPath,
+  ...
+}:
 
 let
   cfg = config.lumine.services.git;
+  hostname = config.lumine.system.hostname;
   caddyCfg = config.lumine.network.caddy;
   backupsCfg = config.lumine.backups;
 in
 {
   options.lumine.services.git = {
     enable = lib.mkEnableOption "local git forge instance";
+    runners = lib.mkEnableOption "local native actions runner";
+
     domain = lib.mkOption {
       type = lib.types.str;
       default = "git.luuumine.com";
@@ -32,6 +41,13 @@ in
   };
 
   config = lib.mkIf cfg.enable {
+
+    age.secrets = lib.mkIf cfg.runners {
+      forgejo-runner-token = {
+        file = secretsPath + "/${hostname}/forgejo-runner-token.age";
+      };
+    };
+
     services.forgejo = {
       enable = true;
 
@@ -57,6 +73,49 @@ in
         service = {
           DISABLE_REGISTRATION = true;
         };
+        actions = {
+          ENABLED = true;
+          DEFAULT_ACTIONS_URL = "github";
+        };
+      };
+    };
+
+    services.gitea-actions-runner = lib.mkIf cfg.runners {
+      package = pkgs.forgejo-runner;
+      instances = {
+        "${hostname}" = {
+          enable = true;
+          name = hostname;
+          url = "http://127.0.0.1:${toString cfg.port}";
+          tokenFile = config.age.secrets.forgejo-runner-token.path;
+          labels = [ "native:host" ];
+          hostPackages = [
+            pkgs.nix
+            pkgs.nodejs
+            pkgs.git
+            pkgs.bash
+            pkgs.openssh
+            pkgs.fd
+            pkgs.jq
+            pkgs.ripgrep
+          ];
+          settings = {
+            log.level = "info";
+            runner = {
+              file = ".runner";
+              capacity = 5;
+              timeout = "1h";
+              insecure = false;
+              fetch_timeout = "5s";
+              fetch_interval = "2s";
+            };
+          };
+        };
+      };
+    };
+    systemd.services."gitea-runner-${hostname}" = {
+      serviceConfig = {
+        Environment = "HOME=/var/lib/gitea-runner/${hostname}";
       };
     };
 

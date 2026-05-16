@@ -21,4 +21,6 @@ in
 
   "luminadel/headscale_api_key.age".publicKeys = users ++ [ luminadel ];
   "luminadel/headplane_cookie.age".publicKeys = users ++ [ luminadel ];
+
+  "luminadel/forgejo-runner-token.age".publicKeys = users ++ [ luminadel ];
 }
