@@ -35,6 +35,17 @@ in
             };
           };
 
+          "git.luuumine.com" = {
+            hostname = "luminadel";
+            user = "forgejo";
+            port = 3146;
+            identitiesOnly = true;
+            identityFile = "~/.ssh/id_ed25519";
+            extraOptions = {
+              PubkeyAuthentication = "yes";
+            };
+          };
+
           "github.com" = {
             hostname = "github.com";
             user = "git";
