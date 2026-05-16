@@ -2,34 +2,27 @@ name: nixos ci
 
 on:
   push:
+    branches:
+      - main
   workflow_dispatch:
 
 jobs:
   flake-check:
     name: evaluate flake
-    runs-on: ubuntu-latest
+    runs-on: native
     steps:
       - name: checkout repository
         uses: actions/checkout@v5
       - name: setup ssh agent
-        uses: webfactory/ssh-agent@v0.10.0
+        uses: ./.forgejo/actions/setup-ssh
         with:
           ssh-private-key: ${{ secrets.CI_SSH_KEY }}
-      - name: install nix
-        uses: cachix/install-nix-action@v31
-        with:
-          github_access_token: ${{ secrets.GH_TOKEN_NIX }}
-      - name: setup cachix
-        uses: cachix/cachix-action@v17
-        with:
-          name: luuumine-nixos
-          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
       - name: run nix flake check
         run: nix flake check
 
   get-hosts:
     name: detect flake hosts
-    runs-on: ubuntu-latest
+    runs-on: native
     needs: flake-check
     outputs:
       hosts: ${{ steps.set-hosts.outputs.hosts }}
@@ -37,18 +30,9 @@ jobs:
       - name: checkout repository
         uses: actions/checkout@v5
       - name: setup ssh agent
-        uses: webfactory/ssh-agent@v0.10.0
+        uses: ./.forgejo/actions/setup-ssh
         with:
           ssh-private-key: ${{ secrets.CI_SSH_KEY }}
-      - name: install nix
-        uses: cachix/install-nix-action@v31
-        with:
-          github_access_token: ${{ secrets.GH_TOKEN_NIX }}
-      - name: setup cachix
-        uses: cachix/cachix-action@v17
-        with:
-          name: luuumine-nixos
-          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
       - name: detect flake hosts
         id: set-hosts
         run: |
@@ -60,7 +44,7 @@ jobs:
 
   build-hosts:
     name: build nixos (${{ matrix.host }})
-    runs-on: ubuntu-latest
+    runs-on: native
     needs: get-hosts
     strategy:
       fail-fast: false
@@ -70,17 +54,8 @@ jobs:
       - name: checkout repository
         uses: actions/checkout@v5
       - name: setup ssh agent
-        uses: webfactory/ssh-agent@v0.10.0
+        uses: ./.forgejo/actions/setup-ssh
         with:
           ssh-private-key: ${{ secrets.CI_SSH_KEY }}
-      - name: install nix
-        uses: cachix/install-nix-action@v31
-        with:
-          github_access_token: ${{ secrets.GH_TOKEN_NIX }}
-      - name: setup cachix
-        uses: cachix/cachix-action@v17
-        with:
-          name: luuumine-nixos
-          authToken: ${{ secrets.CACHIX_AUTH_TOKEN }}
       - name: build ${{ matrix.host }}
         run: nix build .#nixosConfigurations.${{ matrix.host }}.config.system.build.toplevel
