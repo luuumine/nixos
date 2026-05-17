@@ -13,10 +13,6 @@ jobs:
     steps:
       - name: checkout repository
         uses: actions/checkout@v5
-      - name: setup ssh agent
-        uses: ./.forgejo/actions/setup-ssh
-        with:
-          ssh-private-key: ${{ secrets.CI_SSH_KEY }}
       - name: run nix flake check
         run: nix flake check
 
@@ -29,10 +25,6 @@ jobs:
     steps:
       - name: checkout repository
         uses: actions/checkout@v5
-      - name: setup ssh agent
-        uses: ./.forgejo/actions/setup-ssh
-        with:
-          ssh-private-key: ${{ secrets.CI_SSH_KEY }}
       - name: detect flake hosts
         id: set-hosts
         run: |
@@ -53,9 +45,5 @@ jobs:
     steps:
       - name: checkout repository
         uses: actions/checkout@v5
-      - name: setup ssh agent
-        uses: ./.forgejo/actions/setup-ssh
-        with:
-          ssh-private-key: ${{ secrets.CI_SSH_KEY }}
       - name: build ${{ matrix.host }}
         run: nix build .#nixosConfigurations.${{ matrix.host }}.config.system.build.toplevel

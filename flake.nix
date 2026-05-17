@@ -18,7 +18,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     delhommais-website = {
-      url = "git+ssh://git@github.com/luuumine/delhommais.com.git";
+      url = "github:luuumine/delhommais.com";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
