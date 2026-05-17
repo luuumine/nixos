@@ -11,6 +11,11 @@ let
   hostname = config.lumine.system.hostname;
   caddyCfg = config.lumine.network.caddy;
   backupsCfg = config.lumine.backups;
+
+  instance_key = {
+    folder = "forgejo-ssh";
+    name = "id_ed25519";
+  };
 in
 {
   options.lumine.services.git = {
@@ -46,6 +51,15 @@ in
       forgejo-runner-token = {
         file = secretsPath + "/${hostname}/forgejo-runner-token.age";
       };
+      forgejo-signing-key = {
+        file = secretsPath + "/${hostname}/forgejo-signing-key.age";
+        path = "/etc/${instance_key.folder}/${instance_key.name}";
+        owner = "forgejo";
+      };
+    };
+    environment.etc."${instance_key.folder}/${instance_key.name}.pub" = {
+      text = "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIFpIOQUI+CJ527aWqxE5kxV58eL+sbgv1GWBKWbaTv77 forgejo@luuumine.com";
+      mode = "0444";
     };
 
     services.forgejo = {
@@ -76,6 +90,16 @@ in
         actions = {
           ENABLED = true;
           DEFAULT_ACTIONS_URL = "github";
+        };
+        "repository.signing" = {
+          FORMAT = "ssh";
+          SIGNING_KEY = "/etc/${instance_key.folder}/${instance_key.name}.pub";
+          SIGNING_NAME = "Forgejo";
+          SIGNING_EMAIL = "forgejo@luuumine.com";
+          INITIAL_COMMIT = "always";
+          WIKI = "always";
+          CRUD_ACTIONS = "always";
+          MERGES = "always";
         };
       };
     };
