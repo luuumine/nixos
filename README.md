@@ -21,7 +21,7 @@ hosts
 ## thanks
 
 - [Vimjoyer](https://www.youtube.com/@vimjoyer), for introducing me to nix
-- [NotAShelf/nyx](https://github.com/NotAShelf/nyx), for being such a well structured flake
+- [raf / NotAShelf](https://notashelf.dev), for being very good at nix, building cool projects, and having such a well structured [flake](https://github.com/notashelf/nyx)
 - [poz](https://poz.pet/), for being cool and having a nice [config](https://nix.poz.pet/)
 - [orangc](https://orangc.net), for helping me with tailscale
 
