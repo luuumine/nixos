@@ -60,16 +60,23 @@ in
       description = "TCP port used for zrepl";
     };
 
-    intervalLocal = lib.mkOption {
-      type = lib.types.str;
-      default = "1h";
-      description = "how often to snapshot and push to local pools (e.g.: 1h, 30m)";
-    };
-
-    intervalRemote = lib.mkOption {
-      type = lib.types.str;
-      default = "6h";
-      description = "how often to snapshot and push to remote nodes (e.g.: 1h, 30m)";
+    interval = lib.mkOption {
+      default = { };
+      description = "snapshot intervals for local and remote push jobs";
+      type = lib.types.submodule {
+        options = {
+          local = lib.mkOption {
+            type = lib.types.str;
+            default = "1h";
+            description = "how often to snapshot and push to local pools (e.g.: 1h, 30m)";
+          };
+          remote = lib.mkOption {
+            type = lib.types.str;
+            default = "6h";
+            description = "how often to snapshot and push to remote nodes (e.g.: 1h, 30m)";
+          };
+        };
+      };
     };
   };
 
@@ -90,7 +97,7 @@ in
         };
         snapshotting = {
           type = "periodic";
-          interval = cfg.intervalLocal;
+          interval = cfg.interval.local;
           prefix = "zrepl_local_";
         };
         pruning = {
@@ -138,7 +145,7 @@ in
         };
         snapshotting = {
           type = "periodic";
-          interval = cfg.intervalRemote;
+          interval = cfg.interval.remote;
           prefix = "zrepl_remote_";
         };
         pruning = {
