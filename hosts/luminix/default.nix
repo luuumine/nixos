@@ -61,13 +61,13 @@
 
     audio.enable = true;
     media.enable = true;
+    bluetooth.enable = true;
 
     fonts.enable = true;
     shell.enable = true;
     starship.enable = true;
     git.enable = true;
     nvim.enable = true;
-    bluetooth.enable = false;
   };
 
   hardware.wooting.enable = true;
