@@ -56,15 +56,15 @@
       "locked": {
         "lastModified": 1777119561,
         "narHash": "sha256-FT2h+yghB3l3sxLL763crTfT20ELg5VPP49XkM0JFo8=",
-        "ref": "refs/heads/main",
+        "owner": "luuumine",
+        "repo": "delhommais.com",
         "rev": "1e2a81054d3e703a58a21dd36534e994f5817137",
-        "revCount": 25,
-        "type": "git",
-        "url": "ssh://git@github.com/luuumine/delhommais.com.git"
+        "type": "github"
       },
       "original": {
-        "type": "git",
-        "url": "ssh://git@github.com/luuumine/delhommais.com.git"
+        "owner": "luuumine",
+        "repo": "delhommais.com",
+        "type": "github"
       }
     },
     "home-manager": {
