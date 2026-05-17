@@ -52,6 +52,10 @@
       zfsSourceDataset = "ZROOT/backups";
       localSinkPools = [ "TANK/backups" ];
       remoteSinks = [ "luminode" ];
+      interval = {
+        local = "1h";
+        remote = "1h";
+      };
     };
 
     services = {
