@@ -17,10 +17,6 @@
       url = "github:luuumine/luuumine.com";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    delhommais-website = {
-      url = "github:luuumine/delhommais.com";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs =

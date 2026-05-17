@@ -1,0 +1,6 @@
+.direnv/
+
+# node / astro
+dist/
+.astro/
+node_modules/

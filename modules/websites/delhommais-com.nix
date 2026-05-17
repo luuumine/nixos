@@ -10,7 +10,7 @@ let
   caddyCfg = config.lumine.network.caddy;
 
   system = pkgs.stdenv.hostPlatform.system;
-  frontend = inputs.delhommais-website.packages.${system}.default;
+  frontend = inputs.self.packages.${system}.delhommais-com;
 in
 {
   options.lumine.websites.delhommais-com = {

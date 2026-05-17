@@ -47,26 +47,6 @@
         "type": "github"
       }
     },
-    "delhommais-website": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1777119561,
-        "narHash": "sha256-FT2h+yghB3l3sxLL763crTfT20ELg5VPP49XkM0JFo8=",
-        "owner": "luuumine",
-        "repo": "delhommais.com",
-        "rev": "1e2a81054d3e703a58a21dd36534e994f5817137",
-        "type": "github"
-      },
-      "original": {
-        "owner": "luuumine",
-        "repo": "delhommais.com",
-        "type": "github"
-      }
-    },
     "home-manager": {
       "inputs": {
         "nixpkgs": [
@@ -126,7 +106,6 @@
     "root": {
       "inputs": {
         "agenix": "agenix",
-        "delhommais-website": "delhommais-website",
         "home-manager": "home-manager",
         "luuumine-website": "luuumine-website",
         "nixpkgs": "nixpkgs"
