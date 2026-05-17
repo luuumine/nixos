@@ -70,7 +70,7 @@ in
 
       dump = {
         enable = backupsCfg.enable;
-        backupDir = "${backupsCfg.zfsSourceDataset}/forgejo";
+        backupDir = "/backups/forgejo";
         type = "tar.xz";
       };
 
