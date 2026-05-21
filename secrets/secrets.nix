@@ -24,4 +24,6 @@ in
 
   "luminadel/forgejo-runner-token.age".publicKeys = users ++ [ luminadel ];
   "luminadel/forgejo-signing-key.age".publicKeys = users ++ [ luminadel ];
+
+  "luminadel/wealthfolio-key.age".publicKeys = users ++ [ luminadel ];
 }
