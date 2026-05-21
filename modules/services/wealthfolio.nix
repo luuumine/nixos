@@ -12,16 +12,12 @@ let
   hostname = config.lumine.system.hostname;
   caddyCfg = config.lumine.network.caddy;
   system = pkgs.stdenv.hostPlatform.system;
+
+  vpnDomain = "vpn.luuumine.com";
 in
 {
   options.lumine.services.wealthfolio = {
     enable = lib.mkEnableOption "local wealthfolio server";
-
-    domain = lib.mkOption {
-      type = lib.types.str;
-      default = "wealth.luuumine.com";
-      description = "public domain for wealthfolio";
-    };
 
     port = lib.mkOption {
       type = lib.types.port;
@@ -44,13 +40,17 @@ in
       secretKeyFile = config.age.secrets.wealthfolio-key.path;
 
       authRequired = false;
-      corsAllowOrigins = "https://${cfg.domain}";
+
+      corsAllowOrigins = "http://wealthfolio, http://wealthfolio.${vpnDomain}";
     };
 
-    services.caddy = lib.mkIf caddyCfg.enable {
-      virtualHosts."https://${cfg.domain}".extraConfig = ''
-        reverse_proxy 127.0.0.1:${toString cfg.port}
-      '';
+    services.caddy.virtualHosts = lib.mkIf caddyCfg.enable {
+      "http://wealthfolio.${vpnDomain}, http://wealthfolio" = {
+        extraConfig = ''
+          bind tailscale/wealthfolio
+          reverse_proxy 127.0.0.1:${toString cfg.port}
+        '';
+      };
     };
   };
 }
