@@ -66,6 +66,7 @@
         enable = true;
         runners = true;
       };
+      wealthfolio.enable = true;
     };
 
     websites = {
