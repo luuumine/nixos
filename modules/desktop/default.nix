@@ -45,6 +45,8 @@ in
         lumine.desktop.quickshell.enable = lib.mkDefault true;
         lumine.desktop.terminal.enable = lib.mkDefault true;
 
+        environment.systemPackages = [ pkgs.xdg-utils ];
+
         hardware.graphics = {
           enable = true;
           enable32Bit = true;
