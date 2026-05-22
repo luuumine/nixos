@@ -15,6 +15,7 @@ in
     ./hyprland
     ./hyprpaper.nix
     ./hyprshot.nix
+    ./librewolf.nix
     ./quickshell.nix
     ./terminal.nix
   ];
@@ -40,6 +41,7 @@ in
         lumine.desktop.hyprland.enable = lib.mkDefault true;
         lumine.desktop.hyprpaper.enable = lib.mkDefault true;
         lumine.desktop.hyprshot.enable = lib.mkDefault true;
+        lumine.desktop.librewolf.enable = lib.mkDefault true;
         lumine.desktop.quickshell.enable = lib.mkDefault true;
         lumine.desktop.terminal.enable = lib.mkDefault true;
 
