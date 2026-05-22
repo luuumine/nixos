@@ -47,7 +47,6 @@
         pkgs.age
       ];
       extraUserApps = [
-        pkgs.brave
         pkgs.discord
         pkgs.libresprite
         pkgs.mangohud
