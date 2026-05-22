@@ -41,7 +41,7 @@ jobs:
           echo "packages=$PACKAGES" >> "$FORGEJO_OUTPUT"
 
   build-hosts:
-    name: build nixos (${{ matrix.host }})
+    name: build nixos
     runs-on: native
     needs: get-targets
     strategy:
@@ -55,7 +55,7 @@ jobs:
         run: nix build .#nixosConfigurations.${{ matrix.host }}.config.system.build.toplevel
 
   build-packages:
-    name: build package (${{ matrix.package }})
+    name: build package
     runs-on: native
     needs: get-targets
     strategy:
