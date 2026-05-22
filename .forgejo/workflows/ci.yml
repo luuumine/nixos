@@ -19,12 +19,13 @@ jobs:
       - name: run nix flake check
         run: nix flake check
 
-  get-hosts:
-    name: detect flake hosts
+  get-targets:
+    name: detect flake targets
     runs-on: native
     needs: flake-check
     outputs:
       hosts: ${{ steps.set-hosts.outputs.hosts }}
+      packages: ${{ steps.set-packages.outputs.packages }}
     steps:
       - name: checkout repository
         uses: actions/checkout@v5
@@ -33,20 +34,39 @@ jobs:
         run: |
           HOSTS=$(nix eval .#nixosConfigurations --apply builtins.attrNames --json)
           echo "hosts=$HOSTS" >> "$FORGEJO_OUTPUT"
+      - name: detect flake packages
+        id: set-packages
+        run: |
+          PACKAGES=$(nix eval .#packages.x86_64-linux --apply builtins.attrNames --json)
+          echo "packages=$PACKAGES" >> "$FORGEJO_OUTPUT"
 
   build-hosts:
     name: build nixos (${{ matrix.host }})
     runs-on: native
-    needs: get-hosts
+    needs: get-targets
     strategy:
       fail-fast: false
       matrix:
-        host: ${{ fromJson(needs.get-hosts.outputs.hosts) }}
+        host: ${{ fromJson(needs.get-targets.outputs.hosts) }}
     steps:
       - name: checkout repository
         uses: actions/checkout@v5
       - name: build ${{ matrix.host }}
         run: nix build .#nixosConfigurations.${{ matrix.host }}.config.system.build.toplevel
+
+  build-packages:
+    name: build package (${{ matrix.package }})
+    runs-on: native
+    needs: get-targets
+    strategy:
+      fail-fast: false
+      matrix:
+        package: ${{ fromJson(needs.get-targets.outputs.packages) }}
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v5
+      - name: build ${{ matrix.package }}
+        run: nix build .#packages.x86_64-linux.${{ matrix.package }}
 
   ci-succes:
     name: all checks passed
@@ -54,6 +74,7 @@ jobs:
     needs:
       - flake-check
       - build-hosts
+      - build-packages
     steps:
       - name: verify success
         run: echo "everything successfully built!"
