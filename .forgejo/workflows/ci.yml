@@ -10,19 +10,9 @@ on:
   workflow_dispatch:
 
 jobs:
-  flake-check:
-    name: evaluate flake
-    runs-on: native
-    steps:
-      - name: checkout repository
-        uses: actions/checkout@v5
-      - name: run nix flake check
-        run: nix flake check
-
   get-targets:
     name: detect flake targets
     runs-on: native
-    needs: flake-check
     outputs:
       hosts: ${{ steps.set-hosts.outputs.hosts }}
       packages: ${{ steps.set-packages.outputs.packages }}
@@ -72,7 +62,6 @@ jobs:
     name: all checks passed
     runs-on: native
     needs:
-      - flake-check
       - build-hosts
       - build-packages
     steps:
