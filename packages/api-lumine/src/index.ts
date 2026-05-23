@@ -6,8 +6,8 @@ import { handle as musicHandler } from "./music";
 
 const app = new Hono();
 
-app.all("/api/status", async (c) => await statusHandler(c.req.raw));
-app.all("/api/music", async (c) => await musicHandler(c.req.raw));
+app.all("/status", async (c) => await statusHandler(c.req.raw));
+app.all("/music", async (c) => await musicHandler(c.req.raw));
 
 app.notFound((c) => {
   console.warn(

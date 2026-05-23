@@ -17,7 +17,7 @@ in
 {
   "luminadel/caddy.age".publicKeys = users ++ [ luminadel ];
   "luminadel/mullvad.age".publicKeys = users ++ [ luminadel ];
-  "luminadel/luuumine-com-env.age".publicKeys = users ++ [ luminadel ];
+  "luminadel/api-lumine.age".publicKeys = users ++ [ luminadel ];
 
   "luminadel/headscale_api_key.age".publicKeys = users ++ [ luminadel ];
   "luminadel/headplane_cookie.age".publicKeys = users ++ [ luminadel ];

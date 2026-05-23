@@ -1,6 +1,0 @@
-# env variables
-.env
-.env.*
-
-# encrypted env
-!.env.age 

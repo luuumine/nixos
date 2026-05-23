@@ -1,0 +1,4 @@
+.direnv/
+
+# node
+node_modules/

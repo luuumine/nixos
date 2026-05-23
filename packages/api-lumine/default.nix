@@ -4,16 +4,17 @@
   nodejs_22,
   pnpmConfigHook,
   pnpm,
-  astro-language-server,
+  tsx,
   typescript,
   typescript-language-server,
   vscode-langservers-extracted,
 }:
 let
-  pname = "luuumine-frontend";
-  version = "3.6.3";
-  src = ./frontend;
+  pname = "api-lumine";
+  version = "0.1";
+  src = ./.;
 in
+
 stdenv.mkDerivation {
   inherit pname version src;
 
@@ -21,7 +22,6 @@ stdenv.mkDerivation {
     nodejs_22
     pnpmConfigHook
     pnpm
-    astro-language-server
     typescript
     typescript-language-server
     vscode-langservers-extracted
@@ -30,17 +30,24 @@ stdenv.mkDerivation {
   pnpmDeps = fetchPnpmDeps {
     inherit pname version src;
     fetcherVersion = 3;
-    hash = "sha256-I+KJgI5ab+iitxP418+HV0Ki07AeE+TBNzpf/szJ/N8=";
+    hash = "sha256-dMzr5LUT8c85kgncKSTmNU9ZHt3CG0ngEZtYIjv9AHI=";
   };
 
-  buildPhase = ''
-    export PUBLIC_SITE_VERSION="${version}"
-    pnpm build
-  '';
-  installPhase = "cp -r dist $out";
+  installPhase = ''
+    mkdir -p $out
+    cp -r . $out/
+    mkdir -p $out/bin
 
-  shellHook = ''
-    export PATH="$PWD/node_modules/.bin:$PATH"
-    echo "astro development environment active"
+    cat <<EOF > $out/bin/luuumine-api
+    #!/bin/sh
+    cd $out
+    exec ${tsx}/bin/tsx src/index.ts "\$@"
+    EOF
+
+    chmod +x $out/bin/luuumine-api
   '';
+
+  meta = {
+    mainProgram = "luuumine-api";
+  };
 }

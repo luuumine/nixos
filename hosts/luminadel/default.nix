@@ -59,6 +59,11 @@
     };
 
     services = {
+      api.enable = true;
+
+      delhommais-com.enable = true;
+      luuumine-com.enable = true;
+
       jellyfin.enable = true;
       automation.enable = true;
       immich.enable = true;
@@ -67,11 +72,6 @@
         runners = true;
       };
       wealthfolio.enable = true;
-    };
-
-    websites = {
-      luuumine-com.enable = true;
-      delhommais-com.enable = true;
     };
 
     shell.enable = true;

@@ -1,6 +1,6 @@
-node_modules
-
 .direnv/
 
-# nix build artifacts
-result
+# node / astro
+dist/
+.astro/
+node_modules/

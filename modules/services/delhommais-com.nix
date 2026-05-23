@@ -6,14 +6,14 @@
   ...
 }:
 let
-  cfg = config.lumine.websites.delhommais-com;
+  cfg = config.lumine.services.delhommais-com;
   caddyCfg = config.lumine.network.caddy;
 
   system = pkgs.stdenv.hostPlatform.system;
   frontend = inputs.self.packages.${system}.delhommais-com;
 in
 {
-  options.lumine.websites.delhommais-com = {
+  options.lumine.services.delhommais-com = {
     enable = lib.mkEnableOption "delhommais.com website hosting";
   };
 
