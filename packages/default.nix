@@ -1,7 +1,7 @@
 { pkgs }:
 
 {
-  quickshell-lumine = pkgs.callPackage ./quickshell { };
+  quickshell-lumine = pkgs.callPackage ./quickshell-lumine { };
   delhommais-com = pkgs.callPackage ./delhommais-com { };
   wealthfolio-server = pkgs.callPackage ./wealthfolio { };
 
