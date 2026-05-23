@@ -1,0 +1,40 @@
+---
+import NowPlaying from "@/components/NowPlaying.astro";
+
+import "@/styles/components/footer.css";
+
+const version = import.meta.env.PUBLIC_SITE_VERSION;
+const displayVersion = version ? `v${version}` : "dev";
+
+const username = "luuumine";
+const logo = "/nixos-rainbow.svg";
+---
+
+<footer class="site-footer">
+  <NowPlaying />
+
+  <div class="nix-webring">
+    <a href={`https://nixwebr.ing/prev/${username}`}>prev</a>
+    <a href="https://nixwebr.ing" class="nix-home">
+      <img src={logo} alt="Nix Webring" width={48} height={48} />
+    </a>
+    <a href={`https://nixwebr.ing/next/${username}`}>next</a>
+  </div>
+
+  <div class="badges">
+    <a href="https://www.kernel.org/" target="_blank" rel="noopener">
+      <img src="/badges/linux.gif" alt="Linux badge" width={88} height={31} />
+    </a>
+    <a href="https://neovim.io" target="_blank" rel="noopener">
+      <img src="/badges/neovim.gif" alt="Neovim badge" width={88} height={31} />
+    </a>
+    <a href="https://nixos.org" target="_blank" rel="noopener">
+      <img src="/badges/nixos.gif" alt="NixOS badge" width={88} height={31} />
+    </a>
+  </div>
+  <p class="credits">
+    <span class="copyright">(c) 2025-{new Date().getFullYear()} lumine</span>
+    <span class="sep">·</span>
+    <span class="version">{displayVersion}</span>
+  </p>
+</footer>

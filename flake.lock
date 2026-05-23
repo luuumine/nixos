@@ -67,26 +67,6 @@
         "type": "github"
       }
     },
-    "luuumine-website": {
-      "inputs": {
-        "nixpkgs": [
-          "nixpkgs"
-        ]
-      },
-      "locked": {
-        "lastModified": 1778195469,
-        "narHash": "sha256-fxIQaLhlGv19qEUhgEKSdtPqMtj65F4avkzuroof01s=",
-        "owner": "luuumine",
-        "repo": "luuumine.com",
-        "rev": "a6a3d2d7402da5fd4049e800ab2e2328dee97e5c",
-        "type": "github"
-      },
-      "original": {
-        "owner": "luuumine",
-        "repo": "luuumine.com",
-        "type": "github"
-      }
-    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1778443072,
@@ -107,7 +87,6 @@
       "inputs": {
         "agenix": "agenix",
         "home-manager": "home-manager",
-        "luuumine-website": "luuumine-website",
         "nixpkgs": "nixpkgs"
       }
     },

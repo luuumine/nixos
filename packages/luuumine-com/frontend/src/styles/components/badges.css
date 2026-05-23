@@ -1,0 +1,17 @@
+.badges-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.badges-grid a {
+  display: block;
+}
+
+.badges-grid img {
+  display: block;
+  width: 88px;
+  height: 31px;
+  image-rendering: crisp-edges;
+}

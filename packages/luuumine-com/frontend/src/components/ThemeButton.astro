@@ -1,0 +1,27 @@
+---
+import { Icon } from "astro-icon/components";
+
+import "@/styles/components/themeButton.css";
+---
+
+<button id="theme-toggle" class="theme-btn">
+  <Icon name="lucide:sun" class="theme-icon icon-sun" />
+  <Icon name="lucide:moon" class="theme-icon icon-moon" />
+</button>
+
+<script>
+  function setupThemeToggle() {
+    const btn = document.getElementById("theme-toggle");
+
+    btn?.addEventListener("click", () => {
+      const html = document.documentElement;
+      const currentTheme = html.getAttribute("data-theme");
+      const newTheme = currentTheme === "dark" ? "light" : "dark";
+
+      html.setAttribute("data-theme", newTheme);
+      localStorage.setItem("theme", newTheme);
+    });
+  }
+
+  document.addEventListener("astro:page-load", setupThemeToggle);
+</script>

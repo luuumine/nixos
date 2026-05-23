@@ -1,0 +1,29 @@
+.theme-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  height: 100%;
+  margin: 0 0.5rem;
+}
+
+.theme-icon {
+  font-size: 1.25rem;
+}
+
+.icon-sun {
+  color: gold;
+}
+
+.icon-moon {
+  color: cornflowerblue;
+}
+
+:root[data-theme="light"] .icon-sun {
+  display: none;
+}
+
+:root[data-theme="dark"] .icon-moon {
+  display: none;
+}

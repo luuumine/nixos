@@ -1,0 +1,36 @@
+---
+import "@/styles/components/badges.css";
+
+type Badge = { href: string; src: string; alt: string };
+
+const badges: Badge[] = [
+  {
+    href: "https://www.kernel.org/",
+    src: "/badges/linux.gif",
+    alt: "Linux badge",
+  },
+  { href: "https://neovim.io", src: "/badges/neovim.gif", alt: "Neovim badge" },
+  { href: "https://nixos.org", src: "/badges/nixos.gif", alt: "NixOS badge" },
+  { href: "https://astro.build", src: "/badges/astro.gif", alt: "Astro badge" },
+  {
+    href: "https://en.wikipedia.org/wiki/Human",
+    src: "/badges/human.gif",
+    alt: "Made By A Human badge",
+  },
+  {
+    href: "https://developer.mozilla.org/en-US/docs/Web/CSS",
+    src: "/badges/css-is-difficult.gif",
+    alt: "CSS is Difficult badge",
+  },
+];
+---
+
+<div class="badges-grid">
+  {
+    badges.map((badge) => (
+      <a href={badge.href} target="_blank" rel="noopener" title={badge.alt}>
+        <img src={badge.src} alt={badge.alt} width={88} height={31} />
+      </a>
+    ))
+  }
+</div>

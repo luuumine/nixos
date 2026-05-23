@@ -1,0 +1,28 @@
+---
+import Base from "@/layouts/Base.astro";
+
+import "@/styles/me.css";
+
+const pageTitle = "me";
+---
+
+<Base title={pageTitle}>
+  <h1>{pageTitle}</h1>
+  <p>this section is about me, my tools, and the things i use daily.</p>
+
+  <section>
+    <h2 class="category-title">explore</h2>
+    <ul class="pages">
+      <li>
+        <a class="page-link" href="/me/setup">setup</a>
+        <span class="page-note">
+          my setup, with hardware specs and explanation
+        </span>
+      </li>
+      <li>
+        <a class="page-link" href="/me/likes">likes</a>
+        <span class="page-note">some things i like</span>
+      </li>
+    </ul>
+  </section>
+</Base>

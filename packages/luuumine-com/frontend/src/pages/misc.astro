@@ -1,0 +1,34 @@
+---
+import Base from "@/layouts/Base.astro";
+
+import SocialRow from "@/components/SocialRow.astro";
+import Badges from "@/components/Badges.astro";
+
+import "@/styles/misc.css";
+
+const pageTitle = "misc";
+---
+
+<Base title={pageTitle}>
+  <h1>{pageTitle}</h1>
+  here are things that didn't fit on other pages.
+  <section>
+    <h2 class="category-title">socials</h2>
+    <SocialRow />
+  </section>
+  <section>
+    <h2 class="category-title">more</h2>
+    <ul class="pages">
+      <li>
+        <a class="page-link" href="/misc/encryption">encryption</a>
+        <span class="page-note">
+          why privacy matters, my public keys, and how to encrypt files to me.
+        </span>
+      </li>
+    </ul>
+  </section>
+  <section>
+    <h2 class="category-title">badges</h2>
+    <Badges />
+  </section>
+</Base>

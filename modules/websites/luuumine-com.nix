@@ -12,11 +12,10 @@ let
   caddyCfg = config.lumine.network.caddy;
 
   system = pkgs.stdenv.hostPlatform.system;
-  frontend = inputs.luuumine-website.packages.${system}.frontend;
+  frontend = inputs.self.packages.${system}.luuumine-com-frontend;
+  backend = inputs.self.packages.${system}.luuumine-com-backend;
 in
 {
-  imports = [ inputs.luuumine-website.nixosModules.default ];
-
   options.lumine.websites.luuumine-com = {
     enable = lib.mkEnableOption "luuumine.com website hosting";
     backendPort = lib.mkOption {
@@ -38,10 +37,17 @@ in
       file = secretsPath + "/${hostname}/luuumine-com-env.age";
     };
 
-    services.luuumine-backend = {
-      enable = true;
-      port = cfg.backendPort;
-      envFile = config.age.secrets.luuumine-com-env.path;
+    systemd.services.luuumine-com-backend = {
+      description = "luuumine.com api";
+      after = [ "network.target" ];
+      wantedBy = [ "multi-user.target" ];
+      serviceConfig = {
+        DynamicUser = true;
+        Environment = "PORT=${toString cfg.backendPort}";
+        EnvironmentFile = config.age.secrets.luuumine-com-env.path;
+        ExecStart = lib.getExe backend;
+        Restart = "always";
+      };
     };
 
     services.caddy.virtualHosts."luuumine.com, www.luuumine.com".extraConfig = ''

@@ -1,0 +1,118 @@
+/* font */
+@font-face {
+  font-family: "Inter Variable";
+  src:
+    url("/fonts/InterVariable.tiny.woff2") format("woff2-variations"),
+    url("/fonts/InterVariable.tiny.woff2") format("woff2");
+  font-weight: 100 900;
+  font-display: swap;
+  font-style: normal;
+}
+
+/* theme */
+:root {
+  --font-main: "Inter Variable", sans-serif;
+  --line: #e8e2d9;
+}
+
+:root[data-theme="light"] {
+  --bg: ghostwhite;
+  --fg: #4a4a4a;
+  --muted: #6a6a6a;
+  --bg-highlight: lavenderblush;
+
+  --primary: mediumvioletred;
+  --secondary: purple;
+}
+
+:root[data-theme="dark"] {
+  --bg: #121212;
+  --fg: #e0e0e0;
+  --muted: #888888;
+  --bg-highlight: #242424;
+
+  --primary: hotpink;
+  --secondary: mediumvioletred;
+}
+
+/* reset & base */
+html {
+  box-sizing: border-box;
+}
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-main);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+/* centered box */
+.page {
+  width: 100%;
+  max-width: 648px;
+  margin: 2rem auto;
+  min-height: 100vh;
+  padding: 18px;
+  background: var(--bg);
+}
+
+/* main content */
+main {
+  display: block;
+  margin: 0 0;
+}
+
+/* headings */
+h1 {
+  font-size: 1.75rem;
+  line-height: 2rem;
+  font-weight: 700;
+}
+
+h2 {
+  font-size: 1.25rem;
+  line-height: 1.5rem;
+  margin: 1.25rem 0 0.5rem;
+  font-weight: 600;
+}
+
+h3 {
+  font-size: 1.1rem;
+  line-height: 1.2rem;
+  font-weight: 600;
+}
+
+p {
+  margin: 0 0 1rem;
+  color: var(--fg);
+}
+
+strong {
+  font-weight: 500;
+  color: var(--primary);
+}
+
+/* lists */
+ul,
+ol {
+  list-style: none;
+  margin: 0 0 1rem;
+  padding-left: 0;
+}
+
+/* links */
+a {
+  color: var(--primary);
+  text-decoration: none;
+}
+a:hover {
+  color: var(--secondary);
+}

@@ -1,0 +1,106 @@
+---
+import Base from "@/layouts/Base.astro";
+
+import { machines } from "@/data/setup.ts";
+
+import "@/styles/me/setup.css";
+
+const pageTitle = "setup";
+
+const formatStorage = (gb: number) =>
+  gb >= 1000 ? `${(gb / 1000).toFixed(0)}TB` : `${gb}GB`;
+---
+
+<Base title={pageTitle}>
+  <h1>{pageTitle}</h1>
+  <p>
+    this is where i keep track of my hardware. most of my workflow is currently
+    setup between my desktop and my home server.
+  </p>
+
+  <div class="tab-nav">
+    {
+      machines.map((m, i) => (
+        <button
+          class:list={["nav-item", { active: i === 0 }]}
+          data-tab={m.hostname}
+          type="button">
+          {m.hostname}
+        </button>
+      ))
+    }
+  </div>
+  <div class="tab-content-container">
+    {
+      machines.map((m, i) => (
+        <div
+          id={"tab-content-" + m.hostname}
+          class:list={["tab-pane", { hidden: i !== 0 }]}>
+          <ul class="specs-list">
+            <li>
+              <strong>os:</strong>
+              {m.os}
+            </li>
+            <li>
+              <strong>cpu:</strong>
+              {m.cpu}
+            </li>
+            <li>
+              <strong>gpu:</strong>
+              {m.gpu || "none"}
+            </li>
+            <li>
+              <strong>memory:</strong>
+              {m.memory.capacity}GB {m.memory.hz}MHz DDR{m.memory.ddr}
+            </li>
+            <li>
+              <strong>storage:</strong>
+              {m.storage.map((s, idx) => (
+                <span>
+                  {formatStorage(s.capacity)} {s.type} ({s.label})
+                  {idx < m.storage.length - 1 ? " · " : ""}
+                </span>
+              ))}
+            </li>
+            <li>
+              <strong>displays:</strong>
+              {m.displays.length > 0
+                ? m.displays.map((d, idx) => (
+                    <span>
+                      {d.size}" {d.resolution}p {d.hz}Hz {d.panel}
+                      {idx < m.displays.length - 1 ? " · " : ""}
+                    </span>
+                  ))
+                : "none"}
+            </li>
+          </ul>
+          {m.note && <p>{m.note}</p>}
+        </div>
+      ))
+    }
+  </div>
+</Base>
+
+<script>
+  document.addEventListener("astro:page-load", () => {
+    const buttons = document.querySelectorAll(".nav-item");
+    const panes = document.querySelectorAll(".tab-pane");
+
+    buttons.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        if (btn.classList.contains("active")) return;
+
+        // Reset all buttons and panes
+        buttons.forEach((btn) => btn.classList.remove("active"));
+        panes.forEach((pane) => pane.classList.add("hidden"));
+
+        // Activate the clicked one
+        const slug = btn.getAttribute("data-tab");
+        const targetPane = document.getElementById("tab-content-" + slug);
+
+        btn.classList.add("active");
+        targetPane?.classList.remove("hidden");
+      });
+    });
+  });
+</script>

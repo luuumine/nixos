@@ -1,0 +1,21 @@
+.site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding: 1rem 0;
+}
+
+.header-img {
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+
+  border-radius: 0.5rem;
+  box-shadow: 0px 0px 0.5rem var(--primary);
+}
+
+@media (max-width: 600px) {
+  .header-img {
+    display: none;
+  }
+}

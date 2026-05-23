@@ -1,0 +1,95 @@
+---
+import "@/styles/components/nowPlaying.css";
+---
+
+<a id="np-widget" class="now-playing-card empty" target="_blank" rel="noopener">
+  <div class="np-icon-container">
+    <span id="np-icon">💿</span>
+  </div>
+  <div class="np-text-container">
+    <h3 id="np-title">checking spotify...</h3>
+    <p id="np-artist"></p>
+  </div>
+</a>
+
+<script>
+  type NowPlayingResponse =
+    | { isPlaying: false }
+    | {
+        isPlaying: true;
+        title: string;
+        artists: string[];
+        album: string;
+        albumImageUrl: string;
+        songUrl: string;
+      };
+
+  const CACHE_TTL = 1000 * 3;
+  const API_URL = import.meta.env.PUBLIC_API_URL;
+  const formatter = new Intl.ListFormat("en", {
+    style: "short",
+    type: "conjunction",
+  });
+
+  function updateWidget(data: NowPlayingResponse | null) {
+    const widget = document.getElementById("np-widget") as HTMLAnchorElement;
+    const title = document.getElementById("np-title");
+    const artist = document.getElementById("np-artist");
+
+    if (!widget || !title || !artist) return;
+
+    if (data && data.isPlaying) {
+      widget.href = data.songUrl;
+      widget.className = "now-playing-card playing";
+      title.innerText = data.title;
+      artist.innerText = formatter.format(data.artists);
+    } else {
+      widget.removeAttribute("href");
+      widget.className = "now-playing-card empty";
+      title.innerText = data === null ? "api error" : "not playing anything";
+      artist.innerText = "";
+    }
+  }
+
+  async function fetchMusic(): Promise<NowPlayingResponse | null> {
+    try {
+      const res = await fetch(`${API_URL}/music`);
+      if (!res.ok) throw new Error("Bad API response");
+      return (await res.json()) as NowPlayingResponse;
+    } catch (error) {
+      return null;
+    }
+  }
+
+  async function sync() {
+    const data = await fetchMusic();
+    if (data) {
+      sessionStorage.setItem("np_data", JSON.stringify(data));
+      sessionStorage.setItem("np_expires", (Date.now() + CACHE_TTL).toString());
+    }
+    updateWidget(data);
+  }
+
+  function init() {
+    const cachedData = sessionStorage.getItem("np_data");
+    const cachedExp = sessionStorage.getItem("np_expires");
+
+    if (cachedData && cachedExp && Date.now() < parseInt(cachedExp, 10)) {
+      updateWidget(JSON.parse(cachedData));
+    } else {
+      sync();
+    }
+
+    if (!window._npInterval) {
+      window._npInterval = window.setInterval(sync, CACHE_TTL);
+    }
+  }
+
+  declare global {
+    interface Window {
+      _npInterval: number;
+    }
+  }
+
+  document.addEventListener("astro:page-load", init);
+</script>

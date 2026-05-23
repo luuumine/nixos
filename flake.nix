@@ -12,11 +12,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "home-manager";
     };
-
-    luuumine-website = {
-      url = "github:luuumine/luuumine.com";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs =
