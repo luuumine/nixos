@@ -30,20 +30,6 @@ jobs:
           PACKAGES=$(nix eval .#packages.x86_64-linux --apply builtins.attrNames --json)
           echo "packages=$PACKAGES" >> "$FORGEJO_OUTPUT"
 
-  build-hosts:
-    name: build nixos
-    runs-on: native
-    needs: get-targets
-    strategy:
-      fail-fast: false
-      matrix:
-        host: ${{ fromJson(needs.get-targets.outputs.hosts) }}
-    steps:
-      - name: checkout repository
-        uses: actions/checkout@v5
-      - name: build ${{ matrix.host }}
-        run: nix build .#nixosConfigurations.${{ matrix.host }}.config.system.build.toplevel
-
   build-packages:
     name: build package
     runs-on: native
@@ -57,6 +43,22 @@ jobs:
         uses: actions/checkout@v5
       - name: build ${{ matrix.package }}
         run: nix build .#packages.x86_64-linux.${{ matrix.package }}
+
+  build-hosts:
+    name: build nixos
+    runs-on: native
+    needs:
+      - get-targets
+      - build-packages
+    strategy:
+      fail-fast: false
+      matrix:
+        host: ${{ fromJson(needs.get-targets.outputs.hosts) }}
+    steps:
+      - name: checkout repository
+        uses: actions/checkout@v5
+      - name: build ${{ matrix.host }}
+        run: nix build .#nixosConfigurations.${{ matrix.host }}.config.system.build.toplevel
 
   ci-succes:
     name: all checks passed
