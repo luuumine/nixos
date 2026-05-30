@@ -1,5 +1,8 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 
+let
+  wallpapers = inputs.self.wallpapers;
+in
 {
   imports = [
     ./hardware.nix
@@ -17,6 +20,7 @@
         {
           output = "eDP-1";
           mode = "1920x1080@240";
+          wallpaper = wallpapers.isla-1;
         }
       ];
     };

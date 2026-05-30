@@ -54,6 +54,10 @@
         luminode = mkHost "luminode";
       };
 
+      wallpapers = import ./wallpapers {
+        pkgs = nixpkgs.legacyPackages.${system};
+      };
+
       packages.${system} = import ./packages {
         pkgs = nixpkgs.legacyPackages.${system};
       };

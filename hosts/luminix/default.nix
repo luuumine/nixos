@@ -1,5 +1,8 @@
-{ pkgs, ... }:
+{ pkgs, inputs, ... }:
 
+let
+  wallpapers = inputs.self.wallpapers;
+in
 {
   imports = [
     ./hardware.nix
@@ -19,11 +22,13 @@
           mode = "2560x1440@240";
           position = "0x0";
           bitdepth = 10;
+          wallpaper = wallpapers.isla-1;
         }
         {
           output = "DP-2";
           mode = "1920x1080@180";
           position = "-1920x240";
+          wallpaper = wallpapers.isla-2-figure;
         }
       ];
     };

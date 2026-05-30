@@ -33,5 +33,11 @@ lib.types.submodule {
       type = lib.types.ints.between 0 7;
       default = 0;
     };
+
+    wallpaper = lib.mkOption {
+      type = lib.types.nullOr lib.types.path;
+      default = null;
+      description = "path to the wallpaper";
+    };
   };
 }

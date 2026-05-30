@@ -8,11 +8,9 @@
 let
   cfg = config.lumine.desktop.hyprpaper;
   userName = config.lumine.user.name;
-  wallpapers = import ./wallpapers.nix { inherit pkgs; };
-  monitorWallpapers = {
-    "DP-1" = wallpapers.isla-1;
-    "DP-2" = wallpapers.isla-2-figure;
-  };
+
+  displays = config.lumine.system.displays;
+  displaysWithWallpaper = lib.filter (d: d.wallpaper != null) displays;
 in
 {
   options.lumine.desktop.hyprpaper.enable = lib.mkEnableOption "hyprpaper";
@@ -24,12 +22,12 @@ in
         settings = {
           splash = false;
 
-          preload = map toString (builtins.attrValues monitorWallpapers);
+          preload = lib.unique (map (d: toString d.wallpaper) displaysWithWallpaper);
 
-          wallpaper = lib.attrsets.mapAttrsToList (monitor: path: {
-            inherit monitor;
-            path = toString path;
-          }) monitorWallpapers;
+          wallpaper = map (d: {
+            monitor = d.output;
+            path = toString d.wallpaper;
+          }) displaysWithWallpaper;
         };
       };
     };
