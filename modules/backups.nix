@@ -229,6 +229,13 @@ in
           options = [ "bind" ];
           depends = [ "/backups" ];
         };
+
+        "/var/lib/wealthfolio" = lib.mkIf servicesCfg.wealthfolio.enable {
+          device = "/backups/wealthfolio";
+          fsType = "none";
+          options = [ "bind" ];
+          depends = [ "/backups" ];
+        };
       };
 
       services.zrepl = {
