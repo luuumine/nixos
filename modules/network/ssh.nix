@@ -18,21 +18,17 @@ in
         enable = true;
         enableDefaultConfig = false;
 
-        matchBlocks = {
+        settings = {
           "*" = {
             identitiesOnly = true;
             identityFile = [ ];
-            extraOptions = {
-              PubkeyAuthentication = "no";
-            };
+            PubkeyAuthentication = "no";
           };
 
           "*.${vpnDomain} luminadel luminix luminode" = {
             identitiesOnly = true;
             identityFile = "~/.ssh/id_ed25519";
-            extraOptions = {
-              PubkeyAuthentication = "yes";
-            };
+            PubkeyAuthentication = "yes";
           };
 
           "git.luuumine.com" = {
@@ -41,9 +37,7 @@ in
             port = 3146;
             identitiesOnly = true;
             identityFile = "~/.ssh/id_ed25519";
-            extraOptions = {
-              PubkeyAuthentication = "yes";
-            };
+            PubkeyAuthentication = "yes";
           };
 
           "github.com" = {
@@ -51,9 +45,7 @@ in
             user = "git";
             identitiesOnly = true;
             identityFile = "~/.ssh/id_ed25519";
-            extraOptions = {
-              PubkeyAuthentication = "yes";
-            };
+            PubkeyAuthentication = "yes";
           };
         };
       };

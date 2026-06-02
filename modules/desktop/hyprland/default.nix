@@ -8,17 +8,9 @@
 let
   cfg = config.lumine.desktop.hyprland;
   userName = config.lumine.user.name;
+
   displays = config.lumine.system.displays;
-
-  renderDisplay =
-    d:
-    "monitor = ${d.output}, ${d.mode}, ${d.position}, ${toString d.scale}"
-    + lib.optionalString (d.bitdepth != 8) ", bitdepth, ${toString d.bitdepth}"
-    + lib.optionalString (d.transform != 0) ", transform, ${toString d.transform}";
-
-  monitorsConf = lib.concatStringsSep "\n" (
-    (map renderDisplay displays) ++ [ "monitor = , preferred, auto, auto" ]
-  );
+  monitorsConf = (import ./monitors.nix { inherit lib; }) displays;
 in
 {
   options.lumine.desktop.hyprland.enable = lib.mkEnableOption "hyprland compositor";
@@ -35,26 +27,45 @@ in
       }
     ];
 
+    programs.hyprland.enable = true;
+
     home-manager.users.${userName} = {
-      wayland.windowManager.hyprland.enable = true;
+      wayland.windowManager.hyprland = {
+        enable = true;
+        configType = "lua";
+        systemd.enable = true;
+        extraConfig = "# Supress HM warning";
+      };
+
       home.packages = [ pkgs.wl-clipboard ];
 
-      xdg.configFile = {
-        # loader
-        "hypr/hyprland.conf".source = ./hyprland.conf;
+      xdg.configFile =
+        let
+          staticLuaFiles = [
+            ./vars.lua
+            ./env.lua
+            ./input.lua
+            ./appearance.lua
+            ./rules.lua
+            ./keybinds.lua
+            ./startup.lua
+          ];
 
-        # sources files
-        "hypr/hyprland/vars.conf".source = ./vars.conf;
-        "hypr/hyprland/env.conf".source = ./env.conf;
-        "hypr/hyprland/input.conf".source = ./input.conf;
-        "hypr/hyprland/appearance.conf".source = ./appearance.conf;
-        "hypr/hyprland/rules.conf".source = ./rules.conf;
-        "hypr/hyprland/keybinds.conf".source = ./keybinds.conf;
-        "hypr/hyprland/startup.conf".source = ./startup.conf;
+          mappedFiles = builtins.listToAttrs (
+            map (file: {
+              name = "hypr/hyprland/${lib.baseNameOf file}";
+              value = {
+                source = file;
+              };
+            }) staticLuaFiles
+          );
+        in
+        mappedFiles
+        // {
+          "hypr/hyprland.lua".source = ./hyprland.lua;
 
-        # generated
-        "hypr/hyprland/monitors.conf".text = monitorsConf;
-      };
+          "hypr/hyprland/monitors.lua".text = monitorsConf;
+        };
     };
   };
 }
