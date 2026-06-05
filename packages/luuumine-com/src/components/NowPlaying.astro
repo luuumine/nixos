@@ -14,14 +14,13 @@ import "@/styles/components/nowPlaying.css";
 
 <script>
   type NowPlayingResponse =
-    | { isPlaying: false }
+    | { status: "not_playing" }
     | {
-        isPlaying: true;
+        status: "paused" | "playing";
         title: string;
         artists: string[];
         album: string;
-        albumImageUrl: string;
-        songUrl: string;
+        song_url: string;
       };
 
   const CACHE_TTL = 1000 * 3;
@@ -38,22 +37,31 @@ import "@/styles/components/nowPlaying.css";
 
     if (!widget || !title || !artist) return;
 
-    if (data && data.isPlaying) {
-      widget.href = data.songUrl;
-      widget.className = "now-playing-card playing";
-      title.innerText = data.title;
-      artist.innerText = formatter.format(data.artists);
-    } else {
+    if (!data) {
       widget.removeAttribute("href");
       widget.className = "now-playing-card empty";
-      title.innerText = data === null ? "api error" : "not playing anything";
+      title.innerText = "api error";
       artist.innerText = "";
+      return;
+    }
+
+    if (data.status === "not_playing") {
+      widget.removeAttribute("href");
+      widget.className = "now-playing-card empty";
+      title.innerText = "not playing anything";
+      artist.innerText = "";
+    } else {
+      // "playing" and "paused"
+      widget.href = data.song_url;
+      widget.className = `now-playing-card ${data.status}`;
+      title.innerText = data.title;
+      artist.innerText = formatter.format(data.artists);
     }
   }
 
   async function fetchMusic(): Promise<NowPlayingResponse | null> {
     try {
-      const res = await fetch(`${API_URL}/music`);
+      const res = await fetch(`${API_URL}/music/currently_playing`);
       if (!res.ok) throw new Error("Bad API response");
       return (await res.json()) as NowPlayingResponse;
     } catch (error) {

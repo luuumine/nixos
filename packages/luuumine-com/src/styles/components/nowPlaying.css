@@ -24,6 +24,7 @@
   animation: spin 3s linear infinite;
 }
 
+.now-playing-card.paused #np-icon,
 .now-playing-card.empty #np-icon {
   opacity: 0.5;
 }
