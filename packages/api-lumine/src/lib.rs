@@ -1,8 +1,13 @@
-use axum::{Json, Router, http::StatusCode, response::IntoResponse};
+use axum::{
+    Json, Router,
+    http::{Method, StatusCode},
+    response::IntoResponse,
+};
 use reqwest::Client;
 use serde_json::json;
 use std::sync::Arc;
 use tokio::sync::RwLock;
+use tower_http::cors::{Any, CorsLayer};
 
 pub mod routes;
 
@@ -28,7 +33,11 @@ pub struct AppState {
 }
 
 pub fn create_app(state: AppState) -> Router {
-    routes::router().with_state(state)
+    let cors = CorsLayer::new()
+        .allow_methods([Method::GET])
+        .allow_origin(Any);
+
+    routes::router().with_state(state).layer(cors)
 }
 
 #[derive(Debug)]
