@@ -1,53 +1,33 @@
 {
-  stdenv,
-  fetchPnpmDeps,
-  nodejs_22,
-  pnpmConfigHook,
-  pnpm,
-  tsx,
-  typescript,
-  typescript-language-server,
-  vscode-langservers-extracted,
+  lib,
+  rustPlatform,
+  cargo,
+  rustc,
+  rust-analyzer,
+  rustfmt,
+  cacert,
 }:
 let
   pname = "api-lumine";
-  version = "0.1";
+  version = "1.0.0";
   src = ./.;
 in
-
-stdenv.mkDerivation {
+rustPlatform.buildRustPackage {
   inherit pname version src;
 
+  cargoHash = "sha256-2jVZGp1WB52u2PRk/3Aie3MQYDO7ceM2zOcsf5NGzWk=";
+
   nativeBuildInputs = [
-    nodejs_22
-    pnpmConfigHook
-    pnpm
-    typescript
-    typescript-language-server
-    vscode-langservers-extracted
+    cargo
+    rustc
+    rust-analyzer
+    rustfmt
+    cacert
   ];
 
-  pnpmDeps = fetchPnpmDeps {
-    inherit pname version src;
-    fetcherVersion = 3;
-    hash = "sha256-d9efcttvOCydtq/pSHjb4KW7RMcH61jIc2Jv/DXGMng=";
-  };
-
-  installPhase = ''
-    mkdir -p $out
-    cp -r . $out/
-    mkdir -p $out/bin
-
-    cat <<EOF > $out/bin/luuumine-api
-    #!/bin/sh
-    cd $out
-    exec ${tsx}/bin/tsx src/index.ts "\$@"
-    EOF
-
-    chmod +x $out/bin/luuumine-api
-  '';
+  SSL_CERT_FILE = "${cacert}/etc/ssl/certs/ca-bundle.crt";
 
   meta = {
-    mainProgram = "luuumine-api";
+    mainProgram = pname;
   };
 }

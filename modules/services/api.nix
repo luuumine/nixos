@@ -47,7 +47,7 @@ in
     };
 
     services.caddy = lib.mkIf caddyCfg.enable {
-      virtualHosts."https://api.luuumine.com".extraConfig = ''
+      virtualHosts."https://${cfg.domain}".extraConfig = ''
         reverse_proxy 127.0.0.1:${toString cfg.port}
       '';
     };
