@@ -40,6 +40,7 @@ stdenv.mkDerivation {
 
   shellHook = ''
     export PATH="$PWD/node_modules/.bin:$PATH"
+    export NODE_PATH="${typescript}/lib/node_modules:$NODE_PATH"
     echo "astro development environment active"
   '';
 }
