@@ -29,7 +29,7 @@ rustPlatform.buildRustPackage (
 
         pnpm = pnpm_10;
         fetcherVersion = 3;
-        hash = "sha256-G0gh8acNryPtIcKgvxTGSlTHGS4x15dUVpjOTy9rPag=";
+        hash = "sha256-Pt8eDb7tCTM1YD/7I8Ot9+fNzsvpcPfhWsniRD5OjcU=";
       };
 
       nativeBuildInputs = [
@@ -55,18 +55,18 @@ rustPlatform.buildRustPackage (
     __structuredAttrs = true;
 
     pname = "wealthfolio-server";
-    version = "3.4.0";
+    version = "3.5.1";
 
     src = fetchFromGitHub {
       owner = "wealthfolio";
       repo = "wealthfolio";
       tag = "v${finalAttrs.version}";
-      hash = "sha256-SYI0LosdR82rUubxl0pNi1huEDcR6bxcaHbjCVT/T/0=";
+      hash = "sha256-ej0LTGxzkXKOJO9QMLEnpuWMgPzNFQ5lGvybEbB4EsM=";
     };
 
     cargoRoot = ".";
     buildAndTestSubdir = "apps/server";
-    cargoHash = "sha256-cCaZ5X57WAaO9F2lP2/wdilXc0Al0Vr3ntyV1/Q5sj8=";
+    cargoHash = "sha256-vA89tCnzGrWPWwNa15g/sVOWme683DO4CDA4s1x9SHc=";
 
     nativeBuildInputs = [ makeWrapper ];
 
