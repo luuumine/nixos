@@ -8,7 +8,6 @@
   pnpmConfigHook,
   nodejs,
   makeWrapper,
-  nix-update-script,
 }:
 
 rustPlatform.buildRustPackage (
@@ -55,18 +54,18 @@ rustPlatform.buildRustPackage (
     __structuredAttrs = true;
 
     pname = "wealthfolio-server";
-    version = "3.5.1";
+    version = "3.5.2";
 
     src = fetchFromGitHub {
       owner = "wealthfolio";
       repo = "wealthfolio";
       tag = "v${finalAttrs.version}";
-      hash = "sha256-ej0LTGxzkXKOJO9QMLEnpuWMgPzNFQ5lGvybEbB4EsM=";
+      hash = "sha256-WU87VmnbzUno1CmIVwBLYjmTZybM4qSuRmBH/2n/Tfo=";
     };
 
     cargoRoot = ".";
     buildAndTestSubdir = "apps/server";
-    cargoHash = "sha256-vA89tCnzGrWPWwNa15g/sVOWme683DO4CDA4s1x9SHc=";
+    cargoHash = "sha256-KoS2EouZ0Uf3cijUUOpwYBYEjEB5VxIArU1CuCji2+I=";
 
     nativeBuildInputs = [ makeWrapper ];
 
