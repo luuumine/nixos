@@ -28,7 +28,7 @@ in
           output = "DP-2";
           mode = "1920x1080@180";
           position = "-1920x240";
-          wallpaper = wallpapers.isla-2-figure;
+          wallpaper = wallpapers.isla-2;
         }
       ];
     };
