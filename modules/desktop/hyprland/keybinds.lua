@@ -1,5 +1,5 @@
 -- Basic actions
-hl.bind(MAINMOD .. " + Q", hl.dsp.window.kill())
+hl.bind(MAINMOD .. " + Q", hl.dsp.window.close())
 hl.bind(MAINMOD .. " + M", hl.dsp.exit())
 hl.bind(MAINMOD .. " + V", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(MAINMOD .. " + F", hl.dsp.window.fullscreen())
