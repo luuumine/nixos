@@ -1,7 +1,6 @@
 ---
 import "@/styles/components/badges.css";
-
-type Badge = { href: string; src: string; alt: string };
+import type { Badge } from "./types";
 
 const badges: Badge[] = [
   {
@@ -27,9 +26,9 @@ const badges: Badge[] = [
 
 <div class="badges-grid">
   {
-    badges.map((badge) => (
-      <a href={badge.href} target="_blank" rel="noopener" title={badge.alt}>
-        <img src={badge.src} alt={badge.alt} width={88} height={31} />
+    badges.map((b) => (
+      <a href={b.href} target="_blank" rel="noopener" title={b.alt}>
+        <img src={b.src} alt={b.alt} width={88} height={31} />
       </a>
     ))
   }

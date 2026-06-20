@@ -1,0 +1,24 @@
+---
+import "@/styles/components/badges.css";
+
+type Badge = { href: string; src: string; alt: string };
+
+const badges: Badge[] = [
+  { href: "https://poz.pet", src: "/badges/poz.gif", alt: "poz badge" },
+  {
+    href: "https://pucas01.com",
+    src: "/badges/pucas01.gif",
+    alt: "pucas01 badge",
+  },
+];
+---
+
+<div class="badges-grid">
+  {
+    badges.map((badge) => (
+      <a href={badge.href} target="_blank" rel="noopener" title={badge.alt}>
+        <img src={badge.src} alt={badge.alt} width={88} height={31} />
+      </a>
+    ))
+  }
+</div>

@@ -2,7 +2,7 @@
 import Base from "@/layouts/Base.astro";
 
 import SocialRow from "@/components/SocialRow.astro";
-import Badges from "@/components/Badges.astro";
+import * as Badges from "@/components/badges";
 
 import "@/styles/misc.css";
 
@@ -29,6 +29,9 @@ const pageTitle = "misc";
   </section>
   <section>
     <h2 class="category-title">badges</h2>
-    <Badges />
+    <h3 class="badge-category">friends</h3>
+    <Badges.Friends />
+    <h3 class="badge-category">other</h3>
+    <Badges.Other />
   </section>
 </Base>

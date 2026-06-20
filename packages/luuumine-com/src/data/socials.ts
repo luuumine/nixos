@@ -25,6 +25,16 @@ export const socials: SocialItem[] = [
     color: { light: "mediumvioletred", dark: "hotpink" },
   },
   {
+    id: "forgejo",
+    label: "forgejo",
+    username: "luuumine",
+    visual: { kind: "icon", value: "simple-icons:forgejo" },
+    path: "forgejo",
+    url: "https://git.luuumine.com/luuumine",
+    hasLink: true,
+    color: { light: "#d40000", dark: "#ff6600" },
+  },
+  {
     id: "github",
     label: "github",
     username: "luuumine",

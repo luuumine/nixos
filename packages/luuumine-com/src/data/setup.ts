@@ -37,7 +37,6 @@ export const machines: Machine[] = [
     memory: { capacity: 32, hz: 6000, ddr: 5 },
     storage: [
       { capacity: 2000, type: "NVMe", label: "main" },
-      { capacity: 2000, type: "NVMe", label: "data" },
       { capacity: 250, type: "NVMe", label: "windows" },
     ],
     displays: [
@@ -47,14 +46,25 @@ export const machines: Machine[] = [
     note: "my daily driver. for basically everything.",
   },
   {
+    hostname: "luminadel",
+    os: "NixOS",
+    cpu: "Intel Core Ultra 5 245K",
+    memory: { capacity: 32, hz: 5600, ddr: 5 },
+    storage: [
+      { capacity: 2000, type: "NVMe", label: "main" },
+      { capacity: 8000, type: "HDD", label: "media" },
+    ],
+    displays: [],
+    note: "main server. hosts this website and every other service",
+  },
+  {
     hostname: "luminode",
-    os: "Arch Linux",
+    os: "NixOS",
     cpu: "AMD Athlon PRO 200GE",
-    gpu: "Radeon Vega 3 (Integrated)",
     memory: { capacity: 16, hz: 2666, ddr: 4 },
     storage: [{ capacity: 500, type: "NVMe", label: "main" }],
     displays: [],
-    note: "home server. it runs 24/7 with services like pihole, jellyfin, and this website.",
+    note: "remote server. for backups only",
   },
   {
     hostname: "luminarch",
