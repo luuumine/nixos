@@ -6,8 +6,7 @@ import "@/styles/misc/encryption.css";
 const pageTitle = "encryption";
 
 const sshKey =
-  "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOSF50b9uHqWXQgWC7T5dg2VMBYqI4T4I6VnEkm2R5aX lumine@luminix";
-const ageKey = "age1sdv0lldvlxy0e7plccc629fwtx25r0xgyja6mhuy5nnmfxg04cfqaz07lr";
+  "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIAj6TFwjmQaxmMu4Nq87//lznYJ10XCdwLyKBkBg9yPY lumine_encryption";
 ---
 
 <Base title={pageTitle}>
@@ -16,32 +15,28 @@ const ageKey = "age1sdv0lldvlxy0e7plccc629fwtx25r0xgyja6mhuy5nnmfxg04cfqaz07lr";
   <section>
     <h2>why?</h2>
     <p>
-      privacy is a <strong>fundamental</strong> right, but it's one that we have to
-      actively protect. as digital surveillance grows, with governments all around
-      the world pushing for broad id verification and chat control, end-to-end encryption
-      remains the best tool we have to keep our communications and digital lives truly
-      private.
+      digital privacy is no longer a default state; it requires active technical
+      enforcement. with the normalization of mass surveillance and increasing
+      legislative pressure against secure protocols, end-to-end encryption is
+      the only reliable, mathematical guarantee we have to protect our
+      communications.
     </p>
   </section>
 
   <section>
-    <h2>my keys</h2>
+    <h2>my key</h2>
     <p>
-      these are my <strong>public</strong> keys. you can use them to either verify
-      my commits or encrypt messages to me.
+      this is my <strong>public</strong> key. you can use it to send me secure messages
+      and files.
     </p>
 
-    <h3>ssh</h3>
     <pre><code class="key">{sshKey}</code></pre>
-
-    <h3>age</h3>
-    <pre><code class="key">{ageKey}</code></pre>
   </section>
 
   <section>
     <h2>how?</h2>
     <p>
-      the easiest way to encrypt files for me is using <a
+      in my opinion, the easiest way to encrypt files is using <a
         href="https://github.com/FiloSottile/age">age</a
       >. it's a simple, modern, and secure encryption tool. it's available in
       most package managers (like <code>nix shell nixpkgs#age</code>).
@@ -51,7 +46,7 @@ const ageKey = "age1sdv0lldvlxy0e7plccc629fwtx25r0xgyja6mhuy5nnmfxg04cfqaz07lr";
       you can also add your own public key as a second recipient to be able to
       decrypt the file yourself later.
     </p>
-    <pre><code>age -r {ageKey} -r <span class="placeholder" title="your public key">&lt;your_pubkey&gt;</span> -o <span class="placeholder" title="the encrypted file to save">&lt;output_file&gt;</span> <span class="placeholder" title="the file you want to encrypt">&lt;file&gt;</span></code></pre>
+    <pre><code>age -r "{sshKey}" -r <span class="placeholder" title="your public key">&lt;your_pubkey&gt;</span> -o <span class="placeholder" title="the encrypted file to save">&lt;output_file&gt;</span> <span class="placeholder" title="the file you want to encrypt">&lt;file&gt;</span></code></pre>
     <p>
       if you want me to be able to reply securely, you'll need to generate your
       own keypair and send me your public key:
