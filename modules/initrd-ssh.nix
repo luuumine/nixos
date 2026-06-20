@@ -2,6 +2,8 @@
 
 let
   cfg = config.lumine.initrd-ssh;
+
+  authPubKeys = lib.mapAttrsToList (name: key: key.pub) config.lumine.security.auth;
 in
 {
   options.lumine.initrd-ssh = {
@@ -15,9 +17,7 @@ in
 
     authorizedKeys = lib.mkOption {
       type = lib.types.listOf lib.types.str;
-      default = [
-        "ssh-ed25519	AAAAC3NzaC1lZDI1NTE5AAAAIOSF50b9uHqWXQgWC7T5dg2VMBYqI4T4I6VnEkm2R5aX"
-      ];
+      default = authPubKeys;
       description = "ssh public keys allowed to connect";
     };
 

@@ -38,7 +38,7 @@ in
 
         signing = {
           format = "ssh";
-          key = lib.mkDefault "~/.ssh/id_ed25519.pub";
+          key = lib.mkDefault "${config.lumine.security.auth.primary.path}.pub";
           signByDefault = true;
         };
 
@@ -75,10 +75,9 @@ in
         };
       };
 
-      home.file.".config/git/allowed_signers".text = ''
-        romain@delhommais.com	ssh-ed25519	AAAAC3NzaC1lZDI1NTE5AAAAIOSF50b9uHqWXQgWC7T5dg2VMBYqI4T4I6VnEkm2R5aX	lumine
-        forgejo@luuumine.com	ssh-ed25519	AAAAC3NzaC1lZDI1NTE5AAAAIFpIOQUI+CJ527aWqxE5kxV58eL+sbgv1GWBKWbaTv77	forgejo
-      '';
+      home.file.".config/git/allowed_signers".text = lib.concatMapStringsSep "\n" (
+        k: "${k.email} ${k.pub}"
+      ) config.lumine.security.git.allowedSigners;
     };
   };
 }

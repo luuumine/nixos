@@ -6,6 +6,7 @@
 
     ./network
     ./services
+    ./security
 
     ./apps.nix
     ./audio.nix
