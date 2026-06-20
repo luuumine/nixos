@@ -24,6 +24,7 @@ hosts
 - [raf / NotAShelf](https://notashelf.dev), for being very good at nix, building cool projects, and having such a well structured [flake](https://github.com/notashelf/nyx)
 - [poz](https://poz.pet/), for being cool and having a nice [config](https://nix.poz.pet/)
 - [orangc](https://orangc.net), for helping me with tailscale
+- [Turpix](https://twitter.com/Turpix_00), for drawing the awesome art used for my profile picture and wallpapers
 
 ## usage
 
