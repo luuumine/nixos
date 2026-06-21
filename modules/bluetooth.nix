@@ -17,11 +17,21 @@ in
   config = lib.mkIf cfg.enable {
     hardware.bluetooth = {
       enable = true;
-      settings.General.Experimental = true;
+      powerOnBoot = true;
+      settings = {
+        General = {
+          Experimental = true;
+          FastConnectable = true;
+        };
+        Policy = {
+          ReconnectAttempts = 7;
+          ReconnectIntervals = "1, 2, 4, 8, 16, 32, 64";
+          AutoEnable = true;
+        };
+      };
     };
 
     home-manager.users.${userName} = {
-
       home.packages = [ pkgs.bluetui ];
     };
   };
