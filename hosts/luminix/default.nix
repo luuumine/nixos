@@ -57,7 +57,7 @@ in
         pkgs.mangohud
         pkgs.olympus
         pkgs.rofi
-        pkgs.osu-lazer-bin
+        pkgs.melonds
       ];
     };
 
