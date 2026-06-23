@@ -67,8 +67,8 @@ export const machines: Machine[] = [
     note: "remote server. for backups only",
   },
   {
-    hostname: "luminarch",
-    os: "Arch Linux",
+    hostname: "luminout",
+    os: "NixOS",
     cpu: "AMD Ryzen 9 5900HX",
     gpu: "AMD Radeon RX 6700M",
     memory: { capacity: 16, hz: 3200, ddr: 4 },
