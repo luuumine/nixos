@@ -1,6 +1,6 @@
 MAINMOD = "SUPER"
 
 TERMINAL = "kitty"
-BROWSER = "librewolf"
+BROWSER = "firefox"
 LAUNCHER = "rofi -show drun"
 DISCORD = "Discord"
