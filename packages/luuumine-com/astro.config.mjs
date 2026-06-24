@@ -9,6 +9,8 @@ export default defineConfig({
   site: "https://luuumine.com",
   integrations: [sitemap(), icon()],
 
+  server: { host: true },
+
   vite: {
     server: {
       watch: {
