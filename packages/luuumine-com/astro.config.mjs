@@ -8,4 +8,18 @@ import icon from "astro-icon";
 export default defineConfig({
   site: "https://luuumine.com",
   integrations: [sitemap(), icon()],
+
+  vite: {
+    server: {
+      watch: {
+        ignored: [
+          "**/.astro/**",
+          "**/dist/**",
+          "**/node_modules/**",
+          "**/.direnv/**",
+          "**/result/**",
+        ],
+      },
+    },
+  },
 });
