@@ -29,17 +29,26 @@ in
         gcc
         gnumake
         tree-sitter
+
+        nixd
+        nixfmt
+        lua-language-server
+        stylua
       ];
 
-      xdg.configFile."nvim/parser".source =
-        let
-          parsers = pkgs.symlinkJoin {
-            name = "treesitter-parsers";
-            paths = (pkgs.vimPlugins.nvim-treesitter.withAllGrammars).dependencies;
-          };
-        in
-        "${parsers}/parser";
-    };
+      xdg.configFile = {
+        "nvim/init.lua".source = ./init.lua;
+        "nvim/lua".source = ./lua;
 
+        "nvim/parser".source =
+          let
+            parsers = pkgs.symlinkJoin {
+              name = "treesitter-parsers";
+              paths = (pkgs.vimPlugins.nvim-treesitter.withAllGrammars).dependencies;
+            };
+          in
+          "${parsers}/parser";
+      };
+    };
   };
 }

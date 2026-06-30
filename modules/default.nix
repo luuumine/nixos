@@ -4,6 +4,7 @@
   imports = [
     ./initrd-ssh.nix
 
+    ./nvim
     ./network
     ./services
     ./security
@@ -18,7 +19,6 @@
     ./git.nix
     ./media.nix
     ./nix.nix
-    ./nvim.nix
     ./shell.nix
     ./starship.nix
     ./system.nix
