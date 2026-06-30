@@ -9,4 +9,5 @@ RowLayout {
   Modules.Cpu {}
   Components.Separator {}
   Modules.Clock {}
+  Components.UnreadDot {}
 }

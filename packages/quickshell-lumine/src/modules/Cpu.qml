@@ -23,18 +23,18 @@ Item {
 
     Text {
       color: Theme.colText
-      font: Theme.barFont
+      font: Theme.mainFont
       text: "CPU:"
     }
 
     Text {
       color: Theme.colText
-      font: Theme.barFont
+      font: Theme.mainFont
       text: String(root.usage).padStart(3, " ") + "%"
     }
 
     Text {
-      font: Theme.barFont
+      font: Theme.mainFont
       text: String(root.temp).padStart(3, " ") + "°C"
       color: {
         if (root.temp >= Theme.tempCrit)

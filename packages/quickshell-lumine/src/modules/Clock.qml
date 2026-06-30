@@ -7,15 +7,17 @@ Text {
   id: root
 
   color: Theme.colText
-  font {
-    family: Theme.fontFamily
-    pixelSize: Theme.fontSize
-  }
+  font: Theme.mainFont
 
   text: Qt.formatDateTime(timeSource.date, "dd MMM HH:mm")
 
   SystemClock {
     id: timeSource
     precision: SystemClock.Minutes
+  }
+
+  MouseArea {
+    anchors.fill: parent
+    onClicked: GlobalStates.menuVisible = !GlobalStates.menuVisible
   }
 }

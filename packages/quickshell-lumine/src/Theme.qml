@@ -3,26 +3,47 @@ import QtQuick
 
 QtObject {
 
-  // Used colors and variables
-  property color background: colBase
-  property color text: colText
-
-  property color primary: colPeach
-  property color secondary: colLavender
-  property color dim: colOverlay0
-
+  // Dimensions and Spacing
   property int barHeight: 32
   property int spacing: 8
   property int padding: 20
   property int radius: 10
 
-  property int fontSize: 16
-  property string fontFamily: "DejaVuSansMono"
-  property font barFont: Qt.font({
-                                   family: fontFamily,
-                                   pixelSize: fontSize,
-                                   bold: false
-                                 })
+  property int unreadDotSize: 8
+  property int menuWidth: 400
+  property int popupWidth: 380
+  property int notifIconSize: 36
+
+  // Typography
+  property string fontFamilyMain: "DejaVuSansMono"
+  property string fontFamilyAlt: "Inter"
+
+  property int fontSizeSmall: 12
+  property int fontSizeMedium: 16
+  property int fontSizeLarge: 18
+  property int fontSizeTitle: 20
+
+  property font mainFont: Qt.font({
+                                    family: fontFamilyMain,
+                                    pixelSize: fontSizeMedium
+                                  })
+
+  property font smallFont: Qt.font({
+                                     family: fontFamilyMain,
+                                     pixelSize: fontSizeSmall
+                                   })
+
+  property font titleFont: Qt.font({
+                                     family: fontFamilyMain,
+                                     pixelSize: fontSizeTitle,
+                                     bold: true
+                                   })
+
+  property font cardTitleFont: Qt.font({
+                                         family: fontFamilyAlt,
+                                         pixelSize: fontSizeMedium,
+                                         bold: true
+                                       })
 
   // Threshold and logic
   readonly property int tempOk: 60
@@ -35,6 +56,13 @@ QtObject {
   readonly property color colWarn: colYellow
   readonly property color colErr: colMaroon
   readonly property color colCrit: colRed
+
+  // Used Colors
+  property color background: colBase
+  property color text: colText
+  property color primary: colPeach
+  property color secondary: colLavender
+  property color dim: colOverlay0
 
   // Palette - Catppuccin Mocha
   property color colRosewater: "#f5e0dc"

@@ -24,8 +24,8 @@ Row {
 
       text: wsId
       font {
-        family: Theme.fontFamily
-        pixelSize: Theme.fontSize
+        family: Theme.fontFamilyMain
+        pixelSize: Theme.fontSizeMedium
         bold: isOccupied
       }
 

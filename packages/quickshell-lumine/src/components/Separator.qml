@@ -7,8 +7,8 @@ Text {
   color: Theme.primary
   padding: Theme.spacing
   font {
-    family: Theme.fontFamily
+    family: Theme.fontFamilyMain
     bold: true
-    pixelSize: Theme.fontSize
+    pixelSize: Theme.fontSizeMedium
   }
 }
