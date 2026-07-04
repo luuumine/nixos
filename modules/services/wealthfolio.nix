@@ -1,8 +1,6 @@
 {
   config,
   lib,
-  pkgs,
-  inputs,
   secretsPath,
   ...
 }:
@@ -11,7 +9,6 @@ let
   cfg = config.lumine.services.wealthfolio;
   hostname = config.lumine.system.hostname;
   caddyCfg = config.lumine.network.caddy;
-  system = pkgs.stdenv.hostPlatform.system;
 
   vpnDomain = "vpn.luuumine.com";
 in
@@ -34,8 +31,6 @@ in
       enable = true;
       port = cfg.port;
       address = "127.0.0.1";
-
-      package = inputs.self.packages.${system}.wealthfolio-server; # local copy until upstream push
 
       secretKeyFile = config.age.secrets.wealthfolio-key.path;
 
