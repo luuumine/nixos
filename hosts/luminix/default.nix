@@ -56,7 +56,6 @@ in
         pkgs.libresprite
         pkgs.mangohud
         pkgs.olympus
-        pkgs.rofi
         pkgs.melonds
       ];
     };

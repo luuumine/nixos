@@ -36,7 +36,6 @@ in
       enable = true;
       extraUserApps = [
         pkgs.discord
-        pkgs.rofi
       ];
     };
 

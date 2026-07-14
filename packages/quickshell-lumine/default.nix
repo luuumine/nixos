@@ -7,7 +7,7 @@
 
 stdenv.mkDerivation {
   pname = "quickshell-lumine";
-  version = "1.1.0";
+  version = "1.2.0";
 
   src = ./src;
 

@@ -6,6 +6,8 @@ import "modules"
 
 Scope {
 
+  Shortcuts {}
+
   NotificationServer {
     id: notifserver
   }
@@ -25,5 +27,9 @@ Scope {
 
   NotificationsPopups {
     notifications: notifserver.trackedNotifications
+  }
+
+  Launcher {
+    id: launcher
   }
 }

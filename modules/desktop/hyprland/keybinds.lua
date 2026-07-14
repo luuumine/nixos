@@ -5,7 +5,7 @@ hl.bind(MAINMOD .. " + V", hl.dsp.window.float({ action = "toggle" }))
 hl.bind(MAINMOD .. " + F", hl.dsp.window.fullscreen())
 
 -- Apps
-hl.bind(MAINMOD .. " + SPACE", hl.dsp.exec_cmd(LAUNCHER))
+hl.bind(MAINMOD .. " + SPACE", hl.dsp.global("quickshell:openLauncher"))
 hl.bind(MAINMOD .. " + RETURN", hl.dsp.exec_cmd(TERMINAL))
 hl.bind(MAINMOD .. " + B", hl.dsp.exec_cmd(BROWSER))
 
