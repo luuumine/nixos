@@ -3,7 +3,7 @@
   fetchPnpmDeps,
   nodejs_22,
   pnpmConfigHook,
-  pnpm,
+  pnpm_10,
   astro-language-server,
   typescript,
   typescript-language-server,
@@ -12,6 +12,7 @@
 }:
 
 let
+  pnpm = pnpm_10;
   pname = "delhommais-com";
   version = "4.0.0";
   src = ./.;
@@ -31,8 +32,9 @@ stdenv.mkDerivation {
 
   pnpmDeps = fetchPnpmDeps {
     inherit pname version src;
+    inherit pnpm;
     fetcherVersion = 3;
-    hash = "sha256-LyG0eMIiw8w/8e/VLCdwTzNpOBqJQsxhNwLTw1QBYUY=";
+    hash = "sha256-MnY5rWUVXAfVZvzGQcX8ggIytFmvfqddOzScoJcSz6s=";
   };
 
   buildPhase = "pnpm build";

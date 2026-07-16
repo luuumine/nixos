@@ -3,13 +3,14 @@
   fetchPnpmDeps,
   nodejs_22,
   pnpmConfigHook,
-  pnpm,
+  pnpm_10,
   astro-language-server,
   typescript,
   typescript-language-server,
   vscode-langservers-extracted,
 }:
 let
+  pnpm = pnpm_10;
   pname = "luuumine-com";
   version = "3.8.0";
   src = ./.;
@@ -29,8 +30,9 @@ stdenv.mkDerivation {
 
   pnpmDeps = fetchPnpmDeps {
     inherit pname version src;
+    inherit pnpm;
     fetcherVersion = 3;
-    hash = "sha256-+zRbvmbgg13HF+Gch9edpggp4DSn3BfYKeK7k9i1Wkk=";
+    hash = "sha256-I+KJgI5ab+iitxP418+HV0Ki07AeE+TBNzpf/szJ/N8=";
   };
 
   buildPhase = ''
