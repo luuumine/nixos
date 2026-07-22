@@ -6,6 +6,7 @@ hl.bind(MAINMOD .. " + F", hl.dsp.window.fullscreen())
 
 -- Apps
 hl.bind(MAINMOD .. " + SPACE", hl.dsp.global("quickshell:openLauncher"))
+hl.bind(MAINMOD .. " + N ", hl.dsp.global("quickshell:toggleMenu"))
 hl.bind(MAINMOD .. " + RETURN", hl.dsp.exec_cmd(TERMINAL))
 hl.bind(MAINMOD .. " + B", hl.dsp.exec_cmd(BROWSER))
 

@@ -4,7 +4,7 @@ import Quickshell
 import Quickshell.Wayland
 
 import ".."
-import "../components" as Components
+import "../modules" as Modules
 
 PanelWindow {
   id: menu
@@ -20,7 +20,7 @@ PanelWindow {
   }
 
   implicitWidth: Theme.menuWidth
-  implicitHeight: column.implicitHeight + 2 * Theme.spacing
+  implicitHeight: container.implicitHeight + 2 * Theme.spacing
 
   visible: GlobalStates.menuVisible
   color: "transparent"
@@ -28,76 +28,30 @@ PanelWindow {
   WlrLayershell.layer: WlrLayer.Top
 
   Rectangle {
+    id: container
     anchors.fill: parent
-    radius: Theme.radius
     color: Theme.colSurface1
+    radius: Theme.radius
+
+    implicitHeight: column.implicitHeight + 2 * (Theme.spacing)
 
     ColumnLayout {
       id: column
-      anchors.top: parent.top
-      anchors.left: parent.left
-      anchors.right: parent.right
+
+      anchors.fill: parent
       anchors.margins: Theme.spacing
       spacing: Theme.spacing
 
-      RowLayout {
+      Modules.CalendarWidget {}
+
+      Rectangle {
         Layout.fillWidth: true
-
-        Text {
-          text: "Notifications"
-          color: Theme.colText
-          font: Theme.titleFont
-          Layout.fillWidth: true
-        }
-
-        Text {
-          text: "Clear all"
-          visible: menu.notificationsList.count > 0
-          color: Theme.colRed
-          font: Theme.mainFont
-          MouseArea {
-            anchors.fill: parent
-            onClicked: menu.notificationsList.clear()
-          }
-        }
+        implicitHeight: 1
+        color: Theme.colOverlay0
       }
 
-      ColumnLayout {
-        Layout.topMargin: Theme.padding
-        Layout.bottomMargin: Theme.padding
-        spacing: Theme.spacing
-        visible: menu.notificationsList.count === 0
-
-        Text {
-          text: "🔔"
-          color: Theme.dim
-          font.pixelSize: Theme.fontSizeTitle + 16
-          Layout.fillWidth: true
-          horizontalAlignment: Text.AlignHCenter
-        }
-
-        Text {
-          text: "No notifications"
-          color: Theme.colOverlay1
-          font: Theme.mainFont
-          Layout.fillWidth: true
-          horizontalAlignment: Text.AlignHCenter
-        }
-      }
-
-      ListView {
-        id: notiflist
-        Layout.fillWidth: true
-        Layout.preferredHeight: Math.min(400, contentHeight)
-
-        clip: true
-        spacing: Theme.spacing
-
-        model: menu.notificationsList
-
-        delegate: Components.NotificationEvent {
-          onRemoveRequested: idx => ListView.view.model.remove(idx)
-        }
+      Modules.NotificationCenter {
+        notificationsList: menu.notificationsList
       }
     }
   }
