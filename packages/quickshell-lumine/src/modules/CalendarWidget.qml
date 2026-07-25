@@ -11,12 +11,13 @@ ColumnLayout {
 
   property date today: new Date()
 
-  readonly property int year: today.getFullYear()
-  readonly property int month: today.getMonth()
+  property int viewYear: today.getFullYear()
+  property int viewMonth: today.getMonth()
 
-  readonly property int daysInMonth: new Date(year, month + 1, 0).getDate()
+  readonly property int daysInMonth: new Date(viewYear, viewMonth + 1,
+                                              0).getDate()
 
-  readonly property int firstDay: (new Date(year, month, 1).getDay()
+  readonly property int firstDay: (new Date(viewYear, viewMonth, 1).getDay()
                                    - GlobalStates.weekStart + 7) % 7
 
   readonly property int weeksInMonth: Math.ceil((firstDay + daysInMonth) / 7)
@@ -24,11 +25,92 @@ ColumnLayout {
 
   readonly property var weekdays: ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"]
 
-  Text {
-    text: Qt.formatDate(root.today, "dddd, dd MMMM")
-    color: Theme.colText
-    font: Theme.titleFont
+  RowLayout {
     Layout.fillWidth: true
+    Text {
+      text: Qt.formatDate(new Date(root.viewYear, root.viewMonth, 1),
+                          "MMMM yyyy")
+      color: Theme.colText
+      font: Theme.titleFont
+      Layout.fillWidth: true
+    }
+
+    Row {
+      id: buttonRow
+      spacing: Theme.spacing
+
+      Rectangle {
+        height: 20
+        width: 20
+        color: "transparent"
+        Text {
+          anchors.centerIn: parent
+          text: ""
+          color: refreshArea.containsMouse ? Theme.primary : Theme.colText
+          font: Theme.titleFont
+        }
+        MouseArea {
+          id: refreshArea
+          hoverEnabled: true
+          anchors.fill: parent
+          onClicked: {
+            root.viewMonth = root.today.getMonth();
+            root.viewYear = root.today.getFullYear();
+          }
+          cursorShape: Qt.PointingHandCursor
+        }
+      }
+      Rectangle {
+        height: 20
+        width: 20
+        color: "transparent"
+        Text {
+          anchors.centerIn: parent
+          text: ""
+          color: previousMonthArea.containsMouse ? Theme.primary : Theme.colText
+          font: Theme.titleFont
+        }
+        MouseArea {
+          id: previousMonthArea
+          hoverEnabled: true
+          anchors.fill: parent
+          onClicked: {
+            if (root.viewMonth == 0) {
+              root.viewMonth = 11;
+              root.viewYear--;
+            } else {
+              root.viewMonth--;
+            }
+          }
+          cursorShape: Qt.PointingHandCursor
+        }
+      }
+      Rectangle {
+        height: 20
+        width: 20
+        color: "transparent"
+        Text {
+          anchors.centerIn: parent
+          text: ""
+          color: nextMonthArea.containsMouse ? Theme.primary : Theme.colText
+          font: Theme.titleFont
+        }
+        MouseArea {
+          id: nextMonthArea
+          hoverEnabled: true
+          anchors.fill: parent
+          onClicked: {
+            if (root.viewMonth == 11) {
+              root.viewMonth = 0;
+              root.viewYear++;
+            } else {
+              root.viewMonth++;
+            }
+          }
+          cursorShape: Qt.PointingHandCursor
+        }
+      }
+    }
   }
 
   GridLayout {
@@ -63,21 +145,20 @@ ColumnLayout {
         readonly property int day: index - root.firstDay + 1
 
         readonly property bool valid: day > 0 && day <= root.daysInMonth
-        readonly property date dateValue: valid ? new Date(root.year, root.month,
-                                                           day) : new Date(0)
+        readonly property date dateValue: valid ? new Date(root.viewYear,
+                                                           root.viewMonth, day) :
+                                                  new Date(0)
 
         readonly property bool isToday: valid && dateValue.toDateString() === (
                                           new Date()).toDateString()
         readonly property bool isSelected: valid && dateValue.toDateString()
                                            === root.today.toDateString()
 
-        border.width: (isSelected || isToday) ? 2 : 0
-        border.color: isSelected ? Theme.colOverlay2 : (isToday
-                                                        ? Theme.colOverlay0 :
-                                                          "transparent")
+        border.width: 2
+        border.color: isToday ? Theme.colOverlay2 : "transparent"
         radius: 4
 
-        color: area.containsMouse ? Theme.colSurface0 : "transparent"
+        color: "transparent"
 
         Text {
           anchors.centerIn: cell
@@ -85,13 +166,6 @@ ColumnLayout {
           text: cell.day
           color: Theme.colText
           font: Theme.mainFont
-        }
-        MouseArea {
-          id: area
-          anchors.fill: parent
-          hoverEnabled: true
-          cursorShape: enabled ? Qt.PointingHandCursor : Qt.ArrowCursor
-          onClicked: root.today = cell.dateValue
         }
       }
     }
