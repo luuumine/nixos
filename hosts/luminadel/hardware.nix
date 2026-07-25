@@ -26,8 +26,21 @@
   swapDevices = [ ];
 
   nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-  hardware.cpu.intel = {
-    npu.enable = true;
-    updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+
+  services.xserver.videoDrivers = [ "nvidia" ];
+  hardware = {
+    cpu.intel = {
+      npu.enable = true;
+      updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+    };
+
+    graphics.enable = true;
+
+    nvidia = {
+      modesetting.enable = true;
+      open = true;
+      nvidiaSettings = false;
+    };
   };
+
 }
