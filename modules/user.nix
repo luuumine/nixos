@@ -25,6 +25,7 @@ in
         "networkmanager"
         "render"
         "video"
+        "dialout"
       ];
       initialPassword = "";
     };
