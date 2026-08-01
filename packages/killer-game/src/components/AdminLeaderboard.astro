@@ -1,0 +1,88 @@
+---
+import type { Player } from "@/lib/types";
+import "@/styles/adminTables.css";
+
+interface Props {
+  players: Player[];
+  adminUuid: string;
+}
+const { players, adminUuid } = Astro.props;
+---
+
+<section class="admin-card">
+  <h2 style="margin-top: 0;">Leaderboard & Status</h2>
+  <table class="data-table">
+    <thead>
+      <tr>
+        <th>Player</th>
+        <th>Status</th>
+        <th>Kills</th>
+        <th class="text-right">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {
+        players.map((p) => (
+          <tr>
+            <td>
+              <>
+                <a
+                  href={`/p/${p.uuid}`}
+                  target="_blank"
+                  class="admin-player-link">
+                  <strong>{p.playerName}</strong>
+                </a>
+                <br />
+              </>
+              <small class="text-small">{p.uuid}</small>
+            </td>
+            <td>
+              {p.isAlive ? (
+                <span class="status-alive">Alive</span>
+              ) : (
+                <span class="status-dead">Dead</span>
+              )}
+            </td>
+            <td>{p.totalKills}</td>
+            <td class="text-right">
+              {p.isAlive ? (
+                <button
+                  class="btn-force-kill"
+                  data-id={p.id}
+                  data-name={p.playerName}>
+                  Force Kill
+                </button>
+              ) : (
+                "-"
+              )}
+            </td>
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+</section>
+
+<script is:inline define:vars={{ adminUuid }}>
+  document.querySelectorAll(".btn-force-kill").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      const victimPlayerId = btn.getAttribute("data-id");
+      const victimName = btn.getAttribute("data-name");
+      if (!confirm(`Force kill ${victimName}?`)) return;
+      try {
+        const res = await fetch("/api/admin/force-kill", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            adminUuid,
+            victimPlayerId: Number(victimPlayerId),
+          }),
+        });
+        if (!res.ok) throw new Error((await res.json()).error);
+        window.location.reload();
+      } catch (err) {
+        alert(err.message);
+      }
+    });
+  });
+</script>

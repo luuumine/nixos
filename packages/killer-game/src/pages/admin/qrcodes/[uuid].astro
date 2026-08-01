@@ -1,0 +1,61 @@
+---
+export const prerender = false;
+import db from "@/lib/db";
+import QRCode from "qrcode";
+import "@/styles/qrCodes.css";
+import type { Player } from "@/lib/types";
+
+const { uuid } = Astro.params;
+
+if (uuid !== process.env.ADMIN_UUID) {
+  return Astro.redirect("/");
+}
+
+const players = db
+  .prepare(`SELECT uuid, playerName FROM players ORDER BY playerName ASC`)
+  .all() as Player[];
+const rawBase = process.env.BASE_URL || "http://localhost:4321";
+const baseUrl = rawBase.replace(/\/$/, "");
+
+const playersWithQr = await Promise.all(
+  players.map(async (p) => {
+    const url = `${baseUrl}/p/${p.uuid}`;
+    const qrSvg = await QRCode.toString(url, {
+      type: "svg",
+      width: 250,
+      margin: 2,
+      color: { dark: "#000000", light: "#ffffff" },
+    });
+    return { ...p, qrSvg, url };
+  }),
+);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Print QR Codes</title>
+  </head>
+  <body>
+    <div class="qr-nav">
+      <p>Print these cards to distribute to players.</p>
+      <button type="button" class="qr-print-btn" onclick="window.print()"
+        >Print QR Codes</button
+      >
+      <a href={`/admin/${uuid}`} class="qr-print-btn">Return to Dashboard</a>
+    </div>
+
+    <div class="qr-grid">
+      {
+        playersWithQr.map((p) => (
+          <div class="qr-card">
+            <h2>{p.playerName}</h2>
+            <div set:html={p.qrSvg} />
+            <p class="qr-url">{p.url}</p>
+          </div>
+        ))
+      }
+    </div>
+  </body>
+</html>

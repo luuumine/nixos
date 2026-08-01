@@ -72,6 +72,8 @@
         runners = true;
       };
       wealthfolio.enable = true;
+
+      killer-game.enable = true;
     };
 
     shell.enable = true;

@@ -1,0 +1,80 @@
+:root {
+  --line: #e8e2d9;
+  --bg: #f8f9fa;
+  --fg: #2d3748;
+  --muted: #718096;
+  --card-bg: #ffffff;
+  --primary: #dc2626;
+  --primary-hover: #b91c1c;
+  --success: #16a34a;
+  --success-hover: #15803d;
+  --font-main: system-ui, -apple-system, sans-serif;
+}
+
+html {
+  box-sizing: border-box;
+}
+*,
+*::before,
+*::after {
+  box-sizing: inherit;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: var(--font-main);
+  font-size: 16px;
+  line-height: 1.6;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1.5rem;
+}
+
+.card {
+  background: var(--card-bg);
+  padding: 2.5rem 2rem;
+  border-radius: 1.25rem;
+  box-shadow:
+    0 10px 25px -5px rgba(0, 0, 0, 0.05),
+    0 8px 10px -6px rgba(0, 0, 0, 0.01);
+  max-width: 480px;
+  width: 100%;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+button {
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 0.625rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+button:active {
+  transform: scale(0.98);
+}
+
+strong {
+  font-weight: 700;
+  color: #1a202c;
+}
+
+.status-alive {
+  color: var(--success);
+}
+.status-dead {
+  color: var(--primary);
+}

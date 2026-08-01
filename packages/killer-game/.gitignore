@@ -1,0 +1,9 @@
+.direnv/
+
+# node / astro
+dist/
+.astro/
+node_modules/
+
+# initial game data
+seed.json

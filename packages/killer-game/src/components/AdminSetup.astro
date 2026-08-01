@@ -1,0 +1,142 @@
+---
+import type { Player } from "@/lib/types";
+import "@/styles/adminSetup.css";
+
+interface Props {
+  players: Player[];
+  adminUuid: string;
+}
+const { players, adminUuid } = Astro.props;
+
+const templateJson = JSON.stringify(
+  [
+    { playerName: "Alice", missionText: "Say 'apple'", gender: 1 },
+    { playerName: "Bob", missionText: "Touch the ground", gender: 0 },
+  ],
+  null,
+  2,
+);
+---
+
+<section class="admin-card setup-card">
+  <div class="setup-header">
+    <h2>Waiting Room ({players.length} Players)</h2>
+    <button id="start-game-btn" class="btn-start">Start Game</button>
+  </div>
+
+  <div class="add-player-box">
+    <h3>Add Player</h3>
+    <div class="add-player-form">
+      <input
+        type="text"
+        id="new-name"
+        placeholder="Name"
+        class="input-field input-name"
+      />
+      <input
+        type="text"
+        id="new-mission"
+        placeholder="Mission"
+        class="input-field input-mission"
+      />
+      <select id="new-gender" class="input-field select-gender">
+        <option value="0">Male</option>
+        <option value="1">Female</option>
+      </select>
+      <button id="add-player-btn" class="btn-add">Add</button>
+    </div>
+  </div>
+
+  <table class="roster-table">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Mission</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      {
+        players.map((p) => (
+          <tr>
+            <td>
+              <strong>{p.playerName}</strong>
+            </td>
+            <td>{p.missionText}</td>
+            <td>
+              <button class="btn-remove" data-uuid={p.uuid}>
+                Remove
+              </button>
+            </td>
+          </tr>
+        ))
+      }
+    </tbody>
+  </table>
+
+  <details class="bulk-section">
+    <summary class="bulk-summary">Advanced: Bulk Import JSON</summary>
+    <textarea id="bulk-json" rows="6" class="bulk-input"
+      >{templateJson}</textarea
+    >
+    <button id="bulk-set-btn" class="btn-bulk">Overwrite All Players</button>
+  </details>
+</section>
+
+<script is:inline define:vars={{ adminUuid }}>
+  async function apiCall(endpoint, bodyData) {
+    try {
+      const res = await fetch(`/api/admin/${endpoint}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ adminUuid, ...bodyData }),
+      });
+      if (!res.ok) throw new Error((await res.json()).error);
+      window.location.reload();
+    } catch (err) {
+      alert(err.message);
+    }
+  }
+
+  document.getElementById("start-game-btn")?.addEventListener("click", () => {
+    if (confirm("Lock the roster and start the game?"))
+      apiCall("start-game", {});
+  });
+
+  document.getElementById("add-player-btn")?.addEventListener("click", () => {
+    const nameInput = document.getElementById("new-name");
+    const missionInput = document.getElementById("new-mission");
+    const genderInput = document.getElementById("new-gender");
+
+    const playerName = nameInput.value.trim();
+    const missionText = missionInput.value.trim();
+    const gender = parseInt(genderInput.value, 10);
+
+    if (playerName && missionText) {
+      apiCall("add-player", { playerName, missionText, gender });
+      nameInput.value = "";
+      missionInput.value = "";
+      genderInput.value = "0";
+    }
+  });
+
+  document.querySelectorAll(".btn-remove").forEach((btn) => {
+    btn.addEventListener("click", (e) => {
+      const playerUuid = e.target.getAttribute("data-uuid");
+      if (confirm("Remove this player?"))
+        apiCall("remove-player", { playerUuid });
+    });
+  });
+
+  document.getElementById("bulk-set-btn")?.addEventListener("click", () => {
+    try {
+      const playersData = JSON.parse(
+        document.getElementById("bulk-json").value,
+      );
+      if (confirm("This will wipe all current players. Continue?"))
+        apiCall("set-players", { playersData });
+    } catch (e) {
+      alert("Invalid JSON");
+    }
+  });
+</script>

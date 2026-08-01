@@ -1,0 +1,87 @@
+body {
+  font-family: var(--font-main);
+  background: #f8f9fa;
+  color: #000;
+  margin: 0;
+  padding: 0;
+}
+
+.qr-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 1.5rem;
+  padding: 2rem;
+}
+
+.qr-card {
+  background: #fff;
+  border: 2px dashed #cbd5e1;
+  padding: 1.5rem;
+  text-align: center;
+  border-radius: 12px;
+  page-break-inside: avoid;
+  break-inside: avoid;
+}
+
+.qr-card h2 {
+  margin: 0 0 1rem 0;
+  font-size: 1.75rem;
+}
+.qr-url {
+  font-size: 0.65rem;
+  color: #64748b;
+  margin-top: 0.5rem;
+  font-family: monospace;
+  word-break: break-all;
+}
+
+.qr-nav {
+  padding: 1.5rem;
+  background: #e2e8f0;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+.qr-print-btn {
+  padding: 0.75rem 1.5rem;
+  background: #0f172a;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  cursor: pointer;
+  margin-right: 1rem;
+  text-decoration: none;
+  display: inline-block;
+}
+
+@media print {
+  body {
+    background: #fff;
+  }
+  .qr-nav {
+    display: none;
+  }
+  .qr-grid {
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5cm;
+  }
+  .qr-card {
+    border: 1px solid #000;
+    margin: 0;
+    padding: 1rem;
+    min-height: 7cm;
+  }
+  .qr-card h2 {
+    font-size: 1.1rem;
+    margin-bottom: 0.4cm;
+  }
+  .qr-card svg {
+    width: 4.2cm;
+    height: 4.2cm;
+  }
+  .qr-url {
+    font-size: 0.5rem;
+  }
+}

@@ -1,0 +1,73 @@
+.data-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.data-table th {
+  padding: 0.5rem;
+  border-bottom: 2px solid var(--line);
+  text-align: left;
+}
+
+.data-table td {
+  padding: 0.5rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.text-small {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+.text-right {
+  text-align: right;
+}
+
+.admin-player-link {
+  color: var(--fg);
+  text-decoration: none;
+}
+
+.admin-player-link:hover {
+  text-decoration: underline;
+  color: var(--primary);
+}
+
+.btn-force-kill {
+  background: var(--primary);
+  color: white;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+}
+
+.btn-undo {
+  background: var(--muted);
+  color: white;
+  padding: 0.4rem 0.8rem;
+  font-size: 0.85rem;
+}
+
+.collapsible-summary {
+  font-size: 1.125rem;
+  font-weight: bold;
+  cursor: pointer;
+  color: var(--fg);
+}
+
+.mission-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 1rem;
+}
+.mission-item {
+  border-bottom: 1px solid var(--line);
+  padding: 0.75rem 0;
+}
+.mission-text {
+  margin: 0.25rem 0 0 0;
+  color: var(--muted);
+}
+.empty-state {
+  color: var(--muted);
+  margin-top: 1rem;
+}

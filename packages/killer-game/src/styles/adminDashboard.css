@@ -1,0 +1,72 @@
+.admin-container {
+  max-width: 800px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.admin-card {
+  background: var(--card-bg);
+  padding: 2.5rem 2rem;
+  border-radius: 1.25rem;
+  box-shadow:
+    0 10px 25px -5px rgba(0, 0, 0, 0.05),
+    0 8px 10px -6px rgba(0, 0, 0, 0.01);
+  width: 100%;
+  text-align: left;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  margin-bottom: 2rem;
+}
+
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.admin-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.btn-print {
+  padding: 0.5rem 1rem;
+  background: var(--fg);
+  color: white;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.btn-end {
+  padding: 0.5rem 1rem;
+  background: var(--primary);
+  color: white;
+  border-radius: 6px;
+}
+
+.btn-prepare {
+  padding: 0.5rem 1rem;
+  background: var(--success);
+  color: white;
+  border-radius: 6px;
+}
+
+.game-ended-card {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  background: #fef2f2;
+  border-color: #fecaca;
+  max-width: 100%;
+}
+
+.game-ended-title {
+  color: var(--primary);
+  margin: 0;
+}
+
+.game-ended-desc {
+  margin-top: 0.5rem;
+  color: var(--muted);
+}

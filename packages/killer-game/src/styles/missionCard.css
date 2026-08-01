@@ -1,0 +1,36 @@
+.mission-card {
+  text-align: center;
+}
+.mission-card h1 {
+  margin-top: 0;
+  font-size: 1.75rem;
+}
+.mission-card p {
+  margin: 0.75rem 0;
+}
+.mission-waiting {
+  margin-top: 1.5rem;
+  color: var(--muted);
+  font-weight: bold;
+}
+.mission-dead {
+  color: var(--primary);
+  font-weight: bold;
+}
+.mission-victory {
+  color: var(--success);
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.game-over-title {
+  color: var(--primary);
+}
+.leaderboard-divider {
+  border: 0;
+  border-top: 1px solid var(--line);
+  margin: 1.5rem 0;
+}
+.mission-reveal {
+  margin-top: 1.5rem;
+}

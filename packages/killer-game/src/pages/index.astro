@@ -1,0 +1,15 @@
+---
+export const prerender = false;
+import Layout from "@/layouts/Layout.astro";
+import { getTranslations } from "@/lib/i18n";
+
+const t = getTranslations();
+---
+
+<Layout title="Killer">
+  <section class="card">
+    <h1 class="text-primary">Killer</h1>
+    <p class="font-bold">{t.homeTitle}</p>
+    <p class="text-muted mt-2">{t.homeDesc}</p>
+  </section>
+</Layout>

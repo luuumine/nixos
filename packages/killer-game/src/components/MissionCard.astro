@@ -1,0 +1,174 @@
+---
+import { getTranslations } from "@/lib/i18n";
+import type { GameState, LeaderboardEntry } from "@/lib/types";
+import "@/styles/missionCard.css";
+
+interface Props {
+  playerName: string;
+  totalKills: number;
+  isAlive: number;
+  aliveCount: number;
+  targetName: string | null;
+  targetGender: number | null;
+  missionText: string | null;
+  gameState: GameState;
+  leaderboard: LeaderboardEntry[];
+}
+
+const {
+  playerName,
+  totalKills,
+  isAlive,
+  aliveCount,
+  targetName,
+  targetGender,
+  missionText,
+  gameState,
+  leaderboard,
+} = Astro.props;
+
+const t = getTranslations();
+
+type KillGroup = {
+  kills: number;
+  players: LeaderboardEntry[];
+};
+
+function sortPlayersInGroup(players: LeaderboardEntry[]): LeaderboardEntry[] {
+  return [...players].sort((a, b) => {
+    if (a.isAlive !== b.isAlive) return b.isAlive - a.isAlive; // alive first
+    return a.playerName.localeCompare(b.playerName, undefined, {
+      sensitivity: "base",
+    }); // then A-Z
+  });
+}
+
+function buildKillGroups(players: LeaderboardEntry[]): KillGroup[] {
+  const sorted = [...players].sort((a, b) => b.totalKills - a.totalKills);
+  const groups: KillGroup[] = [];
+
+  for (const p of sorted) {
+    const last = groups[groups.length - 1];
+    if (last && last.kills === p.totalKills) {
+      last.players.push(p);
+    } else {
+      groups.push({ kills: p.totalKills, players: [p] });
+    }
+  }
+
+  return groups.map((g) => ({
+    ...g,
+    players: sortPlayersInGroup(g.players),
+  }));
+}
+
+function takeGroupsAtLeastNPlayers(
+  groups: KillGroup[],
+  minPlayers: number,
+): KillGroup[] {
+  const out: KillGroup[] = [];
+  let count = 0;
+
+  for (const g of groups) {
+    out.push(g);
+    count += g.players.length;
+    if (count >= minPlayers) break;
+  }
+
+  return out;
+}
+
+const alivePlayers = leaderboard.filter((p) => p.isAlive === 1);
+const aliveGroups = buildKillGroups(alivePlayers);
+const overallGroups = buildKillGroups(leaderboard);
+
+const winnerGroups = takeGroupsAtLeastNPlayers(aliveGroups, 1);
+const winnerPlayers = winnerGroups.flatMap((g) => g.players);
+
+const bestKillerGroups = takeGroupsAtLeastNPlayers(overallGroups, 3);
+
+const isWinner = winnerPlayers.some((p) => p.playerName === playerName);
+---
+
+<section class="card mission-card">
+  <h1>{t.welcome} <strong>{playerName}</strong></h1>
+
+  {
+    gameState === "PREPARING" ? (
+      <p class="mission-waiting">{t.waitingForGame}</p>
+    ) : gameState === "ENDED" ? (
+      <div>
+        <h2 class="game-over-title">{t.gameOverTitle}</h2>
+        <p>{t.gameOverDesc}</p>
+
+        {isWinner && <p class="mission-victory mt-2">🏆 {t.youWon}</p>}
+
+        <p class="mt-2">{t.finalScore(totalKills)}</p>
+
+        <hr class="leaderboard-divider" />
+
+        {winnerGroups.length > 0 ? (
+          <p>
+            <strong>
+              {winnerPlayers.length > 1 ? "Winners" : "Winner"} (
+              {winnerGroups[0].kills} kill
+              {winnerGroups[0].kills > 1 ? "s" : ""}):
+            </strong>{" "}
+            {winnerPlayers.map((p) => p.playerName).join(", ")}
+          </p>
+        ) : (
+          <p>
+            <strong>Winner:</strong> none
+          </p>
+        )}
+
+        <hr class="leaderboard-divider" />
+
+        <p>
+          <strong>Best killers:</strong>
+        </p>
+
+        <div style="text-align: left;">
+          {bestKillerGroups.map((group) => (
+            <p>
+              <strong>
+                {group.kills} kill{group.kills > 1 ? "s" : ""}:
+              </strong>{" "}
+              {group.players.map((p, idx) => (
+                <>
+                  <span
+                    class={p.isAlive === 1 ? "status-alive" : "status-dead"}>
+                    {p.playerName}
+                  </span>
+                  {idx < group.players.length - 1 ? ", " : ""}
+                </>
+              ))}
+            </p>
+          ))}
+        </div>
+      </div>
+    ) : isAlive === 0 ? (
+      <p class="mission-dead">{t.deadTitle}</p>
+    ) : aliveCount === 1 ? (
+      <div>
+        <p class="mission-victory">{t.victoryTitle}</p>
+        <p>{t.victoryDesc}</p>
+        <p>{t.finalScore(totalKills)}</p>
+      </div>
+    ) : (
+      <>
+        <p>
+          {t.currentScore} <strong>{totalKills}</strong>
+        </p>
+        <p>
+          {t.targetIs} <strong>{targetName}</strong>
+        </p>
+        <p class="mission-reveal">
+          {t.killPrefix(targetGender)}
+          <br />
+          <strong>{missionText}</strong>
+        </p>
+      </>
+    )
+  }
+</section>

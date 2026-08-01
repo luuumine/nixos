@@ -6,6 +6,8 @@
     ./delhommais-com.nix
     ./luuumine-com.nix
 
+    ./killer-game.nix
+
     ./jellyfin.nix
     ./automation.nix
     ./immich.nix

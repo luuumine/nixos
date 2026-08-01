@@ -1,0 +1,70 @@
+---
+import type { KillLogData } from "@/lib/types";
+import "@/styles/adminTables.css";
+
+interface Props {
+  killLogs: KillLogData[];
+  adminUuid: string;
+}
+const { killLogs, adminUuid } = Astro.props;
+---
+
+<section class="admin-card admin-table-card">
+  <details>
+    <summary class="collapsible-summary">Kill Logs & Undo Actions</summary>
+    {
+      killLogs.length === 0 ? (
+        <p class="empty-state">No kills recorded yet.</p>
+      ) : (
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>Date/Time</th>
+              <th>Action</th>
+              <th class="text-right">Revert</th>
+            </tr>
+          </thead>
+          <tbody>
+            {killLogs.map((log) => (
+              <tr>
+                <td class="text-small">
+                  {new Date(log.timestamp).toLocaleString("fr-FR")}
+                </td>
+                <td>
+                  <strong>{log.killerName}</strong> killed{" "}
+                  <strong>{log.victimName}</strong>
+                </td>
+                <td class="text-right">
+                  <button class="btn-undo" data-kill-id={log.id}>
+                    Undo
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )
+    }
+  </details>
+</section>
+
+<script is:inline define:vars={{ adminUuid }}>
+  document.querySelectorAll(".btn-undo").forEach((btn) => {
+    btn.addEventListener("click", async () => {
+      const killId = btn.getAttribute("data-kill-id");
+      if (!confirm("Revert this kill? Out of order reverts may cause issues."))
+        return;
+      try {
+        const res = await fetch("/api/admin/cancel-kill", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ adminUuid, killId: Number(killId) }),
+        });
+        if (!res.ok) throw new Error((await res.json()).error);
+        window.location.reload();
+      } catch (err) {
+        alert(err.message);
+      }
+    });
+  });
+</script>

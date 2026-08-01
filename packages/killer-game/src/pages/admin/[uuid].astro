@@ -1,0 +1,141 @@
+---
+export const prerender = false;
+import Layout from "@/layouts/Layout.astro";
+import AdminSetup from "@/components/AdminSetup.astro";
+import AdminLeaderboard from "@/components/AdminLeaderboard.astro";
+import AdminMissions from "@/components/AdminMissions.astro";
+import AdminKills from "@/components/AdminKills.astro";
+import db from "@/lib/db";
+import "@/styles/adminDashboard.css";
+import type { Player, MissionData, KillLogData, GameState } from "@/lib/types";
+
+const { uuid } = Astro.params;
+
+if (uuid !== process.env.ADMIN_UUID) {
+  return Astro.redirect("/");
+}
+
+const players = db
+  .prepare(`SELECT * FROM players ORDER BY totalKills DESC, isAlive DESC`)
+  .all() as Player[];
+const { count: activeCount } = db
+  .prepare(`SELECT COUNT(*) as count FROM missions WHERE isActive = 1`)
+  .get() as { count: number };
+const { count: killCount } = db
+  .prepare(`SELECT COUNT(*) as count FROM kills`)
+  .get() as { count: number };
+
+let gameState: GameState = "PREPARING";
+if (activeCount > 0) gameState = "RUNNING";
+else if (killCount > 0) gameState = "ENDED";
+
+const activeMissions =
+  gameState === "RUNNING"
+    ? (db
+        .prepare(
+          `
+      SELECT m.id, p1.playerName as hunter, p2.playerName as target, m.missionText
+      FROM missions m
+      JOIN players p1 ON m.assignedPlayerId = p1.id
+      JOIN players p2 ON m.targetPlayerId = p2.id
+      WHERE m.isActive = 1
+    `,
+        )
+        .all() as MissionData[])
+    : [];
+
+const killLogs = db
+  .prepare(
+    `
+  SELECT k.id, k.timestamp, p1.playerName as killerName, p2.playerName as victimName
+  FROM kills k
+  JOIN players p1 ON k.killerId = p1.id
+  JOIN players p2 ON k.victimId = p2.id
+  ORDER BY k.timestamp DESC
+`,
+  )
+  .all() as KillLogData[];
+---
+
+<Layout title="Admin Panel">
+  <div class="admin-container">
+    <div class="admin-header">
+      <h1>Admin Panel</h1>
+      <div class="admin-actions">
+        <a href={`/admin/qrcodes/${uuid}`} class="btn-print">Print QR Codes</a>
+        {
+          gameState === "RUNNING" && (
+            <button id="end-game-btn" class="btn-end">
+              End Game
+            </button>
+          )
+        }
+        {
+          gameState === "ENDED" && (
+            <button id="prepare-game-btn" class="btn-prepare">
+              Prepare New Game
+            </button>
+          )
+        }
+      </div>
+    </div>
+
+    {
+      gameState === "PREPARING" ? (
+        <AdminSetup players={players} adminUuid={uuid} />
+      ) : gameState === "RUNNING" ? (
+        <>
+          <AdminLeaderboard players={players} adminUuid={uuid} />
+          <AdminKills killLogs={killLogs} adminUuid={uuid} />
+          <AdminMissions missions={activeMissions} />
+        </>
+      ) : (
+        <>
+          <section class="admin-card game-ended-card">
+            <h2 class="game-ended-title">Game Ended</h2>
+            <p class="game-ended-desc">
+              Players are viewing the final leaderboard. Click "Prepare New
+              Game" to reset.
+            </p>
+          </section>
+          <AdminLeaderboard players={players} adminUuid={uuid} />
+          <AdminKills killLogs={killLogs} adminUuid={uuid} />
+        </>
+      )
+    }
+  </div>
+</Layout>
+
+<script is:inline define:vars={{ uuid }}>
+  document
+    .getElementById("end-game-btn")
+    ?.addEventListener("click", async () => {
+      if (!confirm("End the game? Players will see final results.")) return;
+      try {
+        await fetch("/api/admin/end-game", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ adminUuid: uuid }),
+        });
+        window.location.reload();
+      } catch (err) {
+        alert("Failed to end game.");
+      }
+    });
+
+  document
+    .getElementById("prepare-game-btn")
+    ?.addEventListener("click", async () => {
+      if (!confirm("Reset scores and history for a new game?")) return;
+      try {
+        await fetch("/api/admin/prepare-game", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ adminUuid: uuid }),
+        });
+        window.location.reload();
+      } catch (err) {
+        alert("Failed to reset game.");
+      }
+    });
+</script>

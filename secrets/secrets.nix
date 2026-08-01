@@ -19,4 +19,6 @@ in
   "luminadel/forgejo-signing-key.age".publicKeys = users ++ [ luminadel ];
 
   "luminadel/wealthfolio-key.age".publicKeys = users ++ [ luminadel ];
+
+  "luminadel/killer-game.env.age".publicKeys = users ++ [ luminadel ];
 }

@@ -1,0 +1,85 @@
+---
+export const prerender = false;
+import Layout from "@/layouts/Layout.astro";
+import MissionCard from "@/components/MissionCard.astro";
+import KillAction from "@/components/KillAction.astro";
+import db from "@/lib/db";
+import type { GameState, LeaderboardEntry } from "@/lib/types";
+
+const { uuid } = Astro.params;
+
+const data = db
+  .prepare(
+    `
+  SELECT p.id as playerId, p.playerName, p.totalKills, p.isAlive, m.missionText, t.playerName as targetName, t.gender as targetGender
+  FROM players p
+  LEFT JOIN missions m ON p.id = m.assignedPlayerId AND m.isActive = 1
+  LEFT JOIN players t ON m.targetPlayerId = t.id
+  WHERE p.uuid = ?
+`,
+  )
+  .get(uuid) as any;
+
+if (!data) return Astro.redirect("/");
+
+const { aliveCount } = db
+  .prepare(`SELECT COUNT(*) as aliveCount FROM players WHERE isAlive = 1`)
+  .get() as { aliveCount: number };
+const { count: activeMissionCount } = db
+  .prepare(`SELECT COUNT(*) as count FROM missions WHERE isActive = 1`)
+  .get() as { count: number };
+const { count: killCount } = db
+  .prepare(`SELECT COUNT(*) as count FROM kills`)
+  .get() as { count: number };
+
+let gameState: GameState = "PREPARING";
+if (activeMissionCount > 0) gameState = "RUNNING";
+else if (killCount > 0 || aliveCount <= 1) gameState = "ENDED";
+
+const leaderboard =
+  gameState === "ENDED"
+    ? (db
+        .prepare(
+          `SELECT id, uuid, isAlive, playerName, totalKills FROM players ORDER BY totalKills DESC`,
+        )
+        .all() as LeaderboardEntry[])
+    : [];
+
+const {
+  playerName,
+  totalKills,
+  isAlive,
+  missionText,
+  targetName,
+  targetGender,
+} = data;
+---
+
+<Layout title={`Mission - ${playerName}`}>
+  <MissionCard
+    playerName={playerName}
+    totalKills={totalKills}
+    isAlive={isAlive}
+    aliveCount={aliveCount}
+    targetName={targetName}
+    targetGender={targetGender}
+    missionText={missionText}
+    gameState={gameState}
+    leaderboard={leaderboard}
+  />
+
+  {
+    gameState === "RUNNING" && isAlive === 1 && aliveCount > 1 && (
+      <KillAction uuid={uuid!} />
+    )
+  }
+</Layout>
+
+<script>
+  setInterval(() => {
+    const confirmation = document.querySelector(".confirmation-section");
+    if (!confirmation || confirmation.classList.contains("hidden")) {
+      window.location.reload();
+    }
+  }, 10000);
+</script>

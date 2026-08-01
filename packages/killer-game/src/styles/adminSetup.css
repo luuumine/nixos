@@ -1,0 +1,101 @@
+.setup-card {
+  max-width: 100%;
+  margin-bottom: 2rem;
+}
+
+.setup-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.btn-start {
+  background: var(--success);
+  color: white;
+  padding: 0.5rem 1rem;
+}
+
+.add-player-box {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  background: var(--bg);
+  border-radius: 8px;
+}
+
+.add-player-box h3 {
+  margin-top: 0;
+}
+
+.add-player-form {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.input-field {
+  padding: 0.5rem;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+}
+
+.input-name {
+  flex: 1;
+}
+.input-mission {
+  flex: 2;
+}
+
+.btn-add {
+  background: var(--fg);
+  color: white;
+  padding: 0.5rem 1rem;
+}
+
+.roster-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1.5rem;
+}
+
+.roster-table th,
+.roster-table td {
+  padding: 0.5rem;
+  border-bottom: 1px solid var(--line);
+  text-align: left;
+}
+
+.roster-table th:last-child,
+.roster-table td:last-child {
+  text-align: right;
+}
+
+.btn-remove {
+  background: var(--primary);
+  color: white;
+  padding: 0.3rem 0.6rem;
+  font-size: 0.8rem;
+}
+
+.bulk-section {
+  margin-top: 2rem;
+}
+.bulk-summary {
+  cursor: pointer;
+  color: var(--muted);
+  font-weight: bold;
+}
+.bulk-input {
+  width: 100%;
+  margin-top: 1rem;
+  font-family: monospace;
+  padding: 0.5rem;
+  border: 1px solid var(--line);
+  border-radius: 4px;
+}
+.btn-bulk {
+  width: 100%;
+  background: var(--muted);
+  color: white;
+  margin-top: 0.5rem;
+  padding: 0.75rem;
+}

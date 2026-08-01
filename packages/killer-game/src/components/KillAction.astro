@@ -1,0 +1,68 @@
+---
+import { getTranslations } from "@/lib/i18n";
+import "@/styles/killAction.css";
+
+interface Props {
+  uuid: string;
+}
+const { uuid } = Astro.props;
+const t = getTranslations();
+---
+
+<section class="kill-section">
+  <button class="btn-accomplished">{t.btnAccomplished}</button>
+</section>
+
+<section class="confirmation-section hidden">
+  <h2>{t.confirmQuestion}</h2>
+  <div class="confirmation-options">
+    <button class="btn-yes" data-uuid={uuid}>{t.btnYes}</button>
+    <button class="btn-no">{t.btnNo}</button>
+  </div>
+</section>
+
+<script>
+  class KillActionHandler {
+    killButton: HTMLButtonElement | null;
+    confirmation: HTMLElement | null;
+    yesButton: HTMLButtonElement | null;
+    noButton: HTMLButtonElement | null;
+
+    constructor() {
+      this.killButton = document.querySelector(".btn-accomplished");
+      this.confirmation = document.querySelector(".confirmation-section");
+      this.yesButton = document.querySelector(".btn-yes");
+      this.noButton = document.querySelector(".btn-no");
+      this.init();
+    }
+
+    resetUI() {
+      this.confirmation?.classList.add("hidden");
+      this.killButton?.classList.remove("hidden");
+    }
+
+    init() {
+      this.killButton?.addEventListener("click", () => {
+        this.killButton?.classList.add("hidden");
+        this.confirmation?.classList.remove("hidden");
+      });
+      this.noButton?.addEventListener("click", () => this.resetUI());
+      this.yesButton?.addEventListener("click", async (e) => {
+        const uuid = (e.target as HTMLButtonElement).getAttribute("data-uuid");
+        try {
+          const response = await fetch("/api/kill", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ uuid }),
+          });
+          if (!response.ok) throw new Error("Server error");
+          window.location.reload();
+        } catch (err) {
+          alert("Error occurred");
+          this.resetUI();
+        }
+      });
+    }
+  }
+  new KillActionHandler();
+</script>

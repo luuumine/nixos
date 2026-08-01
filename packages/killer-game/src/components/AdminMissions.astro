@@ -1,0 +1,25 @@
+---
+import type { MissionData } from "@/lib/types";
+import "@/styles/adminTables.css";
+
+interface Props {
+  missions: MissionData[];
+}
+const { missions } = Astro.props;
+---
+
+<section class="admin-card admin-table-card">
+  <details>
+    <summary class="collapsible-summary">Active Missions</summary>
+    <ul class="mission-list">
+      {
+        missions.map((m) => (
+          <li class="mission-item">
+            <strong>{m.hunter}</strong> &rarr; <strong>{m.target}</strong>
+            <p class="mission-text">{m.missionText}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </details>
+</section>
