@@ -9,3 +9,6 @@ require("lazynvim")
 
 -- Load keymaps
 require("keymaps")
+
+-- Load layouts
+require("layout")

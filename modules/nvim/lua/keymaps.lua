@@ -2,6 +2,8 @@ local set = vim.keymap.set
 
 -- Native nvim
 set("n", "<leader>pv", vim.cmd.Ex)
+set("n", "<leader>l", "<cmd>Layout<cr>", { desc = "dev layout" })
+
 set("n", "<leader>v-", "<cmd>vsplit<cr>", { desc = "Vertical split" })
 set("n", "<leader>h-", "<cmd>split<cr>", { desc = "Horizontal split" })
 set("n", "<leader>tv", "<cmd>vsplit | terminal<cr>a", { desc = "Vertical terminal" })
