@@ -73,7 +73,11 @@
       };
       wealthfolio.enable = true;
 
-      killer-game.enable = true;
+      killer-game = {
+        enable = true;
+        language = "fr";
+      };
+
     };
 
     shell.enable = true;
