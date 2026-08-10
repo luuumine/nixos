@@ -5,5 +5,5 @@ dist/
 .astro/
 node_modules/
 
-# initial game data
-seed.json
+# game db
+game.db*

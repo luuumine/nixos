@@ -12,7 +12,7 @@
 let
   pnpm = pnpm_10.override { nodejs-slim = nodejs_22; };
   pname = "killer-game";
-  version = "1.0.0";
+  version = "1.1.0";
   src = ./.;
 in
 stdenv.mkDerivation {

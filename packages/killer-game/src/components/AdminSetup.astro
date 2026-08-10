@@ -21,7 +21,13 @@ const templateJson = JSON.stringify(
 <section class="admin-card setup-card">
   <div class="setup-header">
     <h2>Waiting Room ({players.length} Players)</h2>
-    <button id="start-game-btn" class="btn-start">Start Game</button>
+    <div class="start-actions">
+      <label class="shuffle-toggle">
+        <input type="checkbox" id="shuffle-checkbox" />
+        Shuffle when starting
+      </label>
+      <button id="start-game-btn" class="btn-start">Start Game</button>
+    </div>
   </div>
 
   <div class="add-player-box">
@@ -99,8 +105,11 @@ const templateJson = JSON.stringify(
   }
 
   document.getElementById("start-game-btn")?.addEventListener("click", () => {
+    // Read the checkbox value here
+    const shouldShuffle = document.getElementById("shuffle-checkbox").checked;
+
     if (confirm("Lock the roster and start the game?"))
-      apiCall("start-game", {});
+      apiCall("start-game", { shouldShuffle }); // Pass it to the API
   });
 
   document.getElementById("add-player-btn")?.addEventListener("click", () => {
