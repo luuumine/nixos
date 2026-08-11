@@ -7,7 +7,7 @@
 
 let
   cfg = config.lumine.desktop;
-  gpu = config.lumine.system.gpuBrand;
+  gpu = config.lumine.system.displayGpu;
 in
 {
   imports = [
@@ -27,12 +27,14 @@ in
       {
         assertions = [
           {
-            assertion = gpu != "nvidia";
-            message = "nvidia graphics are not yet supported in lumine.desktop. please use \"amd\" or \"intel\".";
-          }
-          {
             assertion = gpu != null;
-            message = "lumine.desktop is enabled but lumine.system.gpuBrand is not set. please specify a gpu.";
+            message = "lumine.desktop is enabled but lumine.system.displayGpu is not set.";
+          }
+        ]
+        ++ lib.optionals (gpu != null) [
+          {
+            assertion = gpu.brand != "nvidia";
+            message = "nvidia graphics are not yet supported in lumine.desktop. please use \"amd\" or \"intel\".";
           }
         ];
       }
@@ -51,17 +53,15 @@ in
           enable = true;
           enable32Bit = true;
         };
-
       }
-      (lib.mkIf (gpu == "amd") {
+      (lib.mkIf (gpu.brand == "amd") {
         services.xserver.videoDrivers = [ "amdgpu" ];
         environment.systemPackages = [
           pkgs.rocmPackages.amdsmi
           pkgs.libdrm
         ];
       })
-
-      (lib.mkIf (gpu == "intel") {
+      (lib.mkIf (gpu.brand == "intel") {
         services.xserver.videoDrivers = [ "modesetting" ];
         environment.systemPackages = [
           pkgs.intel-gpu-tools

@@ -21,7 +21,11 @@
     system = {
       enable = true;
       hostname = "luminode";
-      gpuBrand = "amd";
+      gpus = {
+        amd-igpu = {
+          brand = "amd";
+        };
+      };
     };
 
     nix.enable = true;

@@ -8,7 +8,6 @@
 let
   cfg = config.lumine.shell;
   userName = config.lumine.user.name;
-  gpu = config.lumine.system.gpuBrand;
 in
 {
   options.lumine.shell.enable = lib.mkEnableOption "shell";
@@ -20,17 +19,7 @@ in
     home-manager.users.${userName} =
       { config, ... }:
       {
-        programs.btop = {
-          enable = true;
-          package =
-            if gpu == "amd" then
-              pkgs.btop-rocm
-            else if gpu == "nvidia" then
-              pkgs.btop-cuda
-            else
-              pkgs.btop;
-        };
-
+        programs.btop.enable = true;
         programs.fzf = {
           enable = true;
           enableZshIntegration = true;

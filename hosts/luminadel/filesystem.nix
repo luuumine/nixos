@@ -52,6 +52,11 @@
       fsType = "zfs";
     };
 
+    "/models" = {
+      device = "ZROOT/models";
+      fsType = "zfs";
+    };
+
     "/media" = {
       device = "TANK/media";
       fsType = "zfs";

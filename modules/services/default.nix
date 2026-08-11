@@ -13,5 +13,6 @@
     ./immich.nix
     ./git.nix
     ./wealthfolio.nix
+    ./ai.nix
   ];
 }

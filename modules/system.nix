@@ -32,16 +32,16 @@ in
       default = "Europe/Paris";
     };
 
-    gpuBrand = lib.mkOption {
-      type = lib.types.nullOr (
-        lib.types.enum [
-          "amd"
-          "intel"
-          "nvidia"
-        ]
-      );
+    gpus = lib.mkOption {
+      type = lib.types.attrsOf types.gpu;
+      default = { };
+      description = "available gpus on the system";
+    };
+
+    displayGpu = lib.mkOption {
+      type = lib.types.nullOr types.gpu;
       default = null;
-      description = "gpu manufacturer for hardware acceleration";
+      description = "the primary gpu used for desktop rendering and displays";
     };
 
     bootloaderTimeout = lib.mkOption {
@@ -79,6 +79,8 @@ in
     security.sudo.wheelNeedsPassword = true;
 
     networking.networkmanager.enable = lib.mkDefault true;
+
+    hardware.graphics.enable = cfg.gpus != { };
 
     services.openssh = {
       enable = true;

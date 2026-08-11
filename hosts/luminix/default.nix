@@ -1,7 +1,13 @@
-{ pkgs, inputs, ... }:
+{
+  config,
+  pkgs,
+  inputs,
+  ...
+}:
 
 let
   wallpapers = inputs.self.wallpapers;
+  gpus = config.lumine.system.gpus;
 in
 {
   imports = [
@@ -14,7 +20,19 @@ in
     system = {
       enable = true;
       hostname = "luminix";
-      gpuBrand = "amd";
+      gpus = {
+        amd-igpu = {
+          brand = "amd";
+          path = "/dev/dri/by-path/pci-0000:7b:00.0-render";
+        };
+        rx9070xt = {
+          brand = "amd";
+          path = "/dev/dri/by-path/pci-0000:03:00.0-render";
+        };
+      };
+
+      displayGpu = gpus.rx9070xt;
+
       bootloaderTimeout = 1;
       displays = [
         {

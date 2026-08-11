@@ -8,8 +8,8 @@
 let
   cfg = config.lumine.services.immich;
   userName = config.lumine.user.name;
-  gpu = config.lumine.system.gpuBrand;
   caddyCfg = config.lumine.network.caddy;
+  types = import ../types { inherit lib; };
 in
 {
   options.lumine.services.immich = {
@@ -19,16 +19,19 @@ in
       default = 2283;
       description = "immich internal port";
     };
+    gpu = lib.mkOption {
+      type = lib.types.nullOr types.gpu;
+      default = null;
+      description = "gpu submodule for ML and transcoding";
+    };
   };
 
   config = lib.mkIf cfg.enable {
-    hardware.graphics = {
+    hardware.graphics = lib.mkIf (cfg.gpu != null) {
       enable = true;
-      extraPackages = lib.mkMerge [
-        (lib.mkIf (gpu == "intel") [
-          pkgs.intel-media-driver
-          pkgs.intel-vaapi-driver
-        ])
+      extraPackages = lib.mkIf (cfg.gpu.brand == "intel") [
+        pkgs.intel-media-driver
+        pkgs.intel-vaapi-driver
       ];
     };
 
@@ -37,8 +40,8 @@ in
       port = cfg.port;
       host = "127.0.0.1";
       openFirewall = false;
-      machine-learning.enable = (gpu != null);
-      accelerationDevices = lib.mkIf (gpu != null) [ "/dev/dri/renderD128" ];
+      machine-learning.enable = (cfg.gpu != null);
+      accelerationDevices = lib.mkIf (cfg.gpu != null && cfg.gpu.path != null) [ cfg.gpu.path ];
     };
 
     users.groups.immich.members = [ userName ];

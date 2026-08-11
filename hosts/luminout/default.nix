@@ -1,7 +1,13 @@
-{ pkgs, inputs, ... }:
+{
+  config,
+  inputs,
+  pkgs,
+  ...
+}:
 
 let
   wallpapers = inputs.self.wallpapers;
+  gpus = config.lumine.system.gpus;
 in
 {
   imports = [
@@ -14,7 +20,15 @@ in
     system = {
       enable = true;
       hostname = "luminout";
-      gpuBrand = "amd";
+      gpus = {
+        amd-igpu = {
+          brand = "amd";
+        };
+        rx6700m = {
+          brand = "amd";
+        };
+      };
+      displayGpu = gpus.rx6700m;
       bootloaderTimeout = 5;
       displays = [
         {

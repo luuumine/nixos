@@ -7,26 +7,29 @@
 let
   cfg = config.lumine.services.jellyfin;
   userName = config.lumine.user.name;
-  gpu = config.lumine.system.gpuBrand;
   caddyCfg = config.lumine.network.caddy;
+  types = import ../types { inherit lib; };
 in
 {
   options.lumine.services.jellyfin = {
     enable = lib.mkEnableOption "jellyfin media server";
+    gpu = lib.mkOption {
+      type = lib.types.nullOr types.gpu;
+      default = null;
+      description = "gpu submodule to use for transcoding";
+    };
   };
 
   config = lib.mkIf cfg.enable {
-    hardware.graphics = {
+    hardware.graphics = lib.mkIf (cfg.gpu != null) {
       enable = true;
-      extraPackages = lib.mkMerge [
-        (lib.mkIf (gpu == "intel") [
-          pkgs.intel-media-driver
-          pkgs.intel-vaapi-driver
-          pkgs.libva-vdpau-driver
-          pkgs.libvdpau-va-gl
-          pkgs.intel-compute-runtime
-          pkgs.vpl-gpu-rt
-        ])
+      extraPackages = lib.mkIf (cfg.gpu.brand == "intel") [
+        pkgs.intel-media-driver
+        pkgs.intel-vaapi-driver
+        pkgs.libva-vdpau-driver
+        pkgs.libvdpau-va-gl
+        pkgs.intel-compute-runtime
+        pkgs.vpl-gpu-rt
       ];
     };
 
@@ -34,22 +37,24 @@ in
       enable = true;
       openFirewall = false;
 
-      forceEncodingConfig = gpu != null;
+      forceEncodingConfig = cfg.gpu != null;
 
       hardwareAcceleration = {
-        enable = gpu != null;
-        device = lib.mkIf (gpu != null) (lib.mkDefault "/dev/dri/renderD128");
+        enable = cfg.gpu != null;
+        device = lib.mkIf (cfg.gpu != null && cfg.gpu.path != null) cfg.gpu.path;
         type =
-          if gpu == "intel" then
+          if cfg.gpu == null then
+            "none"
+          else if cfg.gpu.brand == "intel" then
             "qsv"
-          else if gpu == "amd" then
+          else if cfg.gpu.brand == "amd" then
             "amf"
-          else if gpu == "nvidia" then
+          else if cfg.gpu.brand == "nvidia" then
             "nvenc"
           else
             "none";
       };
-      transcoding = lib.mkIf (gpu != null) {
+      transcoding = lib.mkIf (cfg.gpu != null) {
         enableHardwareEncoding = true;
         hardwareDecodingCodecs = {
           h264 = true;

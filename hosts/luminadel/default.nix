@@ -1,5 +1,8 @@
-{ ... }:
+{ config, ... }:
 
+let
+  gpus = config.lumine.system.gpus;
+in
 {
   imports = [
     ./hardware.nix
@@ -21,7 +24,16 @@
     system = {
       enable = true;
       hostname = "luminadel";
-      gpuBrand = "intel";
+      gpus = {
+        intel-igpu = {
+          brand = "intel";
+          path = "/dev/dri/by-path/pci-0000:00:02.0-render";
+        };
+        rtx3060 = {
+          brand = "nvidia";
+          path = "/dev/dri/by-path/pci-0000:7b:00.0-render";
+        };
+      };
     };
 
     nix.enable = true;
@@ -64,20 +76,31 @@
       delhommais-com.enable = true;
       luuumine-com.enable = true;
 
-      jellyfin.enable = true;
+      jellyfin = {
+        enable = true;
+        gpu = gpus.intel-igpu;
+      };
       automation.enable = true;
-      immich.enable = true;
+      immich = {
+        enable = true;
+        gpu = gpus.intel-igpu;
+      };
       git = {
         enable = true;
         runners = true;
       };
       wealthfolio.enable = true;
 
+      ai = {
+        enable = true;
+        gpu = gpus.rtx3060;
+        model = "/models/bartowski/gemma-4-12B-it-Q4_K_M.gguf";
+      };
+
       killer-game = {
         enable = true;
         language = "fr";
       };
-
     };
 
     shell.enable = true;
