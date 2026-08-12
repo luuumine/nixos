@@ -50,7 +50,6 @@ in
         tailscale {
           auth_key {env.TS_AUTHKEY}
           control_url {env.TS_BASE_URL}
-          ephemeral true
         }
       '';
     };
