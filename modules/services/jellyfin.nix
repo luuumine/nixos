@@ -82,7 +82,7 @@ in
     ];
 
     systemd.tmpfiles.rules = [
-      "d /media 0775 root media - -"
+      "d /media 0775 media media - -"
     ];
 
     services.caddy = lib.mkIf caddyCfg.enable {

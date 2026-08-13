@@ -16,12 +16,19 @@ in
   };
 
   config = lib.mkIf cfg.enable {
+    users.users.media = {
+      isSystemUser = true;
+      group = "media";
+    };
+
     services.sonarr = {
       enable = true;
+      user = "media";
       group = "media";
     };
     services.radarr = {
       enable = true;
+      user = "media";
       group = "media";
     };
     services.prowlarr.enable = true;
@@ -31,15 +38,14 @@ in
 
     services.qbittorrent = {
       enable = true;
+      user = "media";
       group = "media";
       webuiPort = 8888;
     };
 
     users.groups.media.members = [
       userName
-      "sonarr"
-      "radarr"
-      "qbittorrent"
+      "media"
     ];
 
     services.caddy = lib.mkIf caddyCfg.enable {
