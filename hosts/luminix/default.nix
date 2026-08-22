@@ -80,7 +80,10 @@ in
 
     desktop.enable = true;
 
-    audio.enable = true;
+    audio = {
+      enable = true;
+      loopback.enable = true;
+    };
     media.enable = true;
     bluetooth.enable = true;
 
