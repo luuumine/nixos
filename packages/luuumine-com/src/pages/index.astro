@@ -1,5 +1,6 @@
 ---
 import Base from "@/layouts/Base.astro";
+import NotesLog from "@/components/NotesLog.astro";
 
 const pageTitle = "home";
 ---
@@ -8,29 +9,25 @@ const pageTitle = "home";
   <h1>lumine</h1>
   <p>hi i'm <strong>lumine</strong>!</p>
   <p>
-    i study data science in france and i like tinkering with code and running my
-    own server.
+    i'm a data scientist in france and i like tinkering with code and
+    self-hosting.
   </p>
   <p>
-    i'm into <strong>ai</strong>, <strong>anime</strong>, and learning new
-    things. i care about <strong>privacy</strong>,
-    <strong>decentralization</strong>, and <strong>open-source</strong>.
-  </p>
-  <br />
-  <p>
-    this site is where i drop notes, experiments, and whatever feels worth
-    keeping around.
+    i care pretty strongly about <strong>privacy</strong> and <strong
+      >open-source</strong
+    >.
   </p>
   <p>
-    this website is self-hosted! you can find the source code in <a
+    you can find this site's source code in <a
       href="https://git.luuumine.com/luuumine/nixos"
       target="_blank"
       rel="noopener">
-      my monorepo</a
-    > at <a
+      my monorepo
+    </a> at <a
       href="https://git.luuumine.com/luuumine/nixos/src/branch/main/packages/luuumine-com"
       target="_blank"
       rel="noopener">packages/luuumine-com</a
     >.
   </p>
+  <NotesLog />
 </Base>
