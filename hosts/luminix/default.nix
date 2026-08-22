@@ -75,6 +75,7 @@ in
         pkgs.mangohud
         pkgs.olympus
         pkgs.melonds
+        pkgs.signal-desktop
       ];
     };
 
