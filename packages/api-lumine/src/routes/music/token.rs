@@ -88,9 +88,10 @@ async fn update_token(state: &AppState) -> Result<SpotifyTokenResponse, String> 
 #[cfg(test)]
 mod tests {
 
-    use crate::{AppState, SpotifyConfig, routes::music::token::update_token};
+    use crate::{AppState, NotesConfig, SpotifyConfig, routes::music::token::update_token};
 
     use serde_json::json;
+    use sqlx::{migrate, sqlite::SqlitePoolOptions};
     use std::sync::Arc;
     use tokio::sync::RwLock;
     use wiremock::{
@@ -119,6 +120,15 @@ mod tests {
             .mount(&mock_server)
             .await;
 
+        let db_pool = SqlitePoolOptions::new()
+            .connect("sqlite::memory:")
+            .await
+            .expect("Failed to create in-memory db for tests");
+        migrate!()
+            .run(&db_pool)
+            .await
+            .expect("Failed to migrate test db");
+
         let state = AppState {
             http_client: reqwest::Client::new(),
             spotify: SpotifyConfig {
@@ -128,6 +138,10 @@ mod tests {
                 client_secret: "my_secret".to_string(),
                 refresh_token: "my_refresh_token".to_string(),
                 token_cache: Arc::new(RwLock::new(None)),
+            },
+            notes: NotesConfig {
+                db_pool,
+                api_key: "dummy_api_key".to_string(),
             },
         };
 

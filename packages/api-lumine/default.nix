@@ -9,13 +9,13 @@
 }:
 let
   pname = "api-lumine";
-  version = "1.0.0";
+  version = "1.1.0";
   src = ./.;
 in
 rustPlatform.buildRustPackage {
   inherit pname version src;
 
-  cargoHash = "sha256-XoUhmXnUhWn54tlTmPHuu9RTLFDRhLnoZVIwcFkLCEU=";
+  cargoHash = "sha256-j9+RfGossJMzxtF5ZbEXD/j1ZJO+1Omb+SzTxMke0XY=";
 
   nativeBuildInputs = [
     cargo

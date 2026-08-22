@@ -1,4 +1,6 @@
 use api_lumine::*;
+use sqlx::migrate;
+use sqlx::sqlite::SqlitePoolOptions;
 
 use std::env;
 use std::sync::Arc;
@@ -16,6 +18,20 @@ async fn main() {
     let refresh_token = env::var("SPOTIFY_REFRESH_TOKEN")
         .expect("CRITICAL: SPOTIFY_REFRESH_TOKEN environment variable is missing");
 
+    let db_url =
+        env::var("NOTES_DB_URL").expect("CRITICAL: NOTES_DB_URL environment variable is missing");
+    let api_key =
+        env::var("NOTES_API_KEY").expect("CRITICAL: NOTES_API_KEY environment variable is missing");
+
+    let db_pool = SqlitePoolOptions::new()
+        .connect(&db_url)
+        .await
+        .expect("CRITICAL: Failed to connect to SQLite database");
+    migrate!()
+        .run(&db_pool)
+        .await
+        .expect("CRITICAL: Failed to run database migrations");
+
     let state = AppState {
         http_client: reqwest::Client::new(),
         spotify: SpotifyConfig {
@@ -26,6 +42,7 @@ async fn main() {
             refresh_token,
             token_cache: Arc::new(RwLock::new(None)),
         },
+        notes: NotesConfig { db_pool, api_key },
     };
 
     let app = create_app(state);

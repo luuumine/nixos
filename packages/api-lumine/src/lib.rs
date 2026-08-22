@@ -5,6 +5,7 @@ use axum::{
 };
 use reqwest::Client;
 use serde_json::json;
+use sqlx::SqlitePool;
 use std::sync::Arc;
 use tokio::sync::RwLock;
 use tower_http::cors::{Any, CorsLayer};
@@ -27,9 +28,16 @@ pub struct SpotifyConfig {
 }
 
 #[derive(Clone)]
+pub struct NotesConfig {
+    pub db_pool: SqlitePool,
+    pub api_key: String,
+}
+
+#[derive(Clone)]
 pub struct AppState {
     pub http_client: Client,
     pub spotify: SpotifyConfig,
+    pub notes: NotesConfig,
 }
 
 pub fn create_app(state: AppState) -> Router {
@@ -42,6 +50,7 @@ pub fn create_app(state: AppState) -> Router {
 
 #[derive(Debug)]
 pub enum ApiError {
+    BadRequest,          // 400
     NotFound,            // 404
     ServiceUnavailable,  // 503
     InternalServerError, // 500
@@ -54,6 +63,11 @@ impl IntoResponse for ApiError {
         }
 
         let (status, error_code, error_message) = match self {
+            ApiError::BadRequest => (
+                StatusCode::BAD_REQUEST,
+                "BAD_REQUEST",
+                "The request was invalid or malformed.",
+            ),
             ApiError::NotFound => (
                 StatusCode::NOT_FOUND,
                 "NOT_FOUND",

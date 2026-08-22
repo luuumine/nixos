@@ -6,6 +6,7 @@ use axum::{
 };
 use http_body_util::BodyExt;
 use serde_json::{Value, json};
+use sqlx::{migrate, sqlite::SqlitePoolOptions};
 use std::sync::Arc;
 use tokio::sync::RwLock;
 use tower::ServiceExt;
@@ -43,6 +44,15 @@ async fn currently_playing() -> Result<(), String> {
         .mount(&mock_server)
         .await;
 
+    let db_pool = SqlitePoolOptions::new()
+        .connect("sqlite::memory:")
+        .await
+        .expect("Failed to create in-memory db for tests");
+    migrate!()
+        .run(&db_pool)
+        .await
+        .expect("Failed to migrate test db");
+
     // start app
     let state = AppState {
         http_client: reqwest::Client::new(),
@@ -53,6 +63,10 @@ async fn currently_playing() -> Result<(), String> {
             client_secret: "dummy_secret".to_string(),
             refresh_token: "dummy_refresh".to_string(),
             token_cache: Arc::new(RwLock::new(None)),
+        },
+        notes: NotesConfig {
+            db_pool,
+            api_key: "dummy_api_key".to_string(),
         },
     };
 

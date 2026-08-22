@@ -1,8 +1,9 @@
 use crate::{
-    AppState, SpotifyConfig,
+    AppState, NotesConfig, SpotifyConfig,
     routes::music::{currently_playing::NowPlayingResponse, spotify::fetch_currently_playing},
 };
 use serde_json::{Value, json};
+use sqlx::{migrate, sqlite::SqlitePoolOptions};
 use std::sync::Arc;
 use tokio::sync::RwLock;
 use wiremock::{
@@ -10,7 +11,16 @@ use wiremock::{
     matchers::{header, method, path},
 };
 
-fn create_dummy_state(api_url: String) -> AppState {
+async fn create_dummy_state(api_url: String) -> AppState {
+    let db_pool = SqlitePoolOptions::new()
+        .connect("sqlite::memory:")
+        .await
+        .expect("Failed to create in-memory db for tests");
+    migrate!()
+        .run(&db_pool)
+        .await
+        .expect("Failed to migrate test db");
+
     AppState {
         http_client: reqwest::Client::new(),
         spotify: SpotifyConfig {
@@ -20,6 +30,10 @@ fn create_dummy_state(api_url: String) -> AppState {
             client_secret: "dummy_secret".to_string(),
             refresh_token: "dummy_refresh".to_string(),
             token_cache: Arc::new(RwLock::new(None)),
+        },
+        notes: NotesConfig {
+            db_pool,
+            api_key: "dummy_api_key".to_string(),
         },
     }
 }
@@ -39,7 +53,7 @@ async fn fetch_song_while_playing() -> Result<(), String> {
         .mount(&mock_server)
         .await;
 
-    let state = create_dummy_state(mock_server.uri());
+    let state = create_dummy_state(mock_server.uri()).await;
 
     let now_playing_response = fetch_currently_playing(&state, "fake_token").await?;
 
@@ -77,7 +91,7 @@ async fn fetch_song_while_paused() -> Result<(), String> {
         .mount(&mock_server)
         .await;
 
-    let state = create_dummy_state(mock_server.uri());
+    let state = create_dummy_state(mock_server.uri()).await;
 
     let now_playing_response = fetch_currently_playing(&state, "fake_token").await?;
 
@@ -107,7 +121,7 @@ async fn fetch_song_while_not_playing() -> Result<(), String> {
         .mount(&mock_server)
         .await;
 
-    let state = create_dummy_state(mock_server.uri());
+    let state = create_dummy_state(mock_server.uri()).await;
 
     let now_playing_response = fetch_currently_playing(&state, "fake_token").await?;
 

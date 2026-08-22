@@ -28,18 +28,26 @@ in
       description = "the port the api responds on";
     };
   };
-  config = lib.mkIf cfg.enable {
 
+  config = lib.mkIf cfg.enable {
     age.secrets.api-lumine = {
       file = secretsPath + "/${hostname}/api-lumine.age";
     };
+
     systemd.services.api-lumine = {
       description = "lumine api service";
       after = [ "network.target" ];
       wantedBy = [ "multi-user.target" ];
+
       serviceConfig = {
         DynamicUser = true;
-        Environment = "PORT=${toString cfg.port}";
+        StateDirectory = "api-lumine";
+
+        Environment = [
+          "PORT=${toString cfg.port}"
+          "NOTES_DB_URL=sqlite:///var/lib/api-lumine/notes.db?mode=rwc"
+        ];
+
         EnvironmentFile = config.age.secrets.api-lumine.path;
         ExecStart = lib.getExe api-lumine;
         Restart = "always";
