@@ -14,7 +14,7 @@
 let
   pnpm = pnpm_10;
   pname = "delhommais-com";
-  version = "4.0.0";
+  version = "4.0.1";
   src = ./.;
 in
 stdenv.mkDerivation {
@@ -34,7 +34,7 @@ stdenv.mkDerivation {
     inherit pname version src;
     inherit pnpm;
     fetcherVersion = 3;
-    hash = "sha256-MnY5rWUVXAfVZvzGQcX8ggIytFmvfqddOzScoJcSz6s=";
+    hash = "sha256-hUw5Emvimzhs1Wz1ZvPLw85aowAKCKKZx50PKsFUMIg=";
   };
 
   buildPhase = "pnpm build";

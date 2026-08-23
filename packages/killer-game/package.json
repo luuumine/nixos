@@ -12,9 +12,9 @@
     "astro": "astro"
   },
   "dependencies": {
-    "@astrojs/node": "^11.0.3",
-    "astro": "^7.1.6",
-    "better-sqlite3": "^13.0.2",
+    "@astrojs/node": "^11.1.4",
+    "astro": "^7.2.4",
+    "better-sqlite3": "^13.0.3",
     "typescript": "^7.0.2"
   },
   "devDependencies": {

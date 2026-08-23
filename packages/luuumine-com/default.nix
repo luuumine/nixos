@@ -12,7 +12,7 @@
 let
   pnpm = pnpm_10;
   pname = "luuumine-com";
-  version = "3.9.0";
+  version = "3.9.1";
   src = ./.;
 in
 stdenv.mkDerivation {
@@ -32,7 +32,7 @@ stdenv.mkDerivation {
     inherit pname version src;
     inherit pnpm;
     fetcherVersion = 3;
-    hash = "sha256-I+KJgI5ab+iitxP418+HV0Ki07AeE+TBNzpf/szJ/N8=";
+    hash = "sha256-IJOH14ikEQkIxnqmhlV8YfcrAgbWk7OHCRyaMyXv/9w=";
   };
 
   buildPhase = ''

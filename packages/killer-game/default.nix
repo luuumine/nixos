@@ -12,7 +12,7 @@
 let
   pnpm = pnpm_10.override { nodejs-slim = nodejs_22; };
   pname = "killer-game";
-  version = "1.1.0";
+  version = "1.1.1";
   src = ./.;
 in
 stdenv.mkDerivation {
@@ -32,7 +32,7 @@ stdenv.mkDerivation {
     inherit pname version src;
     inherit pnpm;
     fetcherVersion = 3;
-    hash = "sha256-To+eQC0068jFx68anCeH//HGWmlQfGT85ohwUmjyLiI=";
+    hash = "sha256-Ops0pA+yhpY/eTYNZT/JJiEGBCpEQkmWvRzCm+4vuU4=";
   };
 
   buildPhase = ''
