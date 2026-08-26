@@ -29,7 +29,7 @@ in
 
     services.wealthfolio = {
       enable = true;
-      port = cfg.port;
+      inherit (cfg) port;
       address = "127.0.0.1";
 
       secretKeyFile = config.age.secrets.wealthfolio-key.path;

@@ -1,5 +1,3 @@
-{ ... }:
-
 {
   boot.supportedFilesystems = [ "zfs" ];
   boot.initrd.supportedFilesystems = [ "zfs" ];

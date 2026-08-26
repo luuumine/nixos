@@ -1,5 +1,4 @@
 {
-  lib,
   rustPlatform,
   cargo,
   rustc,

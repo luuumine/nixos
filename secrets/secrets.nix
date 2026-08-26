@@ -4,8 +4,7 @@ let
 
   users = [ enc.admin.pub ];
 
-  luminadel = hosts.luminadel;
-  luminix = hosts.luminix;
+  inherit (hosts) luminadel;
 in
 {
   "luminadel/caddy.age".publicKeys = users ++ [ luminadel ];

@@ -1,5 +1,3 @@
-{ config, lib, ... }:
-
 {
   lumine.backups = {
     enable = true;

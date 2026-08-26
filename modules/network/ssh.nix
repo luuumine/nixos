@@ -9,7 +9,7 @@ let
   cfg = config.lumine.network.ssh;
   userName = config.lumine.user.name;
 
-  authIdentityFiles = lib.mapAttrsToList (name: key: key.path) config.lumine.security.auth;
+  authIdentityFiles = lib.mapAttrsToList (_name: key: key.path) config.lumine.security.auth;
 in
 {
   options.lumine.network.ssh.enable = lib.mkEnableOption "ssh config";

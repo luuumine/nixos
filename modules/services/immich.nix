@@ -37,10 +37,10 @@ in
 
     services.immich = {
       enable = true;
-      port = cfg.port;
+      inherit (cfg) port;
       host = "127.0.0.1";
       openFirewall = false;
-      machine-learning.enable = (cfg.gpu != null);
+      machine-learning.enable = cfg.gpu != null;
       accelerationDevices = lib.mkIf (cfg.gpu != null && cfg.gpu.path != null) [ cfg.gpu.path ];
     };
 

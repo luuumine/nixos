@@ -6,13 +6,13 @@ let
     d:
     let
       monitorArgs = {
-        output = d.output;
-        mode = d.mode;
-        position = d.position;
-        scale = d.scale;
+        inherit (d) output;
+        inherit (d) mode;
+        inherit (d) position;
+        inherit (d) scale;
       }
-      // lib.optionalAttrs (d.bitdepth != 8) { bitdepth = d.bitdepth; }
-      // lib.optionalAttrs (d.transform != 0) { transform = d.transform; };
+      // lib.optionalAttrs (d.bitdepth != 8) { inherit (d) bitdepth; }
+      // lib.optionalAttrs (d.transform != 0) { inherit (d) transform; };
     in
     "hl.monitor(${lib.generators.toLua { } monitorArgs})";
 in

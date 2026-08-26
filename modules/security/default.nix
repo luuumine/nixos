@@ -44,7 +44,7 @@ in
   config = lib.mkIf config.lumine.system.enable {
     # Dynamically maps over all auth keys to authorize them for SSH login
     users.users.${userName}.openssh.authorizedKeys.keys = lib.mapAttrsToList (
-      name: key: key.pub
+      _name: key: key.pub
     ) config.lumine.security.auth;
   };
 }

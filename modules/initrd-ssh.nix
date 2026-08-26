@@ -3,7 +3,7 @@
 let
   cfg = config.lumine.initrd-ssh;
 
-  authPubKeys = lib.mapAttrsToList (name: key: key.pub) config.lumine.security.auth;
+  authPubKeys = lib.mapAttrsToList (_name: key: key.pub) config.lumine.security.auth;
 in
 {
   options.lumine.initrd-ssh = {
@@ -41,8 +41,8 @@ in
         flushBeforeStage2 = true;
         ssh = {
           enable = true;
-          port = cfg.port;
-          authorizedKeys = cfg.authorizedKeys;
+          inherit (cfg) port;
+          inherit (cfg) authorizedKeys;
           hostKeys = [ "/etc/secrets/initrd/ssh_host_ed25519_key" ];
         };
       };

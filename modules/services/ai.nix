@@ -70,8 +70,8 @@ in
 
       settings = {
         host = "127.0.0.1";
-        port = cfg.port;
-        model = cfg.model;
+        inherit (cfg) port;
+        inherit (cfg) model;
         ctx-size = cfg.contextSize;
         parallel = cfg.parallelSessions;
         n-gpu-layers = cfg.gpuLayers;

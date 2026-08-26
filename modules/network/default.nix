@@ -1,5 +1,3 @@
-{ ... }:
-
 let
   loginServer = "headscale.luuumine.com";
   vpnDomain = "vpn.luuumine.com";
