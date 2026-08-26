@@ -10,7 +10,6 @@ let
   cfg = config.lumine.services.git;
   hostname = config.lumine.system.hostname;
   caddyCfg = config.lumine.network.caddy;
-  backupsCfg = config.lumine.backups;
 
   instance_key = {
     folder = "forgejo-ssh";
@@ -43,6 +42,7 @@ in
       ];
       default = "postgres";
     };
+    enableBackups = lib.mkEnableOption "automated database and repo dumps";
   };
 
   config = lib.mkIf cfg.enable {
@@ -69,7 +69,7 @@ in
       database.createDatabase = true;
 
       dump = {
-        enable = backupsCfg.enable;
+        enable = cfg.enableBackups;
         backupDir = "/backups/forgejo";
         type = "tar.xz";
       };

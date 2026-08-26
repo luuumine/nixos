@@ -7,6 +7,7 @@ in
   imports = [
     ./hardware.nix
     ./filesystem.nix
+    ./backups.nix
   ];
 
   users.users.lumine.openssh.authorizedKeys.keys = [
@@ -56,18 +57,6 @@ in
         exitNode = true;
       };
       mullvad.enable = true;
-    };
-
-    backups = {
-      enable = true;
-      isSender = true;
-      zfsSourceDataset = "ZROOT/backups";
-      localSinkPools = [ "TANK/backups" ];
-      remoteSinks = [ "luminode" ];
-      interval = {
-        local = "1h";
-        remote = "1h";
-      };
     };
 
     services = {

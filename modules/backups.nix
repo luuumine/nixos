@@ -2,7 +2,6 @@
 
 let
   cfg = config.lumine.backups;
-  servicesCfg = config.lumine.services;
 in
 {
   options.lumine.backups = {
@@ -77,6 +76,12 @@ in
           };
         };
       };
+    };
+
+    bindMounts = lib.mkOption {
+      type = lib.types.attrsOf lib.types.str;
+      default = { };
+      description = "map of services paths to backup dataset paths for bind mounting";
     };
   };
 
@@ -209,34 +214,24 @@ in
         }
       ];
 
-      fileSystems = lib.mkIf cfg.isSender {
-        "/backups" = {
-          device = cfg.zfsSourceDataset;
-          fsType = "zfs";
-          neededForBoot = true;
-        };
-
-        "/var/lib/immich" = lib.mkIf servicesCfg.immich.enable {
-          device = "/backups/immich";
-          fsType = "none";
-          options = [ "bind" ];
-          depends = [ "/backups" ];
-        };
-
-        "/var/lib/jellyfin" = lib.mkIf servicesCfg.jellyfin.enable {
-          device = "/backups/jellyfin";
-          fsType = "none";
-          options = [ "bind" ];
-          depends = [ "/backups" ];
-        };
-
-        "/var/lib/wealthfolio" = lib.mkIf servicesCfg.wealthfolio.enable {
-          device = "/backups/wealthfolio";
-          fsType = "none";
-          options = [ "bind" ];
-          depends = [ "/backups" ];
-        };
-      };
+      fileSystems = lib.mkIf cfg.isSender (
+        {
+          "/backups" = {
+            device = cfg.zfsSourceDataset;
+            fsType = "zfs";
+            neededForBoot = true;
+          };
+        }
+        // lib.mapAttrs' (
+          servicePath: backupPath:
+          lib.nameValuePair servicePath {
+            device = backupPath;
+            fsType = "none";
+            options = [ "bind" ];
+            depends = [ "/backups" ];
+          }
+        ) cfg.bindMounts
+      );
 
       services.zrepl = {
         enable = true;

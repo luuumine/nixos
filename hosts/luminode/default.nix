@@ -4,6 +4,7 @@
   imports = [
     ./hardware.nix
     ./filesystem.nix
+    ./backups.nix
   ];
 
   users.users.lumine.openssh.authorizedKeys.keys = [
@@ -33,12 +34,6 @@
     network = {
       ssh.enable = true;
       tailscale.enable = true;
-    };
-
-    backups = {
-      enable = true;
-      isSink = true;
-      zfsSinkDataset = "zroot/backups";
     };
 
     shell.enable = true;
