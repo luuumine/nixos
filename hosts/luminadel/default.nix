@@ -84,7 +84,8 @@ in
         enable = true;
         gpu = gpus.rtx3060;
         model = "/models/bartowski/gemma-4-12B-it-Q4_K_M.gguf";
-        contextSize = 8192;
+        contextSize = 131072;
+        parallelSessions = 2;
         gpuLayers = "all";
       };
 
