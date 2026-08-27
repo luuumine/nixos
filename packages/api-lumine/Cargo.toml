@@ -1,6 +1,5 @@
 [package]
 name = "api-lumine"
-version = "1.0.0"
 edition = "2024"
 
 [dependencies]

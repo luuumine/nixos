@@ -1,4 +1,5 @@
 {
+  lib,
   rustPlatform,
   cargo,
   rustc,
@@ -8,8 +9,18 @@
 }:
 let
   pname = "api-lumine";
-  version = "1.1.1";
-  src = ./.;
+  version = "1.1.2";
+
+  src = lib.fileset.toSource {
+    root = ./.;
+    fileset = lib.fileset.unions [
+      ./Cargo.toml
+      ./Cargo.lock
+      ./src
+      ./migrations
+      ./tests
+    ];
+  };
 in
 rustPlatform.buildRustPackage {
   inherit pname version src;
