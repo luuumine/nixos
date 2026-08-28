@@ -65,6 +65,22 @@ in
       delhommais-com.enable = true;
       luuumine-com.enable = true;
 
+      minecraft = {
+        enable = true;
+        serverProperties = {
+          difficulty = "hard";
+          "level-seed" = "19104373647";
+          "max-players" = 428;
+          "view-distance" = 16;
+          "simulation-distance" = 16;
+          "white-list" = true;
+          "enforce-whitelist" = true;
+        };
+        whitelist = {
+          lumine = "076119e3-c0cf-48fb-8d1f-0a637f5f44ac";
+        };
+      };
+
       jellyfin = {
         enable = true;
         gpu = gpus.intel-igpu;
