@@ -75,9 +75,11 @@ in
           "simulation-distance" = 16;
           "white-list" = true;
           "enforce-whitelist" = true;
+          "spawn-protection" = 0;
         };
         whitelist = {
           lumine = "076119e3-c0cf-48fb-8d1f-0a637f5f44ac";
+          nicolosse = "b4076293-674a-4060-8e25-82ae310104b0";
         };
       };
 
