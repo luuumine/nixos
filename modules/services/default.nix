@@ -14,6 +14,7 @@
     ./automation.nix
     ./immich.nix
     ./git.nix
+    ./vaultwarden.nix
     ./wealthfolio.nix
     ./ai.nix
   ];
