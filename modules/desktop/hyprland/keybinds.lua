@@ -46,24 +46,42 @@ hl.bind(MAINMOD .. " + SHIFT + 9", hl.dsp.window.move({ workspace = 9 }))
 hl.bind(MAINMOD .. " + SHIFT + 0", hl.dsp.window.move({ workspace = 10 }))
 
 -- Switch monitors (bindd equivalents with description flags)
-hl.bind(MAINMOD .. " + bracketright", hl.dsp.workspace.move({ monitor = "+1" }),
-  { description = "Move workspace to next monitor" })
-hl.bind(MAINMOD .. " + bracketleft", hl.dsp.workspace.move({ monitor = "-1" }),
-  { description = "Move workspace to previous monitor" })
+hl.bind(
+	MAINMOD .. " + bracketright",
+	hl.dsp.workspace.move({ monitor = "+1" }),
+	{ description = "Move workspace to next monitor" }
+)
+hl.bind(
+	MAINMOD .. " + bracketleft",
+	hl.dsp.workspace.move({ monitor = "-1" }),
+	{ description = "Move workspace to previous monitor" }
+)
 
 -- Special workspace
-hl.bind(MAINMOD .. " + S", hl.dsp.workspace.toggle_special( "magic" ))
+hl.bind(MAINMOD .. " + S", hl.dsp.workspace.toggle_special("magic"))
 hl.bind(MAINMOD .. " + SHIFT + S", hl.dsp.window.move({ workspace = "special:magic" }))
 
 -- Multimedia keys (bindel -> repeating = true, locked = true)
-hl.bind("XF86AudioRaiseVolume", hl.dsp.exec_cmd("wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"),
-  { repeating = true, locked = true })
-hl.bind("XF86AudioLowerVolume", hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"),
-  { repeating = true, locked = true })
-hl.bind("XF86AudioMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"),
-  { repeating = true, locked = true })
-hl.bind("XF86AudioMicMute", hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"),
-  { repeating = true, locked = true })
+hl.bind(
+	"XF86AudioRaiseVolume",
+	hl.dsp.exec_cmd("wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+"),
+	{ repeating = true, locked = true }
+)
+hl.bind(
+	"XF86AudioLowerVolume",
+	hl.dsp.exec_cmd("wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-"),
+	{ repeating = true, locked = true }
+)
+hl.bind(
+	"XF86AudioMute",
+	hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle"),
+	{ repeating = true, locked = true }
+)
+hl.bind(
+	"XF86AudioMicMute",
+	hl.dsp.exec_cmd("wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle"),
+	{ repeating = true, locked = true }
+)
 hl.bind("XF86MonBrightnessUp", hl.dsp.exec_cmd("brightnessctl -e4 -n2 set 5%+"), { repeating = true, locked = true })
 hl.bind("XF86MonBrightnessDown", hl.dsp.exec_cmd("brightnessctl -e4 -n2 set 5%-"), { repeating = true, locked = true })
 

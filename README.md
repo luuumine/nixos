@@ -25,6 +25,7 @@ hosts
 - [poz](https://poz.pet/), for being cool and having a nice [config](https://nix.poz.pet/)
 - [orangc](https://orangc.net), for helping me with tailscale
 - [Turpix](https://twitter.com/Turpix_00), for drawing the awesome art used for my profile picture and wallpapers
+- [fazzi](https://gitlab.com/fazzi/nixohess), for having clean hyprland animations
 
 ## usage
 
