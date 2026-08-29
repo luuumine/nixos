@@ -47,7 +47,7 @@ in
       enable = true;
       dbBackend = cfg.dbType;
 
-      backupDir = lib.mkIf cfg.enableBackups "/var/backup/vaultwarden";
+      backupDir = lib.mkIf cfg.enableBackups "/backups/vaultwarden";
 
       environmentFile = config.age.secrets.vaultwarden.path;
 
