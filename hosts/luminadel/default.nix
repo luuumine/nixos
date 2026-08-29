@@ -94,6 +94,7 @@ in
         enable = true;
         runners = true;
       };
+      vaultwarden.enable = true;
       wealthfolio.enable = true;
 
       ai = {

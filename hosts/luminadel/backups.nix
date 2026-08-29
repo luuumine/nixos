@@ -18,4 +18,5 @@
     };
   };
   lumine.services.git.enableBackups = true;
+  lumine.services.vaultwarden.enableBackups = true;
 }
