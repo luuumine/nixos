@@ -1,68 +1,24 @@
-{
-  config,
-  inputs,
-  pkgs,
-  ...
-}:
-
-let
-  wallpapers = inputs.self.wallpapers;
-  gpus = config.lumine.system.gpus;
-in
-{
-  imports = [
-    ./hardware.nix
-    ./filesystem.nix
-  ];
-
-  lumine = {
-    user.name = "lumine";
-    system = {
-      enable = true;
-      hostname = "luminout";
-      gpus = {
-        amd-igpu = {
-          brand = "amd";
-        };
-        rx6700m = {
-          brand = "amd";
-        };
-      };
-      displayGpu = gpus.rx6700m;
-      bootloaderTimeout = 5;
-      displays = [
-        {
-          output = "eDP-1";
-          mode = "1920x1080@240";
-          wallpaper = wallpapers.isla-1;
-        }
-      ];
+{ self, inputs, ... }: {
+  flake.nixosConfigurations.luminout = inputs.nixpkgs.lib.nixosSystem {
+    specialArgs = {
+      inherit inputs;
+      secretsPath = ../../secrets;
     };
+    modules = with self.nixosModules; [
+      luminout-hardware
+      luminout-filesystems
+      luminout-config
+      luminout-backups
 
-    nix.enable = true;
+      ../../modules
 
-    network = {
-      ssh.enable = true;
-      tailscale.enable = true;
-    };
-
-    apps = {
-      enable = true;
-      extraUserApps = [
-        pkgs.discord
-      ];
-    };
-
-    desktop.enable = true;
-
-    audio.enable = true;
-    media.enable = true;
-    bluetooth.enable = true;
-
-    fonts.enable = true;
-    shell.enable = true;
-    starship.enable = true;
-    git.enable = true;
-    nvim.enable = true;
+      inputs.home-manager.nixosModules.home-manager
+      {
+        home-manager.useGlobalPkgs = true;
+        home-manager.useUserPackages = true;
+        home-manager.extraSpecialArgs = { inherit inputs; };
+      }
+      inputs.agenix.nixosModules.default
+    ];
   };
 }
