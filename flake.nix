@@ -12,52 +12,65 @@
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.home-manager.follows = "home-manager";
     };
+    flake-parts.url = "github:hercules-ci/flake-parts";
+    import-tree.url = "github:vic/import-tree";
   };
 
   outputs =
-    {
-      self,
-      nixpkgs,
-      home-manager,
-      agenix,
-      ...
-    }@inputs:
-    let
-      system = "x86_64-linux";
+    inputs:
+    inputs.flake-parts.lib.mkFlake { inherit inputs; } {
+      systems = [ "x86_64-linux" ];
 
-      mkHost =
-        hostName:
-        nixpkgs.lib.nixosSystem {
-          specialArgs = {
-            inherit inputs;
-            secretsPath = ./secrets;
-          };
-          modules = [
-            ./hosts/${hostName}
-            ./modules
-            home-manager.nixosModules.home-manager
-            {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
-              home-manager.extraSpecialArgs = { inherit inputs; };
-            }
-            agenix.nixosModules.default
-          ];
-        };
-    in
-    {
-      nixosConfigurations = {
-        luminix = mkHost "luminix";
-        luminova = mkHost "luminova";
-        luminadel = mkHost "luminadel";
-        luminout = mkHost "luminout";
-        luminode = mkHost "luminode";
-      };
-
-      wallpapers = import ./wallpapers;
-
-      packages.${system} = import ./packages {
-        pkgs = nixpkgs.legacyPackages.${system};
-      };
+      imports = [
+        (inputs.import-tree ./hosts)
+        (inputs.import-tree ./modules)
+        (inputs.import-tree ./packages)
+      ];
     };
+
+  # {
+  #   self,
+  #   nixpkgs,
+  #   home-manager,
+  #   agenix,
+  #   ...
+  # }@inputs:
+  # let
+  #   system = "x86_64-linux";
+  #
+  #   mkHost =
+  #     hostName:
+  #     nixpkgs.lib.nixosSystem {
+  #       specialArgs = {
+  #         inherit inputs;
+  #         secretsPath = ./secrets;
+  #       };
+  #       modules = [
+  #         ./hosts/${hostName}
+  #         ./modules
+  #         home-manager.nixosModules.home-manager
+  #         {
+  #           home-manager.useGlobalPkgs = true;
+  #           home-manager.useUserPackages = true;
+  #           home-manager.extraSpecialArgs = { inherit inputs; };
+  #         }
+  #         agenix.nixosModules.default
+  #       ];
+  #     };
+  # in
+  # {
+  #   nixosConfigurations = {
+  #     luminix = mkHost "luminix";
+  #     luminova = mkHost "luminova";
+  #     luminadel = mkHost "luminadel";
+  #     luminout = mkHost "luminout";
+  #     luminode = mkHost "luminode";
+  #   };
+  #
+  #   wallpapers = import ./wallpapers;
+  #
+  #   packages.${system} = import ./packages {
+  #     pkgs = nixpkgs.legacyPackages.${system};
+  #   };
+  # };
 }
