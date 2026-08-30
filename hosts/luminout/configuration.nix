@@ -1,7 +1,11 @@
-{ inputs, ... }:
 {
   flake.nixosModules.luminout-config =
-    { config, pkgs }:
+    {
+      config,
+      pkgs,
+      inputs,
+      ...
+    }:
     let
       wallpapers = inputs.self.wallpapers;
       gpus = config.lumine.system.gpus;

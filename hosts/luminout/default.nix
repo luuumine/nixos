@@ -8,7 +8,6 @@
       luminout-hardware
       luminout-filesystems
       luminout-config
-      luminout-backups
 
       ../../modules
 
