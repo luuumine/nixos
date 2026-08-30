@@ -1,3 +1,4 @@
+{ self, ... }:
 {
   flake.services.minecraft =
     {
@@ -9,8 +10,6 @@
 
     let
       cfg = config.lumine.services.minecraft;
-      types = import ../types { inherit lib; };
-
       userName = config.lumine.user.name;
 
       cfgToString = v: if builtins.isBool v then lib.boolToString v else toString v;
@@ -69,7 +68,7 @@
         };
 
         serverProperties = lib.mkOption {
-          type = types.minecraft;
+          type = (self.types.minecraft { inherit lib; });
           default = { };
           description = "server properties for the minecraft server";
         };

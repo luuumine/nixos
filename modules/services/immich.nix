@@ -1,3 +1,4 @@
+{ self, ... }:
 {
   flake.services.immich =
     {
@@ -11,7 +12,6 @@
       cfg = config.lumine.services.immich;
       userName = config.lumine.user.name;
       caddyCfg = config.lumine.network.caddy;
-      types = import ../types { inherit lib; };
     in
     {
       options.lumine.services.immich = {
@@ -22,7 +22,7 @@
           description = "immich internal port";
         };
         gpu = lib.mkOption {
-          type = lib.types.nullOr types.gpu;
+          type = lib.types.nullOr (self.types.gpu { inherit lib; });
           default = null;
           description = "gpu submodule for ML and transcoding";
         };

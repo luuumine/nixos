@@ -1,3 +1,4 @@
+{ self, ... }:
 {
   flake.services.jellyfin =
     {
@@ -10,13 +11,12 @@
       cfg = config.lumine.services.jellyfin;
       userName = config.lumine.user.name;
       caddyCfg = config.lumine.network.caddy;
-      types = import ../types { inherit lib; };
     in
     {
       options.lumine.services.jellyfin = {
         enable = lib.mkEnableOption "jellyfin media server";
         gpu = lib.mkOption {
-          type = lib.types.nullOr types.gpu;
+          type = lib.types.nullOr (self.types.gpu { inherit lib; });
           default = null;
           description = "gpu submodule to use for transcoding";
         };

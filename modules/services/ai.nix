@@ -1,3 +1,4 @@
+{ self, ... }:
 {
   flake.services.ai =
     {
@@ -10,7 +11,6 @@
     let
       cfg = config.lumine.services.ai;
       caddyCfg = config.lumine.network.caddy;
-      types = import ../types { inherit lib; };
     in
     {
       options.lumine.services.ai = {
@@ -28,7 +28,7 @@
         };
 
         gpu = lib.mkOption {
-          type = lib.types.nullOr types.gpu;
+          type = lib.types.nullOr (self.types.gpu { inherit lib; });
           default = null;
           description = "gpu to use for acceleration";
         };

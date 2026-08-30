@@ -1,9 +1,9 @@
+{ inputs, ... }:
 {
   flake.nixosModules.luminout-config =
     {
       config,
       pkgs,
-      inputs,
       ...
     }:
     let
