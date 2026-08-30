@@ -1,33 +1,32 @@
 {
-  stdenv,
-  quickshell,
-  kdePackages,
-  ...
-}:
+  perSystem =
+    { pkgs, ... }:
+    {
+      packages.quickshell-lumine = pkgs.stdenv.mkDerivation {
+        pname = "quickshell-lumine";
+        version = "1.2.0";
 
-stdenv.mkDerivation {
-  pname = "quickshell-lumine";
-  version = "1.2.0";
+        src = ./src;
 
-  src = ./src;
+        buildInputs = [
+          pkgs.quickshell
+          pkgs.kdePackages.qtdeclarative
+        ];
 
-  buildInputs = [
-    quickshell
-    kdePackages.qtdeclarative
-  ];
+        dontWrapQtApps = true;
 
-  dontWrapQtApps = true;
+        installPhase = ''
+          mkdir -p $out
+          cp -r . $out/
+        '';
 
-  installPhase = ''
-    mkdir -p $out
-    cp -r . $out/
-  '';
+        shellHook = ''
+          echo "quickshell dev environment active"
+          export QML2_IMPORT_PATH="${pkgs.quickshell}/lib/qt-6/qml:${pkgs.kdePackages.qtdeclarative}/lib/qt-6/qml:$QML2_IMPORT_PATH"
+          export QML_IMPORT_PATH="$QML2_IMPORT_PATH"
+        '';
 
-  shellHook = ''
-    echo "quickshell dev environment active"
-    export QML2_IMPORT_PATH="${quickshell}/lib/qt-6/qml:${kdePackages.qtdeclarative}/lib/qt-6/qml:$QML2_IMPORT_PATH"
-    export QML_IMPORT_PATH="$QML2_IMPORT_PATH"
-  '';
-
-  meta.description = "lumine's quickshell config";
+        meta.description = "lumine's quickshell config";
+      };
+    };
 }
