@@ -1,43 +1,41 @@
 {
-  lib,
-  rustPlatform,
-  cargo,
-  rustc,
-  rust-analyzer,
-  rustfmt,
-  cacert,
-}:
-let
-  pname = "api-lumine";
-  version = "1.1.2";
+  perSystem =
+    { lib, pkgs, ... }:
+    {
+      packages.api-lumine =
+        let
+          pname = "api-lumine";
+          version = "1.1.2";
 
-  src = lib.fileset.toSource {
-    root = ./.;
-    fileset = lib.fileset.unions [
-      ./Cargo.toml
-      ./Cargo.lock
-      ./src
-      ./migrations
-      ./tests
-    ];
-  };
-in
-rustPlatform.buildRustPackage {
-  inherit pname version src;
+          src = lib.fileset.toSource {
+            root = ./.;
+            fileset = lib.fileset.unions [
+              ./Cargo.toml
+              ./Cargo.lock
+              ./src
+              ./migrations
+              ./tests
+            ];
+          };
+        in
+        pkgs.rustPlatform.buildRustPackage {
+          inherit pname version src;
 
-  cargoHash = "sha256-J9BvVP7WzBS5AedrpEW2Y5NSEwjSS5sOy0/TeSE6k08=";
+          cargoHash = "sha256-J9BvVP7WzBS5AedrpEW2Y5NSEwjSS5sOy0/TeSE6k08=";
 
-  nativeBuildInputs = [
-    cargo
-    rustc
-    rust-analyzer
-    rustfmt
-    cacert
-  ];
+          nativeBuildInputs = [
+            pkgs.cargo
+            pkgs.rustc
+            pkgs.rust-analyzer
+            pkgs.rustfmt
+            pkgs.cacert
+          ];
 
-  SSL_CERT_FILE = "${cacert}/etc/ssl/certs/ca-bundle.crt";
+          SSL_CERT_FILE = "${pkgs.cacert}/etc/ssl/certs/ca-bundle.crt";
 
-  meta = {
-    mainProgram = pname;
-  };
+          meta = {
+            mainProgram = pname;
+          };
+        };
+    };
 }
