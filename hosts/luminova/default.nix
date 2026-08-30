@@ -1,24 +1,21 @@
-{ lib, ... }:
-
-{
-  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
-  fileSystems."/" = {
-    device = "/dev/disk/by-label/nixos";
-    fsType = "ext4";
-  };
-
-  lumine = {
-    user.name = "lumine";
-    system = {
-      enable = true;
-      hostname = "luminova";
+{ self, inputs, ... }: {
+  flake.nixosConfigurations.luminova = inputs.nixpkgs.lib.nixosSystem {
+    specialArgs = {
+      inherit inputs;
+      secretsPath = ../../secrets;
     };
+    modules = with self.nixosModules; [
+      luminova-config
 
-    nix.enable = true;
+      ../../modules
 
-    shell.enable = true;
-    starship.enable = true;
-    git.enable = true;
-    nvim.enable = true;
+      inputs.home-manager.nixosModules.home-manager
+      {
+        home-manager.useGlobalPkgs = true;
+        home-manager.useUserPackages = true;
+        home-manager.extraSpecialArgs = { inherit inputs; };
+      }
+      inputs.agenix.nixosModules.default
+    ];
   };
 }
