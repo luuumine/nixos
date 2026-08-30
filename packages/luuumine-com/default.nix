@@ -1,49 +1,43 @@
 {
-  stdenv,
-  fetchPnpmDeps,
-  nodejs_22,
-  pnpmConfigHook,
-  pnpm_10,
-  astro-language-server,
-  typescript,
-  typescript-language-server,
-  vscode-langservers-extracted,
-}:
-let
-  pnpm = pnpm_10;
-  pname = "luuumine-com";
-  version = "3.9.1";
-  src = ./.;
-in
-stdenv.mkDerivation {
-  inherit pname version src;
+  perSystem = { pkgs, ... }: {
+    packages.luuumine-com =
+      let
+        pnpm = pkgs.pnpm_10;
+        pname = "luuumine-com";
+        version = "3.9.1";
+        src = ./.;
+      in
+      pkgs.stdenv.mkDerivation {
+        inherit pname version src;
 
-  nativeBuildInputs = [
-    nodejs_22
-    pnpmConfigHook
-    pnpm
-    astro-language-server
-    typescript
-    typescript-language-server
-    vscode-langservers-extracted
-  ];
+        nativeBuildInputs = [
+          pkgs.nodejs_22
+          pkgs.pnpmConfigHook
+          pnpm
+          pkgs.astro-language-server
+          pkgs.typescript
+          pkgs.typescript-language-server
+          pkgs.vscode-langservers-extracted
+        ];
 
-  pnpmDeps = fetchPnpmDeps {
-    inherit pname version src;
-    inherit pnpm;
-    fetcherVersion = 3;
-    hash = "sha256-IJOH14ikEQkIxnqmhlV8YfcrAgbWk7OHCRyaMyXv/9w=";
+        pnpmDeps = pkgs.fetchPnpmDeps {
+          inherit pname version src;
+          inherit pnpm;
+          fetcherVersion = 3;
+          hash = "sha256-IJOH14ikEQkIxnqmhlV8YfcrAgbWk7OHCRyaMyXv/9w=";
+        };
+
+        buildPhase = ''
+          export PUBLIC_SITE_VERSION="${version}"
+          pnpm build
+        '';
+        installPhase = "cp -r dist $out";
+
+        shellHook = ''
+          export PATH="$PWD/node_modules/.bin:$PATH"
+          export NODE_PATH="${pkgs.typescript}/lib/node_modules:$NODE_PATH"
+          echo "astro development environment active"
+        '';
+      };
   };
-
-  buildPhase = ''
-    export PUBLIC_SITE_VERSION="${version}"
-    pnpm build
-  '';
-  installPhase = "cp -r dist $out";
-
-  shellHook = ''
-    export PATH="$PWD/node_modules/.bin:$PATH"
-    export NODE_PATH="${typescript}/lib/node_modules:$NODE_PATH"
-    echo "astro development environment active"
-  '';
 }
