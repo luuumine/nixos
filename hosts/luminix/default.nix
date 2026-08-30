@@ -8,7 +8,6 @@
       luminix-hardware
       luminix-filesystems
       luminix-config
-      luminix-backups
 
       ../../modules
 

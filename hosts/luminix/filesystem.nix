@@ -1,5 +1,5 @@
 {
-  flake.nixosModules.lumininx-filesystems = {
+  flake.nixosModules.luminix-filesystems = {
     boot.supportedFilesystems = [ "zfs" ];
     boot.initrd.supportedFilesystems = [ "zfs" ];
     boot.zfs.forceImportRoot = false;
