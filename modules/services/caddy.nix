@@ -1,7 +1,7 @@
+{ self, ... }:
 {
   flake.services.caddy =
     {
-      self,
       config,
       lib,
       pkgs,
