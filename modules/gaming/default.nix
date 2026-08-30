@@ -1,24 +1,22 @@
 {
-  config,
-  lib,
-  pkgs,
-  ...
-}:
+  flake.gaming.core =
+    {
+      config,
+      lib,
+      pkgs,
+      ...
+    }:
 
-let
-  cfg = config.lumine.gaming;
-in
-{
-  imports = [
-    ./minecraft.nix
-    ./steam.nix
-  ];
+    let
+      cfg = config.lumine.gaming;
+    in
+    {
+      options.lumine.gaming.enable = lib.mkEnableOption "gaming utilities";
 
-  options.lumine.gaming.enable = lib.mkEnableOption "gaming utilities";
+      config = lib.mkIf cfg.enable {
+        programs.gamemode.enable = true;
 
-  config = lib.mkIf cfg.enable {
-    programs.gamemode.enable = true;
-
-    environment.systemPackages = [ pkgs.mangohud ];
-  };
+        environment.systemPackages = [ pkgs.mangohud ];
+      };
+    };
 }

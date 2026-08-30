@@ -1,72 +1,65 @@
 {
-  config,
-  lib,
-  pkgs,
-  ...
-}:
+  flake.desktop.core =
+    {
+      config,
+      lib,
+      pkgs,
+      ...
+    }:
 
-let
-  cfg = config.lumine.desktop;
-  gpu = config.lumine.system.displayGpu;
-in
-{
-  imports = [
-    ./cursor.nix
-    ./hyprland
-    ./hyprpaper.nix
-    ./hyprshot.nix
-    ./browser.nix
-    ./quickshell.nix
-    ./terminal.nix
-  ];
+    let
+      cfg = config.lumine.desktop;
+      gpu = config.lumine.system.displayGpu;
+    in
+    {
+      options.lumine.desktop.enable = lib.mkEnableOption "desktop environment and graphics";
 
-  options.lumine.desktop.enable = lib.mkEnableOption "desktop environment and graphics";
-
-  config = lib.mkIf cfg.enable (
-    lib.mkMerge [
-      {
-        assertions = [
+      config = lib.mkIf cfg.enable (
+        lib.mkMerge [
           {
-            assertion = gpu != null;
-            message = "lumine.desktop is enabled but lumine.system.displayGpu is not set.";
+            assertions = [
+              {
+                assertion = gpu != null;
+                message = "lumine.desktop is enabled but lumine.system.displayGpu is not set.";
+              }
+            ]
+            ++ lib.optionals (gpu != null) [
+              {
+                assertion = gpu.brand != "nvidia";
+                message = "nvidia graphics are not yet supported in lumine.desktop. please use \"amd\" or \"intel\".";
+              }
+            ];
           }
+          {
+            lumine.desktop.cursor.enable = lib.mkDefault true;
+            lumine.desktop.hyprland.enable = lib.mkDefault true;
+            lumine.desktop.hyprpaper.enable = lib.mkDefault true;
+            lumine.desktop.hyprshot.enable = lib.mkDefault true;
+            lumine.desktop.browser.enable = lib.mkDefault true;
+            lumine.desktop.quickshell.enable = lib.mkDefault true;
+            lumine.desktop.terminal.enable = lib.mkDefault true;
+
+            environment.systemPackages = [ pkgs.xdg-utils ];
+
+            hardware.graphics = {
+              enable = true;
+              enable32Bit = true;
+            };
+          }
+          (lib.mkIf (gpu.brand == "amd") {
+            services.xserver.videoDrivers = [ "amdgpu" ];
+            environment.systemPackages = [
+              pkgs.rocmPackages.amdsmi
+              pkgs.libdrm
+            ];
+          })
+          (lib.mkIf (gpu.brand == "intel") {
+            services.xserver.videoDrivers = [ "modesetting" ];
+            environment.systemPackages = [
+              pkgs.intel-gpu-tools
+            ];
+          })
         ]
-        ++ lib.optionals (gpu != null) [
-          {
-            assertion = gpu.brand != "nvidia";
-            message = "nvidia graphics are not yet supported in lumine.desktop. please use \"amd\" or \"intel\".";
-          }
-        ];
-      }
-      {
-        lumine.desktop.cursor.enable = lib.mkDefault true;
-        lumine.desktop.hyprland.enable = lib.mkDefault true;
-        lumine.desktop.hyprpaper.enable = lib.mkDefault true;
-        lumine.desktop.hyprshot.enable = lib.mkDefault true;
-        lumine.desktop.browser.enable = lib.mkDefault true;
-        lumine.desktop.quickshell.enable = lib.mkDefault true;
-        lumine.desktop.terminal.enable = lib.mkDefault true;
-
-        environment.systemPackages = [ pkgs.xdg-utils ];
-
-        hardware.graphics = {
-          enable = true;
-          enable32Bit = true;
-        };
-      }
-      (lib.mkIf (gpu.brand == "amd") {
-        services.xserver.videoDrivers = [ "amdgpu" ];
-        environment.systemPackages = [
-          pkgs.rocmPackages.amdsmi
-          pkgs.libdrm
-        ];
-      })
-      (lib.mkIf (gpu.brand == "intel") {
-        services.xserver.videoDrivers = [ "modesetting" ];
-        environment.systemPackages = [
-          pkgs.intel-gpu-tools
-        ];
-      })
-    ]
-  );
+      );
+    };
 }

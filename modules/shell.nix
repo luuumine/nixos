@@ -1,98 +1,101 @@
 {
-  config,
-  lib,
-  pkgs,
-  ...
-}:
+  flake.nixosModules.shell =
+    {
+      config,
+      lib,
+      pkgs,
+      ...
+    }:
 
-let
-  cfg = config.lumine.shell;
-  userName = config.lumine.user.name;
-in
-{
-  options.lumine.shell.enable = lib.mkEnableOption "shell";
+    let
+      cfg = config.lumine.shell;
+      userName = config.lumine.user.name;
+    in
+    {
+      options.lumine.shell.enable = lib.mkEnableOption "shell";
 
-  config = lib.mkIf cfg.enable {
-    programs.zsh.enable = true;
-    users.defaultUserShell = pkgs.zsh;
+      config = lib.mkIf cfg.enable {
+        programs.zsh.enable = true;
+        users.defaultUserShell = pkgs.zsh;
 
-    home-manager.users.${userName} =
-      { config, ... }:
-      {
-        programs.btop.enable = true;
-        programs.fzf = {
-          enable = true;
-          enableZshIntegration = true;
-        };
+        home-manager.users.${userName} =
+          { config, ... }:
+          {
+            programs.btop.enable = true;
+            programs.fzf = {
+              enable = true;
+              enableZshIntegration = true;
+            };
 
-        programs.eza = {
-          enable = true;
-          git = true;
-          extraOptions = [
-            "--group-directories-first"
-            "--header"
-          ];
-        };
+            programs.eza = {
+              enable = true;
+              git = true;
+              extraOptions = [
+                "--group-directories-first"
+                "--header"
+              ];
+            };
 
-        programs.zsh = {
-          enable = true;
+            programs.zsh = {
+              enable = true;
 
-          # History settings
-          history = {
-            size = 10000;
-            path = "${config.xdg.dataHome}/zsh/history";
-            extended = true;
-            share = true;
-            findNoDups = true;
-            ignoreAllDups = true;
-            ignoreSpace = true;
+              # History settings
+              history = {
+                size = 10000;
+                path = "${config.xdg.dataHome}/zsh/history";
+                extended = true;
+                share = true;
+                findNoDups = true;
+                ignoreAllDups = true;
+                ignoreSpace = true;
+              };
+
+              # Plugins
+              autosuggestion.enable = true;
+              syntaxHighlighting.enable = true;
+
+              # Aliases
+              shellAliases = {
+                # Default eza overrides
+                ls = "eza";
+                la = "eza -a";
+                ll = "eza -l";
+                lla = "eza -la";
+
+                lt = "eza --tree";
+                llt = "eza -l --tree";
+                ltg = "eza -a --tree --git-ignore";
+
+                # Nix develop
+                nd = "nix develop";
+              };
+
+              initContent = ''
+                # Binds
+                bindkey '^[[1;5C' forward-word
+                bindkey '^[[1;5D' backward-word
+                bindkey '^H'      backward-kill-word
+                bindkey '^ '      autosuggest-accept
+
+                # Redirect nix develop to zsh
+                nix() {
+                  if [[ $1 = "develop" ]]; then
+                    shift
+                    command nix develop "$@" -c zsh
+                  else
+                    command nix "$@"
+                  fi
+                }
+              '';
+            };
+
+            programs.direnv = {
+              enable = true;
+              nix-direnv.enable = true;
+              enableZshIntegration = true;
+              silent = true;
+            };
           };
-
-          # Plugins
-          autosuggestion.enable = true;
-          syntaxHighlighting.enable = true;
-
-          # Aliases
-          shellAliases = {
-            # Default eza overrides
-            ls = "eza";
-            la = "eza -a";
-            ll = "eza -l";
-            lla = "eza -la";
-
-            lt = "eza --tree";
-            llt = "eza -l --tree";
-            ltg = "eza -a --tree --git-ignore";
-
-            # Nix develop
-            nd = "nix develop";
-          };
-
-          initContent = ''
-            # Binds
-            bindkey '^[[1;5C' forward-word
-            bindkey '^[[1;5D' backward-word
-            bindkey '^H'      backward-kill-word
-            bindkey '^ '      autosuggest-accept
-
-            # Redirect nix develop to zsh
-            nix() {
-              if [[ $1 = "develop" ]]; then
-                shift
-                command nix develop "$@" -c zsh
-              else
-                command nix "$@"
-              fi
-            }
-          '';
-        };
-
-        programs.direnv = {
-          enable = true;
-          nix-direnv.enable = true;
-          enableZshIntegration = true;
-          silent = true;
-        };
       };
-  };
+    };
 }

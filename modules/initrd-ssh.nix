@@ -1,52 +1,55 @@
-{ config, lib, ... }:
-
-let
-  cfg = config.lumine.initrd-ssh;
-
-  authPubKeys = lib.mapAttrsToList (_name: key: key.pub) config.lumine.security.auth;
-in
 {
-  options.lumine.initrd-ssh = {
-    enable = lib.mkEnableOption "initrd ssh for remote luks unlock";
+  flake.nixosModules.initrd-ssh =
+    { config, lib, ... }:
 
-    port = lib.mkOption {
-      type = lib.types.port;
-      default = 49152;
-      description = "the port used by the ssh server in initrd";
-    };
+    let
+      cfg = config.lumine.initrd-ssh;
 
-    authorizedKeys = lib.mkOption {
-      type = lib.types.listOf lib.types.str;
-      default = authPubKeys;
-      description = "ssh public keys allowed to connect";
-    };
+      authPubKeys = lib.mapAttrsToList (_name: key: key.pub) config.lumine.security.auth;
+    in
+    {
+      options.lumine.initrd-ssh = {
+        enable = lib.mkEnableOption "initrd ssh for remote luks unlock";
 
-    networkDrivers = lib.mkOption {
-      type = lib.types.listOf lib.types.str;
-      default = [ ];
-      description = "kernel modules required for the network card in initrd";
-    };
-  };
+        port = lib.mkOption {
+          type = lib.types.port;
+          default = 49152;
+          description = "the port used by the ssh server in initrd";
+        };
 
-  config = lib.mkIf cfg.enable {
-    boot.kernelParams = [ "ip=::::${config.networking.hostName}::dhcp" ];
-    boot.initrd = {
-      systemd.enable = true;
-      systemd.network.enable = true;
+        authorizedKeys = lib.mkOption {
+          type = lib.types.listOf lib.types.str;
+          default = authPubKeys;
+          description = "ssh public keys allowed to connect";
+        };
 
-      availableKernelModules = cfg.networkDrivers;
-
-      network = {
-        enable = true;
-        flushBeforeStage2 = true;
-        ssh = {
-          enable = true;
-          inherit (cfg) port;
-          inherit (cfg) authorizedKeys;
-          hostKeys = [ "/etc/secrets/initrd/ssh_host_ed25519_key" ];
+        networkDrivers = lib.mkOption {
+          type = lib.types.listOf lib.types.str;
+          default = [ ];
+          description = "kernel modules required for the network card in initrd";
         };
       };
-      systemd.users.root.shell = "/bin/systemd-tty-ask-password-agent";
+
+      config = lib.mkIf cfg.enable {
+        boot.kernelParams = [ "ip=::::${config.networking.hostName}::dhcp" ];
+        boot.initrd = {
+          systemd.enable = true;
+          systemd.network.enable = true;
+
+          availableKernelModules = cfg.networkDrivers;
+
+          network = {
+            enable = true;
+            flushBeforeStage2 = true;
+            ssh = {
+              enable = true;
+              inherit (cfg) port;
+              inherit (cfg) authorizedKeys;
+              hostKeys = [ "/etc/secrets/initrd/ssh_host_ed25519_key" ];
+            };
+          };
+          systemd.users.root.shell = "/bin/systemd-tty-ask-password-agent";
+        };
+      };
     };
-  };
 }

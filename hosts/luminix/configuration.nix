@@ -1,9 +1,9 @@
+{ self, inputs, ... }:
 {
   flake.nixosModules.luminix-config =
     {
       config,
       pkgs,
-      inputs,
       ...
     }:
     let
