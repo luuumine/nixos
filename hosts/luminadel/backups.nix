@@ -1,22 +1,24 @@
 {
-  lumine.backups = {
-    enable = true;
-    isSender = true;
-    zfsSourceDataset = "ZROOT/backups";
-    localSinkPools = [ "TANK/backups" ];
-    remoteSinks = [ "luminode" ];
+  flake.nixosModules.luminadel-backups = {
+    lumine.backups = {
+      enable = true;
+      isSender = true;
+      zfsSourceDataset = "ZROOT/backups";
+      localSinkPools = [ "TANK/backups" ];
+      remoteSinks = [ "luminode" ];
 
-    interval = {
-      local = "1h";
-      remote = "1h";
-    };
+      interval = {
+        local = "1h";
+        remote = "1h";
+      };
 
-    bindMounts = {
-      "/var/lib/immich" = "/backups/immich";
-      "/var/lib/jellyfin" = "/backups/jellyfin";
-      "/var/lib/wealthfolio" = "/backups/wealthfolio";
+      bindMounts = {
+        "/var/lib/immich" = "/backups/immich";
+        "/var/lib/jellyfin" = "/backups/jellyfin";
+        "/var/lib/wealthfolio" = "/backups/wealthfolio";
+      };
     };
+    lumine.services.git.enableBackups = true;
+    lumine.services.vaultwarden.enableBackups = true;
   };
-  lumine.services.git.enableBackups = true;
-  lumine.services.vaultwarden.enableBackups = true;
 }

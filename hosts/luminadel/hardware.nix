@@ -1,46 +1,48 @@
 {
-  config,
-  lib,
-  modulesPath,
-  ...
-}:
+  flake.nixosModules.luminadel-hardware =
+    {
+      config,
+      lib,
+      modulesPath,
+      ...
+    }:
 
-{
-  imports = [
-    (modulesPath + "/hardware/cpu/intel-npu.nix")
-    (modulesPath + "/installer/scan/not-detected.nix")
-  ];
+    {
+      imports = [
+        (modulesPath + "/hardware/cpu/intel-npu.nix")
+        (modulesPath + "/installer/scan/not-detected.nix")
+      ];
 
-  boot.initrd.availableKernelModules = [
-    "nvme"
-    "xhci_pci"
-    "ahci"
-    "thunderbolt"
-    "usb_storage"
-    "sd_mod"
-  ];
-  boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ "kvm-intel" ];
-  boot.extraModulePackages = [ ];
+      boot.initrd.availableKernelModules = [
+        "nvme"
+        "xhci_pci"
+        "ahci"
+        "thunderbolt"
+        "usb_storage"
+        "sd_mod"
+      ];
+      boot.initrd.kernelModules = [ ];
+      boot.kernelModules = [ "kvm-intel" ];
+      boot.extraModulePackages = [ ];
 
-  swapDevices = [ ];
+      swapDevices = [ ];
 
-  nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
+      nixpkgs.hostPlatform = lib.mkDefault "x86_64-linux";
 
-  services.xserver.videoDrivers = [ "nvidia" ];
-  hardware = {
-    cpu.intel = {
-      npu.enable = true;
-      updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+      services.xserver.videoDrivers = [ "nvidia" ];
+      hardware = {
+        cpu.intel = {
+          npu.enable = true;
+          updateMicrocode = lib.mkDefault config.hardware.enableRedistributableFirmware;
+        };
+
+        graphics.enable = true;
+
+        nvidia = {
+          modesetting.enable = true;
+          open = true;
+          nvidiaSettings = false;
+        };
+      };
     };
-
-    graphics.enable = true;
-
-    nvidia = {
-      modesetting.enable = true;
-      open = true;
-      nvidiaSettings = false;
-    };
-  };
-
 }
