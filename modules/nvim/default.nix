@@ -15,14 +15,19 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    programs.neovim = {
-      enable = true;
-      defaultEditor = true;
-      viAlias = true;
-      vimAlias = true;
-    };
-
     home-manager.users.${userName} = {
+      programs.neovim = {
+        enable = true;
+        defaultEditor = true;
+        viAlias = true;
+        vimAlias = true;
+
+        withRuby = false;
+        withPython3 = false;
+
+        plugins = [ pkgs.vimPlugins.nvim-treesitter.withAllGrammars ];
+      };
+
       home.packages = with pkgs; [
         ripgrep
         fd
@@ -39,15 +44,6 @@ in
       xdg.configFile = {
         "nvim/init.lua".source = ./init.lua;
         "nvim/lua".source = ./lua;
-
-        "nvim/parser".source =
-          let
-            parsers = pkgs.symlinkJoin {
-              name = "treesitter-parsers";
-              paths = pkgs.vimPlugins.nvim-treesitter.withAllGrammars.dependencies;
-            };
-          in
-          "${parsers}/parser";
       };
     };
   };
