@@ -25,6 +25,8 @@
     let
       system = "x86_64-linux";
 
+      overlays.default = final: prev: { lumine = import ./packages { pkgs = final; }; };
+
       mkHost =
         hostName:
         nixpkgs.lib.nixosSystem {
@@ -33,6 +35,7 @@
             secretsPath = ./secrets;
           };
           modules = [
+            { nixpkgs.overlays = [ self.overlays.default ]; }
             ./hosts/${hostName}
             ./modules
             home-manager.nixosModules.home-manager
@@ -46,6 +49,7 @@
         };
     in
     {
+      inherit overlays;
       nixosConfigurations = {
         luminix = mkHost "luminix";
         luminova = mkHost "luminova";

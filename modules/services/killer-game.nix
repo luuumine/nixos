@@ -2,7 +2,6 @@
   config,
   lib,
   pkgs,
-  inputs,
   secretsPath,
   ...
 }:
@@ -10,9 +9,6 @@ let
   cfg = config.lumine.services.killer-game;
   hostname = config.lumine.system.hostname;
   caddyCfg = config.lumine.network.caddy;
-
-  system = pkgs.stdenv.hostPlatform.system;
-  killer-game-pkg = inputs.self.packages.${system}.killer-game;
 in
 {
   options.lumine.services.killer-game = {
@@ -55,7 +51,7 @@ in
         DynamicUser = true;
 
         StateDirectory = "killer-game";
-        WorkingDirectory = "${killer-game-pkg}";
+        WorkingDirectory = "${pkgs.lumine.killer-game}";
 
         Environment = [
           "NODE_ENV=production"
@@ -68,7 +64,7 @@ in
 
         EnvironmentFile = config.age.secrets."killer-game.env".path;
 
-        ExecStart = "${pkgs.nodejs_22}/bin/node ${killer-game-pkg}/dist/server/entry.mjs";
+        ExecStart = "${pkgs.nodejs_22}/bin/node ${pkgs.lumine.killer-game}/dist/server/entry.mjs";
         Restart = "always";
       };
     };

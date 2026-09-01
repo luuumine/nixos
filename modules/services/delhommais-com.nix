@@ -2,15 +2,11 @@
   config,
   lib,
   pkgs,
-  inputs,
   ...
 }:
 let
   cfg = config.lumine.services.delhommais-com;
   caddyCfg = config.lumine.network.caddy;
-
-  system = pkgs.stdenv.hostPlatform.system;
-  frontend = inputs.self.packages.${system}.delhommais-com;
 in
 {
   options.lumine.services.delhommais-com = {
@@ -26,7 +22,7 @@ in
     ];
 
     services.caddy.virtualHosts."delhommais.com, www.delhommais.com".extraConfig = ''
-      root * ${frontend}
+      root * ${pkgs.lumine.delhommais-com}
       try_files {path} {path}/ {path}.html
       file_server
 

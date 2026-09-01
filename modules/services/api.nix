@@ -2,7 +2,6 @@
   config,
   lib,
   pkgs,
-  inputs,
   secretsPath,
   ...
 }:
@@ -10,9 +9,6 @@ let
   cfg = config.lumine.services.api;
   hostname = config.lumine.system.hostname;
   caddyCfg = config.lumine.network.caddy;
-
-  system = pkgs.stdenv.hostPlatform.system;
-  api-lumine = inputs.self.packages.${system}.api-lumine;
 in
 {
   options.lumine.services.api = {
@@ -49,7 +45,7 @@ in
         ];
 
         EnvironmentFile = config.age.secrets.api-lumine.path;
-        ExecStart = lib.getExe api-lumine;
+        ExecStart = lib.getExe pkgs.lumine.api-lumine;
         Restart = "always";
       };
     };
