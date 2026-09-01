@@ -49,7 +49,8 @@ export const machines: Machine[] = [
     hostname: "luminadel",
     os: "NixOS",
     cpu: "Intel Core Ultra 5 245K",
-    memory: { capacity: 32, hz: 5600, ddr: 5 },
+    gpu: "NVIDIA RTX 3060 12GB",
+    memory: { capacity: 64, hz: 5600, ddr: 5 },
     storage: [
       { capacity: 2000, type: "NVMe", label: "main" },
       { capacity: 8000, type: "HDD", label: "media" },

@@ -12,7 +12,7 @@
 let
   pnpm = pnpm_10;
   pname = "luuumine-com";
-  version = "3.9.1";
+  version = "3.9.2";
   src = ./.;
 in
 stdenv.mkDerivation {
