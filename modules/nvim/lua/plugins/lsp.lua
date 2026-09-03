@@ -19,6 +19,7 @@ return {
 		require("plugins.lsp.astro")
 		require("plugins.lsp.c")
 		require("plugins.lsp.css")
+		require("plugins.lsp.html")
 		require("plugins.lsp.json")
 		require("plugins.lsp.lua")
 		require("plugins.lsp.markdown")
