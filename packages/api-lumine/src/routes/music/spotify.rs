@@ -11,6 +11,7 @@ pub async fn fetch_currently_playing(
     access_token: &str,
 ) -> Result<NowPlayingResponse, String> {
     const SONG_LIFETIME: u64 = 5;
+    const ERROR_TIMEOUT: u64 = 1800;
 
     let now = SystemTime::now()
         .duration_since(UNIX_EPOCH)
@@ -49,30 +50,63 @@ pub async fn fetch_currently_playing(
         .await
         .map_err(|e| format!("failed to fetch response: {}", e))?;
 
-    let response_data = match response.status() {
-        StatusCode::NO_CONTENT => return Ok(NowPlayingResponse::NotPlaying),
+    let status = response.status();
+
+    let (response_data, ttl) = match status {
+        StatusCode::NO_CONTENT => (NowPlayingResponse::NotPlaying, SONG_LIFETIME),
+
         StatusCode::OK => {
             let json = response
                 .json::<serde_json::Value>()
                 .await
                 .map_err(|e| format!("failed to parse response body: {}", e))?;
             let (song_data, b) = parse_spotify_response(json)?;
-            match b {
+
+            let state = match b {
                 true => NowPlayingResponse::Playing(song_data),
                 false => NowPlayingResponse::Paused(song_data),
-            }
+            };
+
+            (state, SONG_LIFETIME)
         }
+
+        StatusCode::TOO_MANY_REQUESTS => {
+            let mut timeout = ERROR_TIMEOUT; // default 30 mins
+
+            if let Some(retry_val) = response.headers().get("retry-after") {
+                if let Ok(retry_str) = retry_val.to_str() {
+                    if let Ok(parsed_timeout) = retry_str.parse::<u64>() {
+                        timeout = parsed_timeout;
+                    }
+                }
+            }
+
+            eprintln!(
+                "spotify api returned unexpected status: {} (cooling down for {}s)",
+                status, timeout
+            );
+
+            (NowPlayingResponse::NotPlaying, timeout + SONG_LIFETIME)
+        }
+
         _ => {
+            eprintln!("spotify api returned unexpected status: {}", status);
+
+            *cache = Some(SongCache {
+                data: NowPlayingResponse::NotPlaying,
+                expires_at: now + ERROR_TIMEOUT, // 30 mins
+            });
+
             return Err(format!(
                 "spotify api returned unexpected status: {}",
-                response.status()
+                status
             ));
         }
     };
 
     *cache = Some(SongCache {
         data: response_data.clone(),
-        expires_at: now + SONG_LIFETIME,
+        expires_at: now + ttl,
     });
 
     Ok(response_data)
