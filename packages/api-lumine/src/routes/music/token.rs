@@ -138,6 +138,7 @@ mod tests {
                 client_secret: "my_secret".to_string(),
                 refresh_token: "my_refresh_token".to_string(),
                 token_cache: Arc::new(RwLock::new(None)),
+                song_cache: Arc::new(RwLock::new(None)),
             },
             notes: NotesConfig {
                 db_pool,

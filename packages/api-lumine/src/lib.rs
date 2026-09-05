@@ -16,6 +16,10 @@ pub struct TokenCache {
     pub access_token: String,
     pub expires_at: u64,
 }
+pub struct SongCache {
+    pub data: routes::music::NowPlayingResponse,
+    pub expires_at: u64,
+}
 
 #[derive(Clone)]
 pub struct SpotifyConfig {
@@ -25,6 +29,7 @@ pub struct SpotifyConfig {
     pub client_secret: String,
     pub refresh_token: String,
     pub token_cache: Arc<RwLock<Option<TokenCache>>>,
+    pub song_cache: Arc<RwLock<Option<SongCache>>>,
 }
 
 #[derive(Clone)]

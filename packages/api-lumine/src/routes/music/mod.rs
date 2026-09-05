@@ -5,6 +5,8 @@ mod currently_playing;
 mod spotify;
 mod token;
 
+pub use currently_playing::NowPlayingResponse;
+
 #[cfg(test)]
 mod tests;
 

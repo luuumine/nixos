@@ -63,6 +63,7 @@ async fn currently_playing() -> Result<(), String> {
             client_secret: "dummy_secret".to_string(),
             refresh_token: "dummy_refresh".to_string(),
             token_cache: Arc::new(RwLock::new(None)),
+            song_cache: Arc::new(RwLock::new(None)),
         },
         notes: NotesConfig {
             db_pool,

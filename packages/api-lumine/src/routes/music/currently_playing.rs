@@ -7,13 +7,15 @@ use crate::{
     routes::music::{spotify::fetch_currently_playing, token::get_token},
 };
 
-#[derive(Serialize, Debug, PartialEq)]
+#[derive(Serialize, Debug, PartialEq, Clone)]
 pub struct SongData {
     pub title: String,
     pub artists: Vec<String>,
     pub album: String,
     pub song_url: String,
 }
+
+#[derive(Clone)]
 pub enum NowPlayingResponse {
     NotPlaying,        // 204
     Paused(SongData),  // 200, is_playing: false

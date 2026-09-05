@@ -41,6 +41,7 @@ async fn main() {
             client_secret,
             refresh_token,
             token_cache: Arc::new(RwLock::new(None)),
+            song_cache: Arc::new(RwLock::new(None)),
         },
         notes: NotesConfig { db_pool, api_key },
     };

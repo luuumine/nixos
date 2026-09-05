@@ -28,7 +28,7 @@ dependencies = [
 
 [[package]]
 name = "api-lumine"
-version = "1.0.0"
+version = "0.0.0"
 dependencies = [
  "axum",
  "chrono",

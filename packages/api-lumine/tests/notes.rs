@@ -32,6 +32,7 @@ async fn get_pool_state() -> (SqlitePool, AppState) {
             client_secret: "dummy_secret".to_string(),
             refresh_token: "dummy_refresh".to_string(),
             token_cache: Arc::new(RwLock::new(None)),
+            song_cache: Arc::new(RwLock::new(None)),
         },
         notes: NotesConfig {
             db_pool,
