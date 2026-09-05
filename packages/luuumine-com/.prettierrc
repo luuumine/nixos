@@ -1,7 +1,3 @@
 {
-  "plugins": ["prettier-plugin-astro"],
-  "tabWidth": 2,
-  "useTabs": false,
-  "bracketSameLine": true,
-  "semi": true
+  "proseWrap": "always"
 }

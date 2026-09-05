@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}{{ section.title }} - lumine{% endblock title %}
+
+{% block content %}
+<div class="page-header">
+  <h1 class="page-title">{{ section.title }}</h1>
+
+  {% if section.extra.subtitle %}
+  <p class="page-subtitle">{{ section.extra.subtitle }}</p>
+  {% endif %}
+</div>
+
+<ul class="page-list">
+  {% for page in section.pages %}
+  <li>
+    <a class="page-card" href="{{ page.permalink }}">
+      <time>{{ page.date | date(format="%B %d, %Y") }}</time>
+      <h2>{{ page.title }}</h2>
+      <p>{{ page.description }}</p>
+    </a>
+  </li>
+  {% endfor %}
+</ul>
+{% endblock content %}

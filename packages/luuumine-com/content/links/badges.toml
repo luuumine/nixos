@@ -1,0 +1,104 @@
+[me]
+title = "luuumine"
+url = "https://luuumine.com"
+image = "/badges/luuumine.gif"
+
+[[people]]
+title = "poz"
+url = "https://poz.pet"
+image = "https://poz.pet/88x31/powered-by-poz.png"
+
+[[people]]
+title = "pucas01"
+url = "https://pucas01.com"
+image = "https://pucas01.com/button/button.png"
+
+[[people]]
+title = "mel"
+url = "https://melqtx.com"
+image = "https://melqtx.com/images/mel-88x31.png"
+
+[[people]]
+title = "uiop"
+url = "https://wasdhjkl.xyz"
+image = "https://wasdhjkl.xyz/buttons/uiop1.gif"
+
+[[people]]
+title = "lain"
+url = "https://lain.ovh"
+image = "https://lain.ovh/assets/other/88x31.gif"
+
+[[people]]
+title = "cz"
+url = "https://czkove.cc"
+image = "https://cdn.czkove.cc/czkv_8831.gif"
+
+[[people]]
+title = "quantinium"
+url = "https://quantinium.dev"
+image = "https://quantinium.dev/buttons/quantinium.png"
+
+[[people]]
+title = "experi"
+url = "https://experi.uwa.ooo"
+image = "https://experi.uwa.ooo/88x31-button/experi.gif"
+
+[[people]]
+title = "amdkits"
+url = "https://amdkits.me"
+image = "https://amdkits.me/kits.gif"
+
+[[people]]
+title = "anemoia"
+url = "https://anemoia.moe"
+image = "https://anemoia.moe/images/buttons/footer/jesx.gif"
+
+[[people]]
+title = "dimden"
+url = "https://dimden.dev/"
+image = "https://dimden.dev/services/images/88x31.gif"
+
+[[people]]
+title = "vmfunc"
+url = "https://vmfunc.re/"
+image = "https://vmfunc.re/button.png"
+
+[[people]]
+title = "harsha"
+url = "https://harsha.is-a.dev"
+image = "https://harsha.is-a.dev/button_harsha.png"
+
+[[people]]
+title = "namish"
+url = "https://namishh.com"
+image = "https://namishh.com/static/images/button_nam.png"
+
+[[people]]
+title = "nichind"
+url = "https://nichind.dev"
+image = "https://nichind.dev/88x31.gif"
+
+[[other]]
+title = "Linux"
+url = "https://www.kernel.org/"
+image = "/badges/linux.gif"
+
+[[other]]
+title = "Neovim"
+url = "https://neovim.io"
+image = "/badges/neovim.gif"
+
+[[other]]
+title = "NixOS"
+url = "https://nixos.org"
+image = "/badges/nixos.gif"
+
+[[other]]
+title = "Human"
+url = "https://en.wikipedia.org/wiki/Human"
+image = "/badges/human.gif"
+
+[[other]]
+title = "CSS"
+url = "https://developer.mozilla.org/en-US/docs/Web/CSS"
+image = "/badges/css-is-difficult.gif"

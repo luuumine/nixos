@@ -1,49 +1,37 @@
 {
   stdenv,
-  fetchPnpmDeps,
-  nodejs_22,
-  pnpmConfigHook,
-  pnpm_10,
-  astro-language-server,
-  typescript,
-  typescript-language-server,
+  zola,
+  marksman,
   vscode-langservers-extracted,
+  prettier,
+  typescript-language-server,
 }:
 let
-  pnpm = pnpm_10;
   pname = "luuumine-com";
-  version = "3.9.2";
+  version = "4.0.0";
   src = ./.;
 in
 stdenv.mkDerivation {
   inherit pname version src;
 
   nativeBuildInputs = [
-    nodejs_22
-    pnpmConfigHook
-    pnpm
-    astro-language-server
-    typescript
-    typescript-language-server
+    zola
+    marksman
     vscode-langservers-extracted
+    prettier
+    typescript-language-server
   ];
-
-  pnpmDeps = fetchPnpmDeps {
-    inherit pname version src;
-    inherit pnpm;
-    fetcherVersion = 3;
-    hash = "sha256-IJOH14ikEQkIxnqmhlV8YfcrAgbWk7OHCRyaMyXv/9w=";
-  };
 
   buildPhase = ''
     export PUBLIC_SITE_VERSION="${version}"
-    pnpm build
+    zola build
   '';
-  installPhase = "cp -r dist $out";
+
+  installPhase = ''
+    cp -r public $out
+  '';
 
   shellHook = ''
-    export PATH="$PWD/node_modules/.bin:$PATH"
-    export NODE_PATH="${typescript}/lib/node_modules:$NODE_PATH"
-    echo "astro development environment active"
+    export PUBLIC_SITE_VERSION="${version}-dev"
   '';
 }

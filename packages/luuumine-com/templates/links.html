@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page.title }} - lumine{% endblock title %}
+
+{% block content %}
+<header class="page-header">
+  <h1 class="page-title">{{ page.title }}</h1>
+  {% if page.extra.subtitle %}
+  <p class="page-subtitle">{{ page.extra.subtitle }}</p>
+  {% endif %}
+</header>
+<div class="page-content">
+  {{ page.content | safe }}
+</div>
+
+<section class="links-category">
+  <h2>socials</h2>
+
+  {% set socials_data = load_data(path="content/links/socials.toml") %}
+  <div class="social-row">
+    {% for social in socials_data.socials %}
+    <a href="{{ social.url }}" target="_blank" rel="noopener" aria-label="{{ social.label }}: {{ social.username }}"
+      style="--social-color: {{ social.color }}; --icon-url: url('{{ social.icon }}');">
+      <span class="tooltip">{{ social.label }}: {{ social.username }}</span>
+      <span class="icon" aria-hidden="true"></span>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+
+<section class="links-category">
+  <h2>badges</h2>
+
+  {% set b_data = load_data(path="content/links/badges.toml") %}
+
+  <div class="badge-share">
+    <p>add my badge to your website!</p>
+    <div class="row">
+      <a href="{{ b_data.me.url }}">
+        <img src="{{ b_data.me.image }}" alt="{{ b_data.me.title }}" width="88" height="31">
+      </a>
+      <input type="text" readonly
+        value="<a href=&quot;{{ b_data.me.url }}&quot;><img src=&quot;https://luuumine.com{{ b_data.me.image }}&quot; alt=&quot;{{ b_data.me.title }}&quot;/></a>"
+        onclick="this.select()">
+    </div>
+  </div>
+
+  <h3>cool people & cool stuff</h3>
+  <div class="badge-grid">
+    {% for person in b_data.people %}
+    <a href="{{ person.url }}" target="_blank" rel="noopener" title="{{ person.title }}">
+      <img src="{{ person.image }}" alt="{{ person.title }}" width="88" height="31">
+    </a>
+    {% endfor %}
+
+    {% for badge in b_data.other %}
+    <a href="{{ badge.url }}" target="_blank" rel="noopener" title="{{ badge.title }}">
+      <img src="{{ badge.image }}" alt="{{ badge.title }}" width="88" height="31">
+    </a>
+    {% endfor %}
+  </div>
+</section>
+
+{% endblock content %}

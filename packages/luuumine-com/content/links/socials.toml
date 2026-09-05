@@ -1,0 +1,71 @@
+[[socials]]
+id = "forgejo"
+label = "forgejo"
+username = "luuumine"
+icon = "/icons/forgejo.svg"
+url = "https://git.luuumine.com/luuumine"
+color = "#fb923c"
+
+[[socials]]
+id = "github"
+label = "github"
+username = "luuumine"
+icon = "/icons/github.svg"
+url = "https://github.com/luuumine"
+color = "#181717"
+
+[[socials]]
+id = "discord"
+label = "discord"
+username = "luuumine"
+icon = "/icons/discord.svg"
+url = "https://discord.com/users/342580083162087425"
+color = "#5865f2"
+
+[[socials]]
+id = "signal"
+label = "signal"
+username = "luuumine.428"
+icon = "/icons/signal.svg"
+url = "https://signal.me/#eu/KHAXJodtrJspzly3TI77e2q8nGleCOSeubR0I_X7KbMcTLFebjRJBZaS6Rdue1Y2"
+color = "#3b45fd"
+
+[[socials]]
+id = "telegram"
+label = "telegram"
+username = "telumine"
+icon = "/icons/telegram.svg"
+url = "https://t.me/telumine"
+color = "#26a5e4"
+
+[[socials]]
+id = "spotify"
+label = "spotify"
+username = "Lumine"
+icon = "/icons/spotify.svg"
+url = "https://open.spotify.com/user/31wdabke5p37rfvwkwpyijsm2ywq"
+color = "#1ed760"
+
+[[socials]]
+id = "steam"
+label = "steam"
+username = "Luuumine_"
+icon = "/icons/steam.svg"
+url = "https://steamcommunity.com/id/Luuumine_"
+color = "#000000"
+
+[[socials]]
+id = "anilist"
+label = "anilist"
+username = "luuumine"
+icon = "/icons/anilist.svg"
+url = "https://anilist.co/user/160300"
+color = "#02a9ff"
+
+[[socials]]
+id = "mangacollec"
+label = "mangacollec"
+username = "luuumine"
+icon = "/icons/mangacollec.svg"
+url = "https://www.mangacollec.com/user/luuumine/collection"
+color = "#da1f05"

@@ -1,0 +1,33 @@
+<footer>
+  <a id="np-widget" class="empty" target="_blank" rel="noopener">
+    <span id="np-icon">💿</span>
+    <span class="np-text">
+      <span id="np-title">loading...</span>
+      <span id="np-artist"></span>
+    </span>
+  </a>
+
+  <div class="footer-bottom">
+    <div class="meta">
+      <span>(c) 2025-{{ now() | date(format="%Y")}} lumine</span>
+      <span
+        >v{{ get_env(name="PUBLIC_SITE_VERSION", default="x.y.z-dev") }}</span
+      >
+      <span
+        >built:
+        <a href="https://www.getzola.org/" target="_blank" rel="noopener"
+          >zola</a
+        ></span
+      >
+      <span><a href="mailto:hello@luuumine.com">email</a></span>
+    </div>
+
+    <nav class="webring">
+      <a href="https://nixwebr.ing/prev/luuumine">← prev</a>
+      <a href="https://nixwebr.ing">nix webring</a>
+      <a href="https://nixwebr.ing/next/luuumine">next →</a>
+    </nav>
+  </div>
+</footer>
+
+<script src="{{ get_url(path='js/music.js') }}" defer></script>

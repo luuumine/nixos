@@ -1,0 +1,35 @@
+<nav class="nav">
+  {% set path = current_path | default(value="") %}
+  <div class="nav-inner">
+    <a href="{{ get_url(path='/') }}" class="nav-link{% if path == '/' %} active{% endif %}">
+      {% if path == "/" %}
+      <span class="nav-indicator"></span>
+      {% endif %}
+      <span class="nav-label">home</span>
+    </a>
+
+    <a href="{{ get_url(path='blog/') }}" class="nav-link{% if path is starting_with('/blog') %} active{%
+      endif %}">
+      {% if path is starting_with("/blog") %}
+      <span class="nav-indicator"></span>
+      {% endif %}
+      <span class="nav-label">blog</span>
+    </a>
+
+    <a href="{{ get_url(path='about/') }}" class="nav-link{% if path is starting_with('/about') %} active{%
+      endif %}">
+      {% if path is starting_with("/about") %}
+      <span class="nav-indicator"></span>
+      {% endif %}
+      <span class="nav-label">about</span>
+    </a>
+
+    <a href="{{ get_url(path='links/') }}" class="nav-link{% if path is starting_with('/links') %} active{%
+      endif %}">
+      {% if path is starting_with("/links") %}
+      <span class="nav-indicator"></span>
+      {% endif %}
+      <span class="nav-label">links</span>
+    </a>
+  </div>
+</nav>

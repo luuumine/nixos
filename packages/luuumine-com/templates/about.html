@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page.title }} - lumine{% endblock title %}
+
+{% block content %}
+<header class="page-header">
+  <h1 class="page-title">{{ page.title }}</h1>
+  {% if page.extra.subtitle %}
+  <p class="page-subtitle">{{ page.extra.subtitle }}</p>
+  {% endif %}
+</header>
+
+<div class="page-content">
+  {{ page.content | safe }}
+</div>
+
+<section class="notes-box">
+  <header>
+    <h2>logs</h2>
+    <span>api.luuumine.com/notes</span>
+  </header>
+  <ul id="notes-container">
+    <li class="msg">fetching latest notes...</li>
+  </ul>
+</section>
+
+<script src="{{ get_url(path='js/notes.js') }}" defer></script>
+{% endblock content %}

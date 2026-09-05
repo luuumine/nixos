@@ -17,6 +17,7 @@ return {
 				html = { "prettier" },
 				qml = { "qmlformat" },
 				c = { "clang-format" },
+				markdown = { "prettier" },
 			},
 			format_on_save = {
 				timeout_ms = 500,
