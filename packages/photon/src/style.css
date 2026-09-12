@@ -1,0 +1,239 @@
+:root {
+    --bg-main: whitesmoke;
+    --bg-chat: white;
+    --primary: mediumvioletred;
+    --text-primary: white;
+    --bg-theirs: lightgray;
+    --text-dark: black;
+    --text-muted: dimgray;
+    --border-color: lightgray;
+    --connect: green;
+    --disconnect: firebrick;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: sans-serif;
+    background-color: var(--bg-main);
+    height: 100dvh;
+    overflow: hidden;
+}
+
+.app-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 900px;
+    height: 100%;
+    margin: 0 auto;
+    padding: 10px;
+    gap: 10px;
+}
+
+.left-panel {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    height: 180px;
+    flex-shrink: 0;
+}
+
+.user-box, .controls-box {
+    flex: 1;
+    background-color: var(--bg-chat);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.controls-box {
+    padding: 10px;
+    justify-content: center;
+    gap: 8px;
+}
+
+.user-box-header {
+    padding: 10px;
+    font-weight: bold;
+    text-align: center;
+    border-bottom: 1px solid var(--border-color);
+    background-color: var(--bg-main);
+    color: var(--text-dark);
+}
+
+#user-list {
+    padding: 10px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.user-item {
+    font-size: 0.9rem;
+    color: var(--text-dark);
+    word-break: break-all;
+    transition: all 0.2s;
+}
+
+.disconnected-list .user-item {
+    text-decoration: line-through;
+    color: var(--text-muted);
+}
+
+.chat-container {
+    flex-grow: 1;
+    height: 0;
+    background-color: var(--bg-chat);
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.messages-area {
+    flex-grow: 1;
+    padding: 15px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.input-area {
+    padding: 10px;
+    background-color: var(--bg-main);
+    border-top: 1px solid var(--border-color);
+    display: flex;
+    gap: 10px;
+}
+
+input {
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    outline: none;
+    font-size: 1rem;
+    min-width: 0;
+}
+
+input:focus {
+    border-color: var(--primary);
+}
+
+input:disabled {
+    background-color: var(--bg-main);
+    color: var(--text-muted);
+    cursor: not-allowed;
+}
+
+button {
+    padding: 10px 15px;
+    background-color: var(--primary);
+    color: var(--text-primary);
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: opacity 0.2s;
+}
+
+button:disabled {
+    background-color: var(--border-color);
+    color: var(--text-muted);
+    cursor: not-allowed;
+}
+
+.btn-connect {
+    background-color: var(--connect);
+}
+
+.btn-disconnect {
+    background-color: var(--disconnect);
+}
+
+.msg-wrapper {
+    display: flex;
+    flex-direction: column;
+    max-width: 85%;
+}
+
+.msg-wrapper.mine {
+    align-self: flex-end;
+    align-items: flex-end;
+}
+
+.msg-wrapper.theirs {
+    align-self: flex-start;
+    align-items: flex-start;
+}
+
+.sender-name {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.bubble {
+    padding: 10px 14px;
+    border-radius: 8px;
+    font-size: 1rem;
+    line-height: 1.4;
+    word-wrap: break-word;
+}
+
+.mine .bubble {
+    background-color: var(--primary);
+    color: var(--text-primary);
+}
+
+.theirs .bubble {
+    background-color: var(--bg-theirs);
+    color: var(--text-dark);
+}
+
+.system-msg {
+    align-self: center;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    margin: 5px 0;
+}
+
+@media (min-width: 768px) {
+    .app-container {
+        flex-direction: row;
+        padding: 20px;
+        gap: 20px;
+        align-items: center;
+    }
+
+    .left-panel {
+        flex-direction: column;
+        width: 220px;
+        height: 60%;
+    }
+
+    .user-box {
+        flex: 1;
+    }
+
+    .controls-box {
+        flex: none;
+    }
+
+    .chat-container {
+        height: 100%;
+        max-width: 600px;
+    }
+}
