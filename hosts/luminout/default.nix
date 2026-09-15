@@ -24,7 +24,7 @@ in
 
     reverseProxy = {
       enable = lib.mkForce true;
-      hostName = lib.mkForce "localhost:8080";
+      hostName = lib.mkForce "http://localhost:8080";
     };
   };
 
