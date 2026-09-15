@@ -112,6 +112,11 @@ in
         enable = true;
         language = "fr";
       };
+
+      opengym = {
+        enable = true;
+        inviteOnly = false;
+      };
     };
 
     shell.enable = true;
