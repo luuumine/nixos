@@ -38,7 +38,7 @@ in
       default = 3000;
       description = ''
         Port the API listens on.
-        You either need to proxy it yourself or activate `reverseProxy` to serve the frontend.
+        You either need to proxy it yourself or activate `caddyIntegration` to serve the frontend.
       '';
     };
 
@@ -103,10 +103,16 @@ in
     coachDisabled = lib.mkOption {
       type = lib.types.bool;
       default = false;
-      description = "Set 1 to switch the AI Coach off harder than any toggle. COACH_JOB_TIMEOUT_MS raises the job budget for slow local models.";
+      description = "Set true to switch the AI Coach off.";
     };
 
-    reverseProxy = {
+    coachJobTimeoutSeconds = lib.mkOption {
+      type = lib.types.nullOr lib.types.ints.unsigned;
+      default = 300; # 5 minutes
+      description = "Raise the job budget for slow local AI models.";
+    };
+
+    caddyIntegration = {
       enable = lib.mkOption {
         type = lib.types.bool;
         default = true;
@@ -143,6 +149,9 @@ in
         AUDIT_IP = cfg.auditIp;
         VAPID_SUBJECT = cfg.vapidSubject;
         COACH_DISABLED = if cfg.coachDisabled then "1" else "0";
+      }
+      // lib.optionalAttrs (cfg.coachJobTimeoutSeconds != null) {
+        COACH_JOB_TIMEOUT_MS = toString (cfg.coachJobTimeoutSeconds * 1000);
       };
 
       serviceConfig = {
@@ -155,9 +164,9 @@ in
       };
     };
 
-    services.caddy = lib.mkIf cfg.reverseProxy.enable {
+    services.caddy = lib.mkIf cfg.caddyIntegration.enable {
       enable = true;
-      virtualHosts."${cfg.reverseProxy.hostName}".extraConfig = ''
+      virtualHosts."${cfg.caddyIntegration.hostName}".extraConfig = ''
         handle_path /img/* {
           root * ${cfg.package.passthru.media}/img
           file_server

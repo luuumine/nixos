@@ -42,6 +42,12 @@ in
       default = [ ];
       description = "list of admin user ids";
     };
+
+    coachJobTimeoutSeconds = lib.mkOption {
+      type = lib.types.nullOr lib.types.ints.unsigned;
+      default = 300;
+      description = "raise the job budget for slow local ai models";
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -54,12 +60,13 @@ in
         inviteOnly
         allowGuest
         adminUids
+        coachJobTimeoutSeconds
         ;
 
       rpId = cfg.domain;
       origin = "https://${cfg.domain}";
 
-      reverseProxy = {
+      caddyIntegration = {
         enable = caddyCfg.enable;
         hostName = "https://${cfg.domain}";
       };
