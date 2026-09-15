@@ -1,6 +1,7 @@
 {
   config,
   lib,
+  pkgs,
   ...
 }:
 
@@ -24,6 +25,8 @@ in
     services.opengym = {
       enable = true;
       inherit (cfg) port;
+
+      package = pkgs.lumine.opengym-api;
 
       rpId = domain;
       origin = "https://${domain}";
