@@ -108,8 +108,10 @@ in
 
     coachJobTimeoutSeconds = lib.mkOption {
       type = lib.types.nullOr lib.types.ints.unsigned;
-      default = 300; # 5 minutes
-      description = "Raise the job budget for slow local AI models.";
+      default = null;
+      description = ''
+        Raise the job budget for slow local AI models.
+        Defaults to 5min if null.'';
     };
 
     caddyIntegration = {

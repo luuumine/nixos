@@ -115,7 +115,7 @@ in
 
       opengym = {
         enable = true;
-        coachJobTimeoutSeconds = 600; # 10 minutes
+        coach.enable = false;
         adminUids = [ "ncu_COkUqUmHzNje" ];
       };
     };

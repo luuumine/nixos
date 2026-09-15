@@ -43,10 +43,17 @@ in
       description = "list of admin user ids";
     };
 
-    coachJobTimeoutSeconds = lib.mkOption {
-      type = lib.types.nullOr lib.types.ints.unsigned;
-      default = 300;
-      description = "raise the job budget for slow local ai models";
+    coach = {
+      enable = lib.mkOption {
+        type = lib.types.bool;
+        default = true;
+        description = "whether to enable the ai coach";
+      };
+      jobTimeoutSeconds = lib.mkOption {
+        type = lib.types.nullOr lib.types.ints.unsigned;
+        default = null;
+        description = "raise the job budget for slow local ai models";
+      };
     };
   };
 
@@ -60,8 +67,10 @@ in
         inviteOnly
         allowGuest
         adminUids
-        coachJobTimeoutSeconds
         ;
+
+      coachDisabled = !cfg.coach.enable;
+      coachJobTimeoutSeconds = cfg.coach.jobTimeoutSeconds;
 
       rpId = cfg.domain;
       origin = "https://${cfg.domain}";
