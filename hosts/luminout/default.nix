@@ -20,6 +20,7 @@ in
   services.opengym = {
     rpId = lib.mkForce "localhost";
     origin = lib.mkForce "http://localhost:8080";
+    vapidSubject = lib.mkForce "mailto:test@example.com";
 
     reverseProxy = {
       enable = lib.mkForce true;
