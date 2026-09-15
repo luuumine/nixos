@@ -2,6 +2,7 @@
   config,
   inputs,
   pkgs,
+  lib,
   ...
 }:
 
@@ -14,6 +15,17 @@ in
     ./hardware.nix
     ./filesystem.nix
   ];
+
+  lumine.services.opengym.enable = true;
+  services.opengym = {
+    rpId = lib.mkForce "localhost";
+    origin = lib.mkForce "http://localhost:8080";
+
+    reverseProxy = {
+      enable = lib.mkForce true;
+      hostName = lib.mkForce "localhost:8080";
+    };
+  };
 
   lumine = {
     user.name = "lumine";
