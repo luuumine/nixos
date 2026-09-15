@@ -61,7 +61,7 @@ let
   };
 in
 buildNpmPackage {
-  pname = "opengym-api";
+  pname = "opengym";
   inherit version src;
 
   sourceRoot = "${src.name}/api";
@@ -72,11 +72,11 @@ buildNpmPackage {
   dontNpmBuild = true;
 
   installPhase = ''
-    mkdir -p $out/lib/opengym-api $out/bin
-    cp -r . $out/lib/opengym-api/
+    mkdir -p $out/lib/opengym $out/bin
+    cp -r . $out/lib/opengym/
 
-    makeWrapper ${nodejs-slim}/bin/node $out/bin/opengym-api \
-      --add-flags "$out/lib/opengym-api/server.js" \
+    makeWrapper ${nodejs-slim}/bin/node $out/bin/opengym \
+      --add-flags "$out/lib/opengym/server.js" \
       --set NODE_ENV production
   '';
 
@@ -87,7 +87,7 @@ buildNpmPackage {
   meta = {
     description = "Self-hosted workout tracker";
     homepage = "https://github.com/DuarteSantos8/openGym";
-    mainProgram = "opengym-api";
+    mainProgram = "opengym";
     license = lib.licenses.agpl3Only;
     maintainers = with lib.maintainers; [ luuumine ];
     platforms = lib.platforms.linux;

@@ -47,7 +47,7 @@ in
   config = lib.mkIf cfg.enable {
     services.opengym = {
       enable = true;
-      package = pkgs.lumine.opengym-api;
+      package = pkgs.lumine.opengym;
 
       inherit (cfg)
         port

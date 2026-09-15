@@ -11,7 +11,7 @@ in
   options.services.opengym = {
     enable = lib.mkEnableOption "openGym workout tracker";
 
-    package = lib.mkPackageOption pkgs "opengym-api" { };
+    package = lib.mkPackageOption pkgs "opengym" { };
 
     rpId = lib.mkOption {
       type = lib.types.str;

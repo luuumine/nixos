@@ -8,5 +8,5 @@
   luuumine-com = pkgs.callPackage ./luuumine-com { };
   quickshell-lumine = pkgs.callPackage ./quickshell-lumine { };
 
-  opengym-api = pkgs.callPackage ./opengym { };
+  opengym = pkgs.callPackage ./opengym { };
 }
