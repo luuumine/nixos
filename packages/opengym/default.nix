@@ -75,7 +75,7 @@ buildNpmPackage {
     mkdir -p $out/lib/opengym-api $out/bin
     cp -r . $out/lib/opengym-api/
 
-    makeWrapper ${nodejs-slim}/bin/node $out/bin/opengym \
+    makeWrapper ${nodejs-slim}/bin/node $out/bin/opengym-api \
       --add-flags "$out/lib/opengym-api/server.js" \
       --set NODE_ENV production
   '';
