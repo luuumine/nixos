@@ -56,7 +56,14 @@ in
         enable = true;
         exitNode = true;
       };
-      mullvad.enable = true;
+      mullvad = {
+        enable = true;
+        address = "10.74.249.190/32";
+        exitNode = {
+          publicKey = "hnRyse6QxPPcZOoSwRsHUtK1W+APWXnIoaDTmH6JsHQ=";
+          endpoint = "193.32.249.69:51820";
+        };
+      };
     };
 
     services = {

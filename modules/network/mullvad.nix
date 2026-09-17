@@ -13,6 +13,40 @@ in
 {
   options.lumine.network.mullvad = {
     enable = lib.mkEnableOption "mullvad wireguard tunnel";
+
+    address = lib.mkOption {
+      type = lib.types.str;
+      description = "ipv4 address for the mullvad interface";
+    };
+
+    exitNode = lib.mkOption {
+      description = "mullvad exit node configuration";
+      type = lib.types.submodule {
+        options = {
+          publicKey = lib.mkOption {
+            type = lib.types.str;
+            description = "public key of the mullvad exit node";
+          };
+          endpoint = lib.mkOption {
+            type = lib.types.str;
+            description = "endpoint of the mullvad exit node";
+          };
+          allowedIPs = lib.mkOption {
+            type = lib.types.listOf lib.types.str;
+            default = [
+              "0.0.0.0/0"
+              "::/0"
+            ];
+            description = "allowed ip ranges";
+          };
+          persistentKeepalive = lib.mkOption {
+            type = lib.types.int;
+            default = 25;
+            description = "persistent keepalive interval in seconds";
+          };
+        };
+      };
+    };
   };
 
   config = lib.mkIf cfg.enable {
@@ -24,27 +58,13 @@ in
     };
 
     networking.wg-quick.interfaces.mullvad = {
-      address = [
-        "10.71.142.112/32"
-        "fc00:bbbb:bbbb:bb01::8:8e6f/128"
-      ];
+      address = [ cfg.address ];
       mtu = 1280;
       privateKeyFile = config.age.secrets.mullvad.path;
 
       table = "off";
 
-      peers = [
-        {
-          # Amsterdam (nl-ams-wg-001)
-          publicKey = "UrQiI9ISdPPzd4ARw1NHOPKKvKvxUhjwRjaI0JpJFgM=";
-          allowedIPs = [
-            "0.0.0.0/0"
-            "::/0"
-          ];
-          endpoint = "193.32.249.66:51820";
-          persistentKeepalive = 25;
-        }
-      ];
+      peers = [ cfg.exitNode ];
 
       postUp = ''
         ${pkgs.iproute2}/bin/ip route add default dev mullvad table 51820
