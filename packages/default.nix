@@ -7,4 +7,6 @@
   killer-game = pkgs.callPackage ./killer-game { };
   luuumine-com = pkgs.callPackage ./luuumine-com { };
   quickshell-lumine = pkgs.callPackage ./quickshell-lumine { };
+
+  opengym = pkgs.callPackage ./opengym { };
 }

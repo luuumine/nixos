@@ -112,6 +112,12 @@ in
         enable = true;
         language = "fr";
       };
+
+      opengym = {
+        enable = true;
+        coach.enable = false;
+        adminUids = [ "ncu_COkUqUmHzNje" ];
+      };
     };
 
     shell.enable = true;

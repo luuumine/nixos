@@ -17,5 +17,8 @@
     ./vaultwarden.nix
     ./wealthfolio.nix
     ./ai.nix
+    ./opengym.nix
+
+    ./opengym-module.nix # to remove later
   ];
 }
