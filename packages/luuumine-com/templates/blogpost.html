@@ -10,14 +10,14 @@
     </a>
   </nav>
 
-  <header class="blogpost-header">
+  <header>
     <time>{{ page.date | date(format="%B %d, %Y") }}</time>
     <h1>{{ page.title }}</h1>
   </header>
 
-  <main class="blogpost-content">
+  <article>
     {{ page.content | safe }}
-  </main>
+  </article>
 </div>
 
 {% endblock content %}

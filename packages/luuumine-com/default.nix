@@ -8,7 +8,7 @@
 }:
 let
   pname = "luuumine-com";
-  version = "4.0.0";
+  version = "4.0.1";
   src = ./.;
 in
 stdenv.mkDerivation {
