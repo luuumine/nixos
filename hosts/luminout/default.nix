@@ -46,12 +46,7 @@ in
       tailscale.enable = true;
     };
 
-    apps = {
-      enable = true;
-      extraUserApps = [
-        pkgs.discord
-      ];
-    };
+    apps.enable = true;
 
     desktop.enable = true;
 

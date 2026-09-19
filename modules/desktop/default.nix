@@ -18,6 +18,7 @@ in
     ./browser.nix
     ./quickshell.nix
     ./terminal.nix
+    ./messaging.nix
   ];
 
   options.lumine.desktop.enable = lib.mkEnableOption "desktop environment and graphics";
@@ -46,6 +47,7 @@ in
         lumine.desktop.browser.enable = lib.mkDefault true;
         lumine.desktop.quickshell.enable = lib.mkDefault true;
         lumine.desktop.terminal.enable = lib.mkDefault true;
+        lumine.desktop.messaging.enable = lib.mkDefault true;
 
         environment.systemPackages = [ pkgs.xdg-utils ];
 

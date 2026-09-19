@@ -70,12 +70,10 @@ in
         pkgs.age
       ];
       extraUserApps = [
-        pkgs.discord
         pkgs.libresprite
         pkgs.mangohud
         pkgs.olympus
         pkgs.melonds
-        pkgs.signal-desktop
       ];
     };
 

@@ -58,8 +58,10 @@ hl.bind(
 )
 
 -- Special workspace
-hl.bind(MAINMOD .. " + S", hl.dsp.workspace.toggle_special("magic"))
-hl.bind(MAINMOD .. " + SHIFT + S", hl.dsp.window.move({ workspace = "special:magic" }))
+hl.bind(MAINMOD .. " + D", hl.dsp.workspace.toggle_special("discord"))
+hl.bind(MAINMOD .. " + SHIFT + D", hl.dsp.window.move({ workspace = "special:discord" }))
+hl.bind(MAINMOD .. " + S", hl.dsp.workspace.toggle_special("signal"))
+hl.bind(MAINMOD .. " + SHIFT + S", hl.dsp.window.move({ workspace = "special:signal" }))
 
 -- Multimedia keys (bindel -> repeating = true, locked = true)
 hl.bind(

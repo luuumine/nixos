@@ -4,7 +4,16 @@ hl.window_rule({
 	match = {
 		initial_class = "^(discord(-.*)?)$",
 	},
-	workspace = "special:magic silent",
+	workspace = "special:discord silent",
+})
+
+-- Make signal start in special workspace
+hl.window_rule({
+	name = "make signal start in special",
+	match = {
+		initial_class = "^(signal)$",
+	},
+	workspace = "special:signal silent",
 })
 
 hl.window_rule({
