@@ -1,0 +1,5 @@
+[package]
+name = "games"
+edition = "2024"
+
+[dependencies]
