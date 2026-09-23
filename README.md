@@ -25,7 +25,8 @@ hosts
 - [orangc](https://orangc.net), for helping me with tailscale
 - [Turpix](https://twitter.com/Turpix_00), for drawing the awesome art used for my profile picture and wallpapers
 - [fazzi](https://gitlab.com/fazzi/nixohess), for having clean hyprland animations
-- [matilde](https://matilde.pet), for the inspiration behind some of the design
+- [matilde](https://https://rosymati.com/), for the inspiration behind some of the design
+- [mel](https://melqtx.com), for being nice and giving me ideas about my website
 
 ## usage
 
