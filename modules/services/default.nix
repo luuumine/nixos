@@ -19,6 +19,7 @@
     ./ai.nix
     ./opengym.nix
 
-    ./opengym-module.nix # to remove later
+    # https://github.com/NixOS/nixpkgs/pull/566279
+    ./opengym-module.nix
   ];
 }

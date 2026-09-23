@@ -8,5 +8,6 @@
   luuumine-com = pkgs.callPackage ./luuumine-com { };
   quickshell-lumine = pkgs.callPackage ./quickshell-lumine { };
 
+  # https://github.com/NixOS/nixpkgs/pull/566279
   opengym = pkgs.callPackage ./opengym { };
 }

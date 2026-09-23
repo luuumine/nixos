@@ -10,13 +10,13 @@
   python3,
 }:
 let
-  version = "1.3.7";
+  version = "1.3.8";
 
   src = fetchFromGitHub {
     owner = "DuarteSantos8";
     repo = "openGym";
     rev = "main";
-    hash = "sha256-sTf+nLUeBD/OXIKxSLvUM2EG+I+DjRC9EEes+QptxEw=";
+    hash = "sha256-/8+lGPEXRcn2/BIUC7uyJkn3iYrr4xJRWOp+e7V3VaE=";
   };
 
   media = stdenv.mkDerivation {
@@ -40,7 +40,7 @@ let
     inherit version src;
 
     sourceRoot = "${src.name}/frontend";
-    npmDepsHash = "sha256-8LTtwWeRQZ2qTTWWRO4vPNWJFf935sadL3jue0kC8hU=";
+    npmDepsHash = "sha256-LZKOsep2myfbMnqfH19D7wHH1yJINlSooz5gGoo8hNk=";
 
     makeCacheWritable = true;
 
@@ -65,7 +65,7 @@ buildNpmPackage {
   inherit version src;
 
   sourceRoot = "${src.name}/api";
-  npmDepsHash = "sha256-PDIOTGdYGHCsrAgLplrUacySVNqAVc+ul7lp7SYPhoQ=";
+  npmDepsHash = "sha256-17sKhtFSCOYBXuqFyhMsAehDLYDsmkG9FcFct+tsqEw=";
 
   nativeBuildInputs = [ makeWrapper ];
 
