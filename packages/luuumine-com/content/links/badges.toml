@@ -55,12 +55,12 @@ image = "https://anemoia.moe/images/buttons/footer/jesx.gif"
 
 [[people]]
 title = "dimden"
-url = "https://dimden.dev/"
+url = "https://dimden.dev"
 image = "https://dimden.dev/services/images/88x31.gif"
 
 [[people]]
 title = "vmfunc"
-url = "https://vmfunc.re/"
+url = "https://vmfunc.re"
 image = "https://vmfunc.re/button.png"
 
 [[people]]
@@ -77,6 +77,21 @@ image = "https://namishh.com/static/images/button_nam.png"
 title = "nichind"
 url = "https://nichind.dev"
 image = "https://nichind.dev/88x31.gif"
+
+[[people]]
+title = "sakura ma2"
+url = "https://sakura.ma2.lol"
+image = "https://sakura.ma2.lol/img/ma2sakura-button-alt.gif"
+
+[[people]]
+title = "june"
+url = "https://girlboss.ceo"
+image = "https://girlboss.ceo/assets/buttons/june.png"
+
+[[people]]
+title = "mohamedation"
+url = "https://mohamedation.com"
+image = "https://mohamedation.com/88x31/mohamedation.gif"
 
 [[other]]
 title = "Linux"
