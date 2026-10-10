@@ -441,17 +441,24 @@ footer {
     }
   }
 
-  .webring {
+  .rings {
     display: flex;
-    gap: 0.75rem;
-    font-size: 0.875rem;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
 
-    a {
-      color: var(--muted);
-      transition: color 0.15s ease;
+    nav {
+      display: flex;
+      gap: 0.75rem;
+      font-size: 0.875rem;
 
-      &:hover {
-        color: var(--primary);
+      a {
+        color: var(--muted);
+        transition: color 0.15s ease;
+
+        &:hover {
+          color: var(--primary);
+        }
       }
     }
   }
