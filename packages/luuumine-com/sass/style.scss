@@ -39,8 +39,32 @@ body {
     radial-gradient(circle at 85% 20%, var(--glow-flamingo) 0%, transparent 45%),
     radial-gradient(circle at 50% 85%, var(--glow-rosewater) 0%, transparent 45%),
     linear-gradient(135deg, #eff1f5 0%, #e6e9ef 50%, #ccd0da33 100%);
+
+  .background-logos {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    overflow: hidden;
+
+    .logo {
+      position: absolute;
+      opacity: 0.15;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+
+      @media (max-width: $page-size) {
+        &.hide-mobile {
+          display: none;
+        }
+      }
+    }
+  }
+
   color: var(--fg);
-  font-family: "Signika", sans-serif;
+  font-family: "Signika",
+  sans-serif;
   line-height: 1.6;
 }
 

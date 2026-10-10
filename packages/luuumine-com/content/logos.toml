@@ -1,0 +1,58 @@
+[[logos]]
+icon = "nixos"
+top = "5%"
+left = "4%"
+size = "13vmin"
+rotate = "-18deg"
+
+[[logos]]
+icon = "wayland"
+top = "18%"
+left = "18%"
+size = "6vmin"
+rotate = "-15deg"
+hide_mobile = true
+
+[[logos]]
+icon = "arch"
+top = "7%"
+right = "8%"
+size = "11vmin"
+rotate = "14deg"
+
+[[logos]]
+icon = "hyprland"
+top = "44%"
+right = "23%"
+size = "7vmin"
+rotate = "-12deg"
+hide_mobile = true
+
+[[logos]]
+icon = "nixos"
+top = "48%"
+right = "-5%"
+size = "22vmin"
+rotate = "32deg"
+hide_mobile = true
+
+[[logos]]
+icon = "ferris"
+top = "48%"
+left = "23%"
+size = "10vmin"
+rotate = "-16deg"
+
+[[logos]]
+icon = "nixos"
+bottom = "13%"
+left = "8%"
+size = "16vmin"
+rotate = "24deg"
+
+[[logos]]
+icon = "neovim"
+bottom = "10%"
+right = "10%"
+size = "9vmin"
+rotate = "12deg"
