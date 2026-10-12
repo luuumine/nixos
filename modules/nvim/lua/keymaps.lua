@@ -4,13 +4,9 @@ local set = vim.keymap.set
 set("n", "<leader>pv", vim.cmd.Ex)
 set("n", "<leader>l", "<cmd>Layout<cr>", { desc = "dev layout" })
 
-set("n", "<leader>v-", "<cmd>vsplit<cr>", { desc = "Vertical split" })
-set("n", "<leader>h-", "<cmd>split<cr>", { desc = "Horizontal split" })
-set("n", "<leader>tv", "<cmd>vsplit | terminal<cr>a", { desc = "Vertical terminal" })
 set("t", "<esc>", [[<C-\><C-n>]], { desc = "Exit terminal mode" })
 
 -- Global Diagnostics (Shortened)
-set("n", "<leader>vd", vim.diagnostic.open_float, { desc = "Line error" })
 set("n", "[d", function()
 	vim.diagnostic.jump({ count = -1, float = true })
 end, { desc = "Prev error" })
@@ -21,26 +17,12 @@ end, { desc = "Next error" })
 -- Telescope
 local status, telescope = pcall(require, "telescope.builtin")
 if status then
-	set("n", "<leader>pf", telescope.find_files, { desc = "Find Files" })
-	set("n", "<C-p>", telescope.git_files, { desc = "Git Files" })
-	set("n", "<leader>pa", function()
-		telescope.find_files({
-			no_ignore = true,
-			hidden = true,
-			file_ignore_patterns = { ".git/" },
-		})
-	end, { desc = "Find All Files" })
+	set("n", "<leader>pf", telescope.git_files, { desc = "Git Files" })
 	set("n", "<leader>ps", telescope.live_grep, { desc = "Grep search" })
 end
 
 -- Undotree
 set("n", "<leader>u", vim.cmd.UndotreeToggle, { desc = "Undotree" })
-
--- Gitsigns
-local status, gitsigns = pcall(require, "gitsigns")
-if status then
-	set("n", "<leader>gb", gitsigns.toggle_current_line_blame, { desc = "Git Blame" })
-end
 
 -- Formatting
 set("n", "<leader>f", function()
@@ -60,6 +42,5 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		set("n", "gd", vim.lsp.buf.definition, opts)
 		set("n", "K", vim.lsp.buf.hover, opts)
 		set("n", "<leader>vrn", vim.lsp.buf.rename, opts)
-		set("n", "<leader>D", vim.lsp.buf.type_definition, opts)
 	end,
 })
