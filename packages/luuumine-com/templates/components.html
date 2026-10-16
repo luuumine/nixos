@@ -1,14 +1,12 @@
-{% macro bg_logo(l) %}
-<div
-  class="logo {% if l.hide_mobile %}hide-mobile{% endif %}"
-  style="
+{% component bg_logo(l: map) %}
+<div class="logo {% if l.hide_mobile %}hide-mobile{% endif %}" style="
     background-image: url('/icons/background/{{ l.icon }}.svg');
-    width: {{ l.size }}; height: {{ l.size }};
+    width: {{ l.size }};
+    height: {{ l.size }};
     transform: rotate({{ l.rotate | default(value='0deg') }});
     {% if l.top %}top: {{ l.top }};{% endif %}
     {% if l.bottom %}bottom: {{ l.bottom }};{% endif %}
     {% if l.left %}left: {{ l.left }};{% endif %}
     {% if l.right %}right: {{ l.right }};{% endif %}
-  "
-></div>
-{% endmacro bg_logo %}
+  "></div>
+{% endcomponent bg_logo %}

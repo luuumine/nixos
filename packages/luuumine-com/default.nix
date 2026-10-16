@@ -5,10 +5,11 @@
   vscode-langservers-extracted,
   prettier,
   typescript-language-server,
+  cacert,
 }:
 let
   pname = "luuumine-com";
-  version = "4.1.1";
+  version = "4.1.2";
   src = ./.;
 in
 stdenv.mkDerivation {
@@ -20,7 +21,10 @@ stdenv.mkDerivation {
     vscode-langservers-extracted
     prettier
     typescript-language-server
+    cacert
   ];
+
+  SSL_CERT_FILE = "${cacert}/etc/ssl/certs/ca-bundle.crt";
 
   buildPhase = ''
     export PUBLIC_SITE_VERSION="${version}"

@@ -104,42 +104,38 @@ in
       };
     };
 
-    services.gitea-actions-runner = lib.mkIf cfg.runners {
-      package = pkgs.forgejo-runner;
-      instances = {
-        "${hostname}" = {
-          enable = true;
-          name = hostname;
-          url = "http://127.0.0.1:${toString cfg.port}";
-          tokenFile = config.age.secrets.forgejo-runner-token.path;
-          labels = [ "native:host" ];
-          hostPackages = [
-            pkgs.nix
-            pkgs.nodejs
-            pkgs.git
-            pkgs.bash
-            pkgs.openssh
-            pkgs.fd
-            pkgs.jq
-            pkgs.ripgrep
-          ];
-          settings = {
-            log.level = "info";
-            runner = {
-              file = ".runner";
-              capacity = 5;
-              timeout = "1h";
-              insecure = false;
-              fetch_timeout = "5s";
-              fetch_interval = "2s";
-            };
+    services.forgejo-runner = lib.mkIf cfg.runners {
+      instances."${hostname}" = {
+        enable = true;
+
+        secrets.server.connections.default.token_url = config.age.secrets.forgejo-runner-token.path;
+
+        hostPackages = [
+          pkgs.nix
+          pkgs.nodejs
+          pkgs.git
+          pkgs.bash
+          pkgs.openssh
+          pkgs.fd
+          pkgs.jq
+          pkgs.ripgrep
+        ];
+
+        settings = {
+          log.level = "info";
+          runner = {
+            capacity = 10;
+            timeout = "1h";
+            insecure = false;
+            fetch_timeout = "5s";
+            fetch_interval = "2s";
+            labels = [ "native:host" ];
+          };
+          server.connections.default = {
+            url = "http://127.0.0.1:${toString cfg.port}";
+            uuid = "be4cb1fa-79f0-4bba-aaeb-7a192ca1ecfb";
           };
         };
-      };
-    };
-    systemd.services."gitea-runner-${hostname}" = {
-      serviceConfig = {
-        Environment = "HOME=/var/lib/gitea-runner/${hostname}";
       };
     };
 

@@ -75,9 +75,11 @@ in
       rpId = cfg.domain;
       origin = "https://${cfg.domain}";
 
-      caddyIntegration = {
-        enable = caddyCfg.enable;
-        hostName = "https://${cfg.domain}";
+      reverseProxy = {
+        inherit (caddyCfg) enable;
+        server = "caddy";
+        host = cfg.domain;
+        port = 443;
       };
     };
   };

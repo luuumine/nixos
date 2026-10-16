@@ -1,9 +1,4 @@
-{
-  config,
-  inputs,
-  pkgs,
-  ...
-}:
+{ config, inputs, ... }:
 
 let
   wallpapers = inputs.self.wallpapers;

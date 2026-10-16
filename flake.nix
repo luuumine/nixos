@@ -10,7 +10,6 @@
     agenix = {
       url = "github:ryantm/agenix";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.home-manager.follows = "home-manager";
     };
   };
 
@@ -25,7 +24,7 @@
     let
       system = "x86_64-linux";
 
-      overlays.default = final: prev: { lumine = import ./packages { pkgs = final; }; };
+      overlays.default = final: _: { lumine = import ./packages { pkgs = final; }; };
 
       mkHost =
         hostName:

@@ -8,25 +8,25 @@
       <span class="nav-label">home</span>
     </a>
 
-    <a href="{{ get_url(path='blog/') }}" class="nav-link{% if path is starting_with('/blog') %} active{%
+    <a href="{{ get_url(path='blog/') }}" class="nav-link{% if path is starting_with(pat='/blog') %} active{%
       endif %}">
-      {% if path is starting_with("/blog") %}
+      {% if path is starting_with(pat="/blog") %}
       <span class="nav-indicator"></span>
       {% endif %}
       <span class="nav-label">blog</span>
     </a>
 
-    <a href="{{ get_url(path='about/') }}" class="nav-link{% if path is starting_with('/about') %} active{%
+    <a href="{{ get_url(path='about/') }}" class="nav-link{% if path is starting_with(pat='/about') %} active{%
       endif %}">
-      {% if path is starting_with("/about") %}
+      {% if path is starting_with(pat="/about") %}
       <span class="nav-indicator"></span>
       {% endif %}
       <span class="nav-label">about</span>
     </a>
 
-    <a href="{{ get_url(path='links/') }}" class="nav-link{% if path is starting_with('/links') %} active{%
+    <a href="{{ get_url(path='links/') }}" class="nav-link{% if path is starting_with(pat='/links') %} active{%
       endif %}">
-      {% if path is starting_with("/links") %}
+      {% if path is starting_with(pat="/links") %}
       <span class="nav-indicator"></span>
       {% endif %}
       <span class="nav-label">links</span>

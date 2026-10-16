@@ -1,5 +1,3 @@
-{% import "macros.html" as macros %}
-
 <!doctype html>
 <html lang="en">
 
@@ -17,7 +15,7 @@
   <div class="background-logos" aria-hidden="true">
     {% set data = load_data(path="content/logos.toml") %}
     {% for logo in data.logos %}
-    {{ macros::bg_logo(l=logo) }}
+    {{<bg_logo l={logo} />}}
     {% endfor %}
   </div>
   <div class="page">

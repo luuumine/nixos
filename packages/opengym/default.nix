@@ -1,71 +1,26 @@
 {
   lib,
-  stdenv,
   fetchFromGitHub,
   buildNpmPackage,
   makeWrapper,
   nodejs-slim,
-  pkg-config,
-  vips,
-  python3,
+  callPackage,
 }:
-let
-  version = "1.3.8";
+buildNpmPackage (finalAttrs: {
+  pname = "opengym";
+  version = "1.4.1";
+
+  __structuredAttrs = true;
 
   src = fetchFromGitHub {
     owner = "DuarteSantos8";
     repo = "openGym";
-    rev = "main";
-    hash = "sha256-/8+lGPEXRcn2/BIUC7uyJkn3iYrr4xJRWOp+e7V3VaE=";
+    tag = "v${finalAttrs.version}";
+    hash = "sha256-666vHSvUy/eyKEgBaLkh7tb4k1U9LfI6BzhoZ7V5BuI=";
   };
 
-  media = stdenv.mkDerivation {
-    pname = "opengym-media";
-    inherit version;
-    src = fetchFromGitHub {
-      owner = "hasaneyldrm";
-      repo = "exercises-dataset";
-      rev = "master";
-      hash = "sha256-bAit6zzd1Q1SPgb3ydjuZN78yXjRcgcIs+hH4gKNaxE=";
-    };
-    installPhase = ''
-      mkdir -p $out/img $out/gif
-      cp images/*.jpg $out/img/
-      cp videos/*.gif $out/gif/
-    '';
-  };
-
-  frontend = buildNpmPackage {
-    pname = "opengym-web";
-    inherit version src;
-
-    sourceRoot = "${src.name}/frontend";
-    npmDepsHash = "sha256-LZKOsep2myfbMnqfH19D7wHH1yJINlSooz5gGoo8hNk=";
-
-    makeCacheWritable = true;
-
-    nativeBuildInputs = [
-      pkg-config
-      python3
-    ];
-    buildInputs = [ vips ];
-
-    buildPhase = ''
-      npm run build
-    '';
-
-    installPhase = ''
-      mkdir -p $out
-      cp -R dist/* $out/
-    '';
-  };
-in
-buildNpmPackage {
-  pname = "opengym";
-  inherit version src;
-
-  sourceRoot = "${src.name}/api";
-  npmDepsHash = "sha256-17sKhtFSCOYBXuqFyhMsAehDLYDsmkG9FcFct+tsqEw=";
+  sourceRoot = "${finalAttrs.src.name}/api";
+  npmDepsHash = "sha256-5C8jWwbjqLtymGRh1jK+eZhN+/hXE2JwEQP1gvUWOlI=";
 
   nativeBuildInputs = [ makeWrapper ];
 
@@ -81,7 +36,10 @@ buildNpmPackage {
   '';
 
   passthru = {
-    inherit frontend media;
+    frontend = callPackage ./frontend.nix {
+      inherit (finalAttrs) src version;
+    };
+    updateScript = ./update.sh;
   };
 
   meta = {
@@ -92,4 +50,4 @@ buildNpmPackage {
     maintainers = with lib.maintainers; [ luuumine ];
     platforms = lib.platforms.linux;
   };
-}
+})
