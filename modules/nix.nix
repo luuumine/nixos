@@ -26,6 +26,9 @@ in
       ];
       use-xdg-base-directories = true;
       auto-optimise-store = true;
+
+      substituters = [ "https://cache.luuumine.com" ];
+      trusted-public-keys = [ config.lumine.security.caches.luminadel ];
     };
 
     nix.gc = {

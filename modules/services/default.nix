@@ -18,6 +18,7 @@
     ./wealthfolio.nix
     ./ai.nix
     ./opengym.nix
+    ./harmonia.nix
 
     # https://github.com/NixOS/nixpkgs/pull/566279
     ./opengym-module.nix

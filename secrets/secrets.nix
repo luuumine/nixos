@@ -7,6 +7,8 @@ let
   inherit (hosts) luminadel;
 in
 {
+  "luminadel/harmonia.age".publicKeys = users ++ [ luminadel ];
+
   "luminadel/caddy.age".publicKeys = users ++ [ luminadel ];
   "luminadel/mullvad.age".publicKeys = users ++ [ luminadel ];
   "luminadel/api-lumine.age".publicKeys = users ++ [ luminadel ];

@@ -69,6 +69,8 @@ in
     services = {
       api.enable = true;
 
+      harmonia.enable = true;
+
       delhommais-com.enable = true;
       luuumine-com.enable = true;
 

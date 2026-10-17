@@ -4,6 +4,7 @@ let
   authKeys = import ./keys/auth.nix;
   encKeys = import ./keys/encryption.nix;
   gitKeys = import ./keys/git.nix;
+  cacheKeys = import ./keys/caches.nix;
   userName = config.lumine.user.name;
 
   keyType = lib.types.submodule {
@@ -25,6 +26,12 @@ in
       type = lib.types.attrsOf keyType;
       default = encKeys;
       description = "encryption keys mapping";
+    };
+
+    caches = lib.mkOption {
+      type = lib.types.attrsOf lib.types.str;
+      default = cacheKeys;
+      description = "trusted binary cache public keys";
     };
 
     git.allowedSigners = lib.mkOption {
