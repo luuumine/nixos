@@ -59,5 +59,10 @@
       device = "TANK/media";
       fsType = "zfs";
     };
+
+    "/var/lib/monero" = {
+      device = "ZROOT/monero";
+      fsType = "zfs";
+    };
   };
 }

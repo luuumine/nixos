@@ -71,6 +71,23 @@ in
 
       harmonia.enable = true;
 
+      monero = {
+        node = {
+          enable = true;
+          rpc.address = "0.0.0.0";
+        };
+        xmrig = {
+          enable = true;
+          address = "886zJ61dBjPKTvYAqUNn8U2LZsMWHCbE6BT4mUcVAMMLKfntZCzgvAy3jdTiBdWuw4KRPP1UG3gz5Wj7UwSvHHNaRnMCsmp";
+          threads = 6;
+          pools = [
+            "pool.hashvault.pro:443"
+            "pool.hashvault.sh:443"
+            "pool.supportxmr.com:3333"
+          ];
+        };
+      };
+
       delhommais-com.enable = true;
       luuumine-com.enable = true;
 
