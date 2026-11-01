@@ -1,6 +1,8 @@
 { pkgs }:
 
 {
+  wallpapers = pkgs.callPackage ./wallpapers { };
+
   api-lumine = pkgs.callPackage ./api-lumine { };
   photon = pkgs.callPackage ./photon { };
   delhommais-com = pkgs.callPackage ./delhommais-com { };

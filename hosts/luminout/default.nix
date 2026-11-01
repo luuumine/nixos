@@ -1,7 +1,7 @@
-{ config, inputs, ... }:
+{ config, pkgs, ... }:
 
 let
-  wallpapers = inputs.self.wallpapers;
+  wallpapers = pkgs.lumine.wallpapers;
   gpus = config.lumine.system.gpus;
 in
 {
@@ -29,7 +29,7 @@ in
         {
           output = "eDP-1";
           mode = "1920x1080@240";
-          wallpaper = wallpapers.isla-1;
+          wallpaper = wallpapers.isla.main;
         }
       ];
     };
