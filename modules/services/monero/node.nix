@@ -72,6 +72,8 @@ in
   config = lib.mkIf cfg.enable {
     environment.systemPackages = [ pkgs.monero-cli ];
 
+    networking.firewall.allowedTCPPorts = [ 18080 ];
+
     services.monero = {
       enable = true;
       prune = cfg.prune;
