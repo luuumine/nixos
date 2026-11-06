@@ -25,12 +25,19 @@ function music_updateWidget(data) {
     widget.className = "now-playing-card empty";
     title.innerText = "not playing anything";
     artist.innerText = "";
-  } else {
-    // "playing" and "paused"
-    widget.href = data.song_url;
+  } else if (data.status === "playing" || data.status === "paused") {
+    const track = data.track;
+
+    widget.href = track.url;
     widget.className = `now-playing-card ${data.status}`;
-    title.innerText = data.title;
-    artist.innerText = music_formatter.format(data.artists);
+
+    title.innerText = track.title;
+    artist.innerText = music_formatter.format(track.artists.map((a) => a.name));
+  } else {
+    widget.removeAttribute("href");
+    widget.className = "now-playing-card empty";
+    title.innerText = "unknown status";
+    artist.innerText = "";
   }
 }
 

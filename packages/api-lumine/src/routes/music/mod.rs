@@ -2,16 +2,16 @@ use crate::AppState;
 use axum::{Router, routing::get};
 
 mod currently_playing;
-mod spotify;
-mod token;
+mod top;
 
-pub use currently_playing::NowPlayingResponse;
+pub mod models;
+pub mod spotify;
 
-#[cfg(test)]
-mod tests;
+pub use models::{NowPlayingResponse, TopParams};
 
 pub fn router() -> Router<AppState> {
     Router::new()
         .route("/", get(currently_playing::handler))
         .route("/currently_playing", get(currently_playing::handler))
+        .nest("/top", top::router())
 }

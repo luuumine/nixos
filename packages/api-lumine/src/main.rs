@@ -3,8 +3,6 @@ use sqlx::migrate;
 use sqlx::sqlite::SqlitePoolOptions;
 
 use std::env;
-use std::sync::Arc;
-use tokio::sync::RwLock;
 
 #[tokio::main]
 async fn main() {
@@ -40,8 +38,7 @@ async fn main() {
             client_id,
             client_secret,
             refresh_token,
-            token_cache: Arc::new(RwLock::new(None)),
-            song_cache: Arc::new(RwLock::new(None)),
+            cache: SpotifyCache::default(),
         },
         notes: NotesConfig { db_pool, api_key },
     };

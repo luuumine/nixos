@@ -1,4 +1,4 @@
-use crate::{AppState, TokenCache};
+use crate::{AppState, Cache};
 
 use reqwest::StatusCode;
 use serde::Deserialize;
@@ -20,22 +20,22 @@ pub async fn get_token(state: &AppState) -> Result<String, String> {
 
     {
         // get read lock
-        let cache = state.spotify.token_cache.read().await;
+        let cache = state.spotify.cache.token.read().await;
 
         if let Some(token_data) = &*cache {
             if now + buffer < token_data.expires_at {
-                return Ok(token_data.access_token.clone());
+                return Ok(token_data.data.clone());
             }
         }
     } // `cache` goes out of scope there
 
     // get write lock. pauses other threads
-    let mut cache = state.spotify.token_cache.write().await;
+    let mut cache = state.spotify.cache.token.write().await;
 
     // check if another thread wrote a new valid token before updating it
     if let Some(token_data) = &*cache {
         if now + buffer < token_data.expires_at {
-            return Ok(token_data.access_token.clone());
+            return Ok(token_data.data.clone());
         }
     }
 
@@ -45,8 +45,8 @@ pub async fn get_token(state: &AppState) -> Result<String, String> {
 
     let access_token = token_response.access_token.clone();
 
-    *cache = Some(TokenCache {
-        access_token: token_response.access_token,
+    *cache = Some(Cache {
+        data: token_response.access_token,
         expires_at: new_expiration,
     });
 
@@ -87,13 +87,10 @@ async fn update_token(state: &AppState) -> Result<SpotifyTokenResponse, String> 
 
 #[cfg(test)]
 mod tests {
-
-    use crate::{AppState, NotesConfig, SpotifyConfig, routes::music::token::update_token};
+    use super::*;
+    use crate::test_utils::create_dummy_state;
 
     use serde_json::json;
-    use sqlx::{migrate, sqlite::SqlitePoolOptions};
-    use std::sync::Arc;
-    use tokio::sync::RwLock;
     use wiremock::{
         Mock, MockServer, ResponseTemplate,
         matchers::{body_string_contains, header, method, path},
@@ -113,38 +110,17 @@ mod tests {
         Mock::given(method("POST"))
             .and(path("/api/token"))
             .and(header("Content-Type", "application/x-www-form-urlencoded"))
-            .and(header("Authorization", "Basic bXlfaWQ6bXlfc2VjcmV0")) // basic auth for "my_id:my_secret
+            .and(header(
+                "Authorization",
+                "Basic dmFsaWRfY2xpZW50X2lkOnZhbGlkX2NsaWVudF9zZWNyZXQ=",
+            )) // basic auth for "valid_client_id:valid_client_secret"
             .and(body_string_contains("grant_type=refresh_token"))
-            .and(body_string_contains("refresh_token=my_refresh_token"))
+            .and(body_string_contains("refresh_token=valid_refresh_token"))
             .respond_with(ResponseTemplate::new(200).set_body_json(auth_response_body))
             .mount(&mock_server)
             .await;
 
-        let db_pool = SqlitePoolOptions::new()
-            .connect("sqlite::memory:")
-            .await
-            .expect("Failed to create in-memory db for tests");
-        migrate!()
-            .run(&db_pool)
-            .await
-            .expect("Failed to migrate test db");
-
-        let state = AppState {
-            http_client: reqwest::Client::new(),
-            spotify: SpotifyConfig {
-                api_url: "https://api.spotify.com".to_string(),
-                account_url: mock_server.uri(),
-                client_id: "my_id".to_string(),
-                client_secret: "my_secret".to_string(),
-                refresh_token: "my_refresh_token".to_string(),
-                token_cache: Arc::new(RwLock::new(None)),
-                song_cache: Arc::new(RwLock::new(None)),
-            },
-            notes: NotesConfig {
-                db_pool,
-                api_key: "dummy_api_key".to_string(),
-            },
-        };
+        let state = create_dummy_state("http://dummy-api.internal", &mock_server.uri()).await;
 
         let token_response = update_token(&state).await?;
 

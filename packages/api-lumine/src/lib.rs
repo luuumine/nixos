@@ -6,19 +6,40 @@ use axum::{
 use reqwest::Client;
 use serde_json::json;
 use sqlx::SqlitePool;
-use std::sync::Arc;
+use std::{collections::HashMap, sync::Arc};
 use tokio::sync::RwLock;
 use tower_http::cors::{Any, CorsLayer};
 
+use crate::routes::music::models::*;
+
 pub mod routes;
 
-pub struct TokenCache {
-    pub access_token: String,
+#[cfg(test)]
+pub mod test_utils;
+
+pub struct Cache<T> {
+    pub data: T,
     pub expires_at: u64,
 }
-pub struct SongCache {
-    pub data: routes::music::NowPlayingResponse,
-    pub expires_at: u64,
+
+pub type TokenCache = Arc<RwLock<Option<Cache<String>>>>;
+pub type PlayingCache = Arc<RwLock<Option<Cache<routes::music::NowPlayingResponse>>>>;
+
+// top
+pub type ArtistsCache = Arc<RwLock<HashMap<TimeRange, Cache<TopArtistsResponse>>>>;
+pub type TracksCache = Arc<RwLock<HashMap<TimeRange, Cache<TopTracksResponse>>>>;
+
+#[derive(Clone, Default)]
+pub struct TopCache {
+    pub artists: ArtistsCache,
+    pub tracks: TracksCache,
+}
+
+#[derive(Clone, Default)]
+pub struct SpotifyCache {
+    pub token: TokenCache,
+    pub playing: PlayingCache,
+    pub top: TopCache,
 }
 
 #[derive(Clone)]
@@ -28,8 +49,7 @@ pub struct SpotifyConfig {
     pub client_id: String,
     pub client_secret: String,
     pub refresh_token: String,
-    pub token_cache: Arc<RwLock<Option<TokenCache>>>,
-    pub song_cache: Arc<RwLock<Option<SongCache>>>,
+    pub cache: SpotifyCache,
 }
 
 #[derive(Clone)]

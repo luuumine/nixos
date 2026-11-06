@@ -1,0 +1,405 @@
+{
+  "href": "https://api.spotify.com/v1/me/top/tracks?offset=0&limit=5&locale=en-US,en;q%3D0.9",
+  "limit": 5,
+  "next": "https://api.spotify.com/v1/me/top/tracks?offset=5&limit=5&locale=en-US,en;q%3D0.9",
+  "offset": 0,
+  "previous": null,
+  "total": 698,
+  "items": [
+    {
+      "album": {
+        "album_type": "single",
+        "total_tracks": 2,
+        "external_urls": {
+          "spotify": "https://open.spotify.com/album/1pcPF5lLgbO2VqYUATwFAt"
+        },
+        "href": "https://api.spotify.com/v1/albums/1pcPF5lLgbO2VqYUATwFAt",
+        "id": "1pcPF5lLgbO2VqYUATwFAt",
+        "images": [
+          {
+            "url": "https://i.scdn.co/image/ab67616d0000b273a01bd68fe0a65e75b06c903f",
+            "height": 640,
+            "width": 640
+          },
+          {
+            "url": "https://i.scdn.co/image/ab67616d00001e02a01bd68fe0a65e75b06c903f",
+            "height": 300,
+            "width": 300
+          },
+          {
+            "url": "https://i.scdn.co/image/ab67616d00004851a01bd68fe0a65e75b06c903f",
+            "height": 64,
+            "width": 64
+          }
+        ],
+        "name": ".MOV",
+        "release_date": "2025-07-13",
+        "release_date_precision": "day",
+        "type": "album",
+        "uri": "spotify:album:1pcPF5lLgbO2VqYUATwFAt",
+        "artists": [
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/7vtQ2ObucvhANXj1s6cGkc"
+            },
+            "href": "https://api.spotify.com/v1/artists/7vtQ2ObucvhANXj1s6cGkc",
+            "id": "7vtQ2ObucvhANXj1s6cGkc",
+            "name": "Laïoss",
+            "type": "artist",
+            "uri": "spotify:artist:7vtQ2ObucvhANXj1s6cGkc"
+          }
+        ],
+        "is_playable": true
+      },
+      "artists": [
+        {
+          "external_urls": {
+            "spotify": "https://open.spotify.com/artist/7vtQ2ObucvhANXj1s6cGkc"
+          },
+          "href": "https://api.spotify.com/v1/artists/7vtQ2ObucvhANXj1s6cGkc",
+          "id": "7vtQ2ObucvhANXj1s6cGkc",
+          "name": "Laïoss",
+          "type": "artist",
+          "uri": "spotify:artist:7vtQ2ObucvhANXj1s6cGkc"
+        }
+      ],
+      "disc_number": 1,
+      "duration_ms": 138378,
+      "explicit": false,
+      "external_ids": {
+        "isrc": "QZTBE2596400"
+      },
+      "external_urls": {
+        "spotify": "https://open.spotify.com/track/1eLUBPMQXSmufjQjy9LMGe"
+      },
+      "href": "https://api.spotify.com/v1/tracks/1eLUBPMQXSmufjQjy9LMGe",
+      "id": "1eLUBPMQXSmufjQjy9LMGe",
+      "is_playable": true,
+      "name": "ma star",
+      "track_number": 1,
+      "type": "track",
+      "uri": "spotify:track:1eLUBPMQXSmufjQjy9LMGe",
+      "is_local": false
+    },
+    {
+      "album": {
+        "album_type": "single",
+        "total_tracks": 4,
+        "external_urls": {
+          "spotify": "https://open.spotify.com/album/3vvuvl0DBDGVS7dhy3U0yK"
+        },
+        "href": "https://api.spotify.com/v1/albums/3vvuvl0DBDGVS7dhy3U0yK",
+        "id": "3vvuvl0DBDGVS7dhy3U0yK",
+        "images": [
+          {
+            "url": "https://i.scdn.co/image/ab67616d0000b2735be9c29e31b75e04c335ec37",
+            "height": 640,
+            "width": 640
+          },
+          {
+            "url": "https://i.scdn.co/image/ab67616d00001e025be9c29e31b75e04c335ec37",
+            "height": 300,
+            "width": 300
+          },
+          {
+            "url": "https://i.scdn.co/image/ab67616d000048515be9c29e31b75e04c335ec37",
+            "height": 64,
+            "width": 64
+          }
+        ],
+        "name": ".zootopiā",
+        "release_date": "2025-11-26",
+        "release_date_precision": "day",
+        "type": "album",
+        "uri": "spotify:album:3vvuvl0DBDGVS7dhy3U0yK",
+        "artists": [
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/7vtQ2ObucvhANXj1s6cGkc"
+            },
+            "href": "https://api.spotify.com/v1/artists/7vtQ2ObucvhANXj1s6cGkc",
+            "id": "7vtQ2ObucvhANXj1s6cGkc",
+            "name": "Laïoss",
+            "type": "artist",
+            "uri": "spotify:artist:7vtQ2ObucvhANXj1s6cGkc"
+          }
+        ],
+        "is_playable": true
+      },
+      "artists": [
+        {
+          "external_urls": {
+            "spotify": "https://open.spotify.com/artist/7vtQ2ObucvhANXj1s6cGkc"
+          },
+          "href": "https://api.spotify.com/v1/artists/7vtQ2ObucvhANXj1s6cGkc",
+          "id": "7vtQ2ObucvhANXj1s6cGkc",
+          "name": "Laïoss",
+          "type": "artist",
+          "uri": "spotify:artist:7vtQ2ObucvhANXj1s6cGkc"
+        }
+      ],
+      "disc_number": 1,
+      "duration_ms": 115862,
+      "explicit": false,
+      "external_ids": {
+        "isrc": "QT6EZ2501016"
+      },
+      "external_urls": {
+        "spotify": "https://open.spotify.com/track/5q0XNHYZqnD5WtnVlJAL1f"
+      },
+      "href": "https://api.spotify.com/v1/tracks/5q0XNHYZqnD5WtnVlJAL1f",
+      "id": "5q0XNHYZqnD5WtnVlJAL1f",
+      "is_playable": true,
+      "name": "parfum mirabelle",
+      "track_number": 2,
+      "type": "track",
+      "uri": "spotify:track:5q0XNHYZqnD5WtnVlJAL1f",
+      "is_local": false
+    },
+    {
+      "album": {
+        "album_type": "album",
+        "total_tracks": 14,
+        "external_urls": {
+          "spotify": "https://open.spotify.com/album/23y3yfpiKj953qa8ms2eb5"
+        },
+        "href": "https://api.spotify.com/v1/albums/23y3yfpiKj953qa8ms2eb5",
+        "id": "23y3yfpiKj953qa8ms2eb5",
+        "images": [
+          {
+            "url": "https://i.scdn.co/image/ab67616d0000b2734735bad80e9dc576055ddc30",
+            "height": 640,
+            "width": 640
+          },
+          {
+            "url": "https://i.scdn.co/image/ab67616d00001e024735bad80e9dc576055ddc30",
+            "height": 300,
+            "width": 300
+          },
+          {
+            "url": "https://i.scdn.co/image/ab67616d000048514735bad80e9dc576055ddc30",
+            "height": 64,
+            "width": 64
+          }
+        ],
+        "name": "Interlude",
+        "release_date": "2026-01-30",
+        "release_date_precision": "day",
+        "type": "album",
+        "uri": "spotify:album:23y3yfpiKj953qa8ms2eb5",
+        "artists": [
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/52RfpYjlyXFCG7sFQGIATG"
+            },
+            "href": "https://api.spotify.com/v1/artists/52RfpYjlyXFCG7sFQGIATG",
+            "id": "52RfpYjlyXFCG7sFQGIATG",
+            "name": "Say",
+            "type": "artist",
+            "uri": "spotify:artist:52RfpYjlyXFCG7sFQGIATG"
+          },
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/1zdhIHPB8WlyuLbJbhWjed"
+            },
+            "href": "https://api.spotify.com/v1/artists/1zdhIHPB8WlyuLbJbhWjed",
+            "id": "1zdhIHPB8WlyuLbJbhWjed",
+            "name": "L.Law",
+            "type": "artist",
+            "uri": "spotify:artist:1zdhIHPB8WlyuLbJbhWjed"
+          }
+        ],
+        "is_playable": true
+      },
+      "artists": [
+        {
+          "external_urls": {
+            "spotify": "https://open.spotify.com/artist/52RfpYjlyXFCG7sFQGIATG"
+          },
+          "href": "https://api.spotify.com/v1/artists/52RfpYjlyXFCG7sFQGIATG",
+          "id": "52RfpYjlyXFCG7sFQGIATG",
+          "name": "Say",
+          "type": "artist",
+          "uri": "spotify:artist:52RfpYjlyXFCG7sFQGIATG"
+        },
+        {
+          "external_urls": {
+            "spotify": "https://open.spotify.com/artist/1zdhIHPB8WlyuLbJbhWjed"
+          },
+          "href": "https://api.spotify.com/v1/artists/1zdhIHPB8WlyuLbJbhWjed",
+          "id": "1zdhIHPB8WlyuLbJbhWjed",
+          "name": "L.Law",
+          "type": "artist",
+          "uri": "spotify:artist:1zdhIHPB8WlyuLbJbhWjed"
+        }
+      ],
+      "disc_number": 1,
+      "duration_ms": 115443,
+      "explicit": false,
+      "external_ids": {
+        "isrc": "DGA062503988"
+      },
+      "external_urls": {
+        "spotify": "https://open.spotify.com/track/0J98I2VDLD4oNWjlvjJTMx"
+      },
+      "href": "https://api.spotify.com/v1/tracks/0J98I2VDLD4oNWjlvjJTMx",
+      "id": "0J98I2VDLD4oNWjlvjJTMx",
+      "is_playable": true,
+      "name": "Napalm",
+      "track_number": 8,
+      "type": "track",
+      "uri": "spotify:track:0J98I2VDLD4oNWjlvjJTMx",
+      "is_local": false
+    },
+    {
+      "album": {
+        "album_type": "single",
+        "total_tracks": 1,
+        "external_urls": {
+          "spotify": "https://open.spotify.com/album/6KV2XxFen7DPaojtrQpZEA"
+        },
+        "href": "https://api.spotify.com/v1/albums/6KV2XxFen7DPaojtrQpZEA",
+        "id": "6KV2XxFen7DPaojtrQpZEA",
+        "images": [
+          {
+            "url": "https://i.scdn.co/image/ab67616d0000b273c285ee013d51ccb07626e5b8",
+            "height": 640,
+            "width": 640
+          },
+          {
+            "url": "https://i.scdn.co/image/ab67616d00001e02c285ee013d51ccb07626e5b8",
+            "height": 300,
+            "width": 300
+          },
+          {
+            "url": "https://i.scdn.co/image/ab67616d00004851c285ee013d51ccb07626e5b8",
+            "height": 64,
+            "width": 64
+          }
+        ],
+        "name": "Lettre à la Lune",
+        "release_date": "2024-12-20",
+        "release_date_precision": "day",
+        "type": "album",
+        "uri": "spotify:album:6KV2XxFen7DPaojtrQpZEA",
+        "artists": [
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/7LAl2XjUpto6jAkpSKtNc3"
+            },
+            "href": "https://api.spotify.com/v1/artists/7LAl2XjUpto6jAkpSKtNc3",
+            "id": "7LAl2XjUpto6jAkpSKtNc3",
+            "name": "Celebii",
+            "type": "artist",
+            "uri": "spotify:artist:7LAl2XjUpto6jAkpSKtNc3"
+          }
+        ],
+        "is_playable": true
+      },
+      "artists": [
+        {
+          "external_urls": {
+            "spotify": "https://open.spotify.com/artist/7LAl2XjUpto6jAkpSKtNc3"
+          },
+          "href": "https://api.spotify.com/v1/artists/7LAl2XjUpto6jAkpSKtNc3",
+          "id": "7LAl2XjUpto6jAkpSKtNc3",
+          "name": "Celebii",
+          "type": "artist",
+          "uri": "spotify:artist:7LAl2XjUpto6jAkpSKtNc3"
+        }
+      ],
+      "disc_number": 1,
+      "duration_ms": 172128,
+      "explicit": false,
+      "external_ids": {
+        "isrc": "QZZ7W2481673"
+      },
+      "external_urls": {
+        "spotify": "https://open.spotify.com/track/0pNBXHHgUroqQRvqJIKcS0"
+      },
+      "href": "https://api.spotify.com/v1/tracks/0pNBXHHgUroqQRvqJIKcS0",
+      "id": "0pNBXHHgUroqQRvqJIKcS0",
+      "is_playable": true,
+      "name": "Lettre à la Lune",
+      "track_number": 1,
+      "type": "track",
+      "uri": "spotify:track:0pNBXHHgUroqQRvqJIKcS0",
+      "is_local": false
+    },
+    {
+      "album": {
+        "album_type": "album",
+        "total_tracks": 9,
+        "external_urls": {
+          "spotify": "https://open.spotify.com/album/6c0iL1Z7mWPEGyxWjna6fL"
+        },
+        "href": "https://api.spotify.com/v1/albums/6c0iL1Z7mWPEGyxWjna6fL",
+        "id": "6c0iL1Z7mWPEGyxWjna6fL",
+        "images": [
+          {
+            "url": "https://i.scdn.co/image/ab67616d0000b273adae1f11883dc48c4f807f42",
+            "height": 640,
+            "width": 640
+          },
+          {
+            "url": "https://i.scdn.co/image/ab67616d00001e02adae1f11883dc48c4f807f42",
+            "height": 300,
+            "width": 300
+          },
+          {
+            "url": "https://i.scdn.co/image/ab67616d00004851adae1f11883dc48c4f807f42",
+            "height": 64,
+            "width": 64
+          }
+        ],
+        "name": "Les lundis n'ont plus d'couleurs",
+        "release_date": "2026-10-08",
+        "release_date_precision": "day",
+        "type": "album",
+        "uri": "spotify:album:6c0iL1Z7mWPEGyxWjna6fL",
+        "artists": [
+          {
+            "external_urls": {
+              "spotify": "https://open.spotify.com/artist/0Waq0e4oiQxOvsfoAiOIC5"
+            },
+            "href": "https://api.spotify.com/v1/artists/0Waq0e4oiQxOvsfoAiOIC5",
+            "id": "0Waq0e4oiQxOvsfoAiOIC5",
+            "name": "GU1T4R",
+            "type": "artist",
+            "uri": "spotify:artist:0Waq0e4oiQxOvsfoAiOIC5"
+          }
+        ],
+        "is_playable": true
+      },
+      "artists": [
+        {
+          "external_urls": {
+            "spotify": "https://open.spotify.com/artist/0Waq0e4oiQxOvsfoAiOIC5"
+          },
+          "href": "https://api.spotify.com/v1/artists/0Waq0e4oiQxOvsfoAiOIC5",
+          "id": "0Waq0e4oiQxOvsfoAiOIC5",
+          "name": "GU1T4R",
+          "type": "artist",
+          "uri": "spotify:artist:0Waq0e4oiQxOvsfoAiOIC5"
+        }
+      ],
+      "disc_number": 1,
+      "duration_ms": 117551,
+      "explicit": true,
+      "external_ids": {
+        "isrc": "QTA2Q2688814"
+      },
+      "external_urls": {
+        "spotify": "https://open.spotify.com/track/700K96Za5C4knf9ul0ImJZ"
+      },
+      "href": "https://api.spotify.com/v1/tracks/700K96Za5C4knf9ul0ImJZ",
+      "id": "700K96Za5C4knf9ul0ImJZ",
+      "is_playable": true,
+      "name": "MICR0CLIMATS",
+      "track_number": 9,
+      "type": "track",
+      "uri": "spotify:track:700K96Za5C4knf9ul0ImJZ",
+      "is_local": false
+    }
+  ]
+}

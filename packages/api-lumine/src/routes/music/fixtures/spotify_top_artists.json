@@ -1,0 +1,145 @@
+{
+  "href": "https://api.spotify.com/v1/me/top/artists?offset=0&limit=5&locale=en-US,en;q%3D0.9",
+  "limit": 5,
+  "next": "https://api.spotify.com/v1/me/top/artists?offset=5&limit=5&locale=en-US,en;q%3D0.9",
+  "offset": 0,
+  "previous": null,
+  "total": 59,
+  "items": [
+    {
+      "external_urls": {
+        "spotify": "https://open.spotify.com/artist/7vtQ2ObucvhANXj1s6cGkc"
+      },
+      "href": "https://api.spotify.com/v1/artists/7vtQ2ObucvhANXj1s6cGkc",
+      "id": "7vtQ2ObucvhANXj1s6cGkc",
+      "images": [
+        {
+          "url": "https://i.scdn.co/image/ab6761610000e5ebf78971192ab702f9d3e87ea3",
+          "height": 640,
+          "width": 640
+        },
+        {
+          "url": "https://i.scdn.co/image/ab67616100005174f78971192ab702f9d3e87ea3",
+          "height": 320,
+          "width": 320
+        },
+        {
+          "url": "https://i.scdn.co/image/ab6761610000f178f78971192ab702f9d3e87ea3",
+          "height": 160,
+          "width": 160
+        }
+      ],
+      "name": "Laïoss",
+      "type": "artist",
+      "uri": "spotify:artist:7vtQ2ObucvhANXj1s6cGkc"
+    },
+    {
+      "external_urls": {
+        "spotify": "https://open.spotify.com/artist/0d8WAAF87lV4Me7E1f2Luj"
+      },
+      "href": "https://api.spotify.com/v1/artists/0d8WAAF87lV4Me7E1f2Luj",
+      "id": "0d8WAAF87lV4Me7E1f2Luj",
+      "images": [
+        {
+          "url": "https://i.scdn.co/image/ab6761610000e5ebc3f68f16a0c7b26db4343527",
+          "height": 640,
+          "width": 640
+        },
+        {
+          "url": "https://i.scdn.co/image/ab67616100005174c3f68f16a0c7b26db4343527",
+          "height": 320,
+          "width": 320
+        },
+        {
+          "url": "https://i.scdn.co/image/ab6761610000f178c3f68f16a0c7b26db4343527",
+          "height": 160,
+          "width": 160
+        }
+      ],
+      "name": "y0shi.mp3",
+      "type": "artist",
+      "uri": "spotify:artist:0d8WAAF87lV4Me7E1f2Luj"
+    },
+    {
+      "external_urls": {
+        "spotify": "https://open.spotify.com/artist/0Waq0e4oiQxOvsfoAiOIC5"
+      },
+      "href": "https://api.spotify.com/v1/artists/0Waq0e4oiQxOvsfoAiOIC5",
+      "id": "0Waq0e4oiQxOvsfoAiOIC5",
+      "images": [
+        {
+          "url": "https://i.scdn.co/image/ab6761610000e5eb0556b5a7cbd0eb2839457577",
+          "height": 640,
+          "width": 640
+        },
+        {
+          "url": "https://i.scdn.co/image/ab676161000051740556b5a7cbd0eb2839457577",
+          "height": 320,
+          "width": 320
+        },
+        {
+          "url": "https://i.scdn.co/image/ab6761610000f1780556b5a7cbd0eb2839457577",
+          "height": 160,
+          "width": 160
+        }
+      ],
+      "name": "GU1T4R",
+      "type": "artist",
+      "uri": "spotify:artist:0Waq0e4oiQxOvsfoAiOIC5"
+    },
+    {
+      "external_urls": {
+        "spotify": "https://open.spotify.com/artist/3UXIDk35ctjSjaolfVj8hr"
+      },
+      "href": "https://api.spotify.com/v1/artists/3UXIDk35ctjSjaolfVj8hr",
+      "id": "3UXIDk35ctjSjaolfVj8hr",
+      "images": [
+        {
+          "url": "https://i.scdn.co/image/ab6761610000e5eb3f60e8644ad2c02cb18edaa8",
+          "height": 640,
+          "width": 640
+        },
+        {
+          "url": "https://i.scdn.co/image/ab676161000051743f60e8644ad2c02cb18edaa8",
+          "height": 320,
+          "width": 320
+        },
+        {
+          "url": "https://i.scdn.co/image/ab6761610000f1783f60e8644ad2c02cb18edaa8",
+          "height": 160,
+          "width": 160
+        }
+      ],
+      "name": "Sunburn",
+      "type": "artist",
+      "uri": "spotify:artist:3UXIDk35ctjSjaolfVj8hr"
+    },
+    {
+      "external_urls": {
+        "spotify": "https://open.spotify.com/artist/5kGE5WhDLFZwLude1avCuw"
+      },
+      "href": "https://api.spotify.com/v1/artists/5kGE5WhDLFZwLude1avCuw",
+      "id": "5kGE5WhDLFZwLude1avCuw",
+      "images": [
+        {
+          "url": "https://i.scdn.co/image/ab6761610000e5ebaf2b24c1d7e3f69b25b2e70f",
+          "height": 640,
+          "width": 640
+        },
+        {
+          "url": "https://i.scdn.co/image/ab67616100005174af2b24c1d7e3f69b25b2e70f",
+          "height": 320,
+          "width": 320
+        },
+        {
+          "url": "https://i.scdn.co/image/ab6761610000f178af2b24c1d7e3f69b25b2e70f",
+          "height": 160,
+          "width": 160
+        }
+      ],
+      "name": "Jima",
+      "type": "artist",
+      "uri": "spotify:artist:5kGE5WhDLFZwLude1avCuw"
+    }
+  ]
+}
