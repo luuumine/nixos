@@ -1,19 +1,14 @@
 use crate::AppState;
-use axum::{
-    Router,
-    routing::{delete, get, post},
-};
 
 mod auth;
 pub mod handlers;
 pub mod models;
 
 pub use models::Note;
+use utoipa_axum::{router::OpenApiRouter, routes};
 
-pub fn router() -> Router<AppState> {
-    Router::new()
-        .route("/", get(handlers::get_notes))
-        .route("/", post(handlers::post_note))
-        .route("/{id}", get(handlers::get_note))
-        .route("/{id}", delete(handlers::delete_note))
+pub fn openapi_router() -> OpenApiRouter<AppState> {
+    OpenApiRouter::new()
+        .routes(routes!(handlers::get_notes, handlers::post_note))
+        .routes(routes!(handlers::get_note, handlers::delete_note))
 }

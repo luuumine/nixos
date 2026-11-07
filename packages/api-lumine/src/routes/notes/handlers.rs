@@ -7,6 +7,14 @@ use axum::{
 use super::{auth::RequireAuth, models::*};
 use crate::{ApiError, AppState};
 
+#[utoipa::path(
+    get,
+    path = "/",
+    tag = "notes",
+    responses(
+        (status = 200, description = "list of notes", body = Vec<Note>)
+    )
+)]
 pub async fn get_notes(
     State(state): State<AppState>,
     Query(params): Query<GetNotesParams>,
@@ -25,6 +33,14 @@ pub async fn get_notes(
     Ok(Json(notes))
 }
 
+#[utoipa::path(
+    get,
+    path = "/{id}",
+    tag = "notes",
+    responses(
+        (status = 200, description = "list of notes", body = Vec<Note>)
+    )
+)]
 pub async fn get_note(
     State(state): State<AppState>,
     Path(id): Path<i64>,
@@ -50,6 +66,14 @@ pub async fn get_note(
     }
 }
 
+#[utoipa::path(
+    post,
+    path = "/",
+    tag = "notes",
+    responses(
+        (status = StatusCode::CREATED, body = Note)
+    )
+)]
 pub async fn post_note(
     _auth: RequireAuth,
     State(state): State<AppState>,
@@ -75,6 +99,15 @@ pub async fn post_note(
     Ok((StatusCode::CREATED, Json(note)))
 }
 
+#[utoipa::path(
+    delete,
+    path = "/{id}",
+    tag = "notes",
+    responses(
+        (status = StatusCode::NO_CONTENT, description = "the note was deleted"),
+        (status = StatusCode::BAD_REQUEST, description = "the note doesn't exist")
+    )
+)]
 pub async fn delete_note(
     _auth: RequireAuth,
     State(state): State<AppState>,
