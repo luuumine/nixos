@@ -37,6 +37,10 @@ rustPlatform.buildRustPackage {
 
   SSL_CERT_FILE = "${cacert}/etc/ssl/certs/ca-bundle.crt";
 
+  shellHook = ''
+    export API_VERSION="${version}-dev"
+  '';
+
   meta = {
     mainProgram = pname;
   };

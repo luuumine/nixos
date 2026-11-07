@@ -13,7 +13,8 @@ use crate::{ApiError, AppState};
     tag = "notes",
     responses(
         (status = 200, description = "list of notes", body = Vec<Note>)
-    )
+    ),
+    params(GetNotesParams)
 )]
 pub async fn get_notes(
     State(state): State<AppState>,
@@ -72,7 +73,8 @@ pub async fn get_note(
     tag = "notes",
     responses(
         (status = StatusCode::CREATED, body = Note)
-    )
+    ),
+    security(("NOTES_API_KEY" = []))
 )]
 pub async fn post_note(
     _auth: RequireAuth,
