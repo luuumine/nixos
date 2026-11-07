@@ -23,6 +23,7 @@
       nixpkgs,
       home-manager,
       agenix,
+      disko,
       ...
     }@inputs:
     let
@@ -48,6 +49,7 @@
               home-manager.extraSpecialArgs = { inherit inputs; };
             }
             agenix.nixosModules.default
+            disko.nixosModules.disko
           ];
         };
     in
@@ -59,6 +61,7 @@
         luminadel = mkHost "luminadel";
         luminout = mkHost "luminout";
         luminode = mkHost "luminode";
+        luminet = mkHost "luminet";
       };
 
       packages.${system} = import ./packages {
