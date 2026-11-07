@@ -6,7 +6,7 @@
 
   lumine = {
     initrd-ssh = {
-      enable = true;
+      enable = false;
       port = 49152;
       networkDrivers = [
         "r8169"
