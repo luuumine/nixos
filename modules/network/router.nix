@@ -7,6 +7,14 @@ in
 {
   options.lumine.network.router = {
     enable = lib.mkEnableOption "router";
+    servers = lib.mkOption {
+      type = lib.types.listOf lib.types.str;
+      example = [
+        "1.1.1.1"
+        "8.8.8.8"
+      ];
+      description = "the upstream dns servers to use";
+    };
     wan = {
       interface = lib.mkOption {
         type = types.interface;
@@ -48,6 +56,16 @@ in
     networking.useNetworkd = true;
     networking.useDHCP = false;
 
+    services.resolved.enable = false;
+
+    networking.firewall = {
+      allowedTCPPorts = [ 53 ];
+      allowedUDPPorts = [
+        53
+        67
+      ];
+    };
+
     systemd.network.links = {
       "10-${cfg.wan.interface.name}" = {
         matchConfig.MACAddress = cfg.wan.interface.MACAddress;
@@ -80,6 +98,23 @@ in
       enable = true;
       externalInterface = cfg.wan.interface.name;
       internalInterfaces = [ cfg.lan.interface.name ];
+    };
+
+    services.dnsmasq = {
+      enable = true;
+      settings = {
+        server = cfg.servers;
+        domain-needed = true;
+        no-hosts = true;
+
+        interface = cfg.lan.interface.name;
+        dhcp-range = [ "${cfg.lan.dhcpStart},${cfg.lan.dhcpEnd},24h" ];
+        dhcp-option = [
+          "option:router,${cfg.lan.ip}"
+          "option:dns-server,${cfg.lan.ip}"
+        ];
+        log-dhcp = true;
+      };
     };
   };
 }

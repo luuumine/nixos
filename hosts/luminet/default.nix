@@ -47,6 +47,7 @@
           dhcpStart = "10.67.0.100";
           dhcpEnd = "10.67.0.200";
         };
+        servers = [ "1.1.1.1" ];
       };
       ssh.enable = true;
       tailscale.enable = true;
