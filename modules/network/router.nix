@@ -45,7 +45,7 @@ in
       };
 
       "11-${cfg.lanInterface.name}" = {
-        matchConfig.name = cfg.lanInterface.name;
+        matchConfig.Name = cfg.lanInterface.name;
         networkConfig.Address = cfg.lanAddress;
       };
     };
