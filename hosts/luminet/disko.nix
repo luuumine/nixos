@@ -5,6 +5,11 @@
   boot.initrd.supportedFilesystems = [ "zfs" ];
   boot.zfs.forceImportRoot = false;
 
+  boot.initrd.systemd.services."zfs-import-zroot" = {
+    requires = [ "dev-mapper-cryptroot.device" ];
+    after = [ "dev-mapper-cryptroot.device" ];
+  };
+
   disko.devices = {
     disk.main = {
       type = "disk";
