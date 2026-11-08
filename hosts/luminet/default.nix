@@ -31,17 +31,22 @@
     network = {
       router = {
         enable = true;
-        wanInterface = {
+        wan.interface = {
           # I225-V, uses igc
           name = "wan";
           MACAddress = "a0:1e:0b:13:b5:bc";
         };
-        lanInterface = {
-          # RTL8125, uses r8169
-          name = "lan";
-          MACAddress = "a0:1e:0b:13:b5:bd";
+        lan = {
+          interface = {
+            # RTL8125, uses r8169
+            name = "lan";
+            MACAddress = "a0:1e:0b:13:b5:bd";
+          };
+          ip = "10.67.0.1";
+          prefixLength = 24;
+          dhcpStart = "10.67.0.100";
+          dhcpEnd = "10.67.0.200";
         };
-        lanAddress = "10.67.0.1/24";
       };
       ssh.enable = true;
       tailscale.enable = true;
