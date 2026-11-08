@@ -30,6 +30,7 @@
 
     network = {
       ssh.enable = true;
+      tailscale.enable = true;
     };
 
     shell.enable = true;
