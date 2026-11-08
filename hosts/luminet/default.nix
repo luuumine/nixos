@@ -29,6 +29,20 @@
     nix.enable = true;
 
     network = {
+      router = {
+        enable = true;
+        wanInterface = {
+          # I225-V, uses igc
+          name = "wan";
+          MACAddress = "a0:1e:0b:13:b5:bc";
+        };
+        lanInterface = {
+          # RTL8125, uses r8169
+          name = "lan";
+          MACAddress = "a0:1e:0b:13:b5:bd";
+        };
+        lanAddress = "10.67.0.1/24";
+      };
       ssh.enable = true;
       tailscale.enable = true;
     };

@@ -9,6 +9,7 @@ in
     ./headscale.nix
     ./tailscale.nix
     ./mullvad.nix
+    ./router.nix
   ];
 
   _module.args = {
