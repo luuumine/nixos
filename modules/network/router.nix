@@ -45,6 +45,8 @@ in
   config = lib.mkIf cfg.enable {
     networking.networkmanager.enable = lib.mkForce false;
     systemd.network.enable = true;
+    networking.useNetworkd = true;
+    networking.useDHCP = false;
 
     systemd.network.links = {
       "10-${cfg.wan.interface.name}" = {
@@ -61,24 +63,16 @@ in
       "10-${cfg.wan.interface.name}" = {
         matchConfig.Name = cfg.wan.interface.name;
         networkConfig.DHCP = "yes";
+        dhcpV4Config.ClientIdentifier = "mac";
       };
 
       "11-${cfg.lan.interface.name}" = {
         matchConfig.Name = cfg.lan.interface.name;
-        networkConfig.Address = "${cfg.lan.ip}/${toString cfg.lan.prefixLength}";
-      };
-    };
-
-    services.dnsmasq = {
-      enable = true;
-      settings = {
-        interface = cfg.lan.interface.name;
-        bind-interfaces = true;
-        dhcp-range = "${cfg.lan.dhcpStart},${cfg.lan.dhcpEnd},24h";
-        dhcp-option = [
-          "option:router,${cfg.lan.ip}"
-          "option:dns-server,${cfg.lan.ip}"
-        ];
+        networkConfig = {
+          Address = "${cfg.lan.ip}/${toString cfg.lan.prefixLength}";
+          DHCP = "no";
+        };
+        linkConfig.RequiredForOnline = "no";
       };
     };
 
@@ -86,14 +80,6 @@ in
       enable = true;
       externalInterface = cfg.wan.interface.name;
       internalInterfaces = [ cfg.lan.interface.name ];
-    };
-
-    networking.firewall.interfaces."${cfg.lan.interface.name}" = {
-      allowedTCPPorts = [ 53 ];
-      allowedUDPPorts = [
-        53
-        67
-      ];
     };
   };
 }
