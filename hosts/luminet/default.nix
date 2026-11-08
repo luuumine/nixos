@@ -36,10 +36,10 @@
     starship = {
       enable = true;
       theme = {
-        username = "bold #A6E3A1";
-        symbol = "bold #4A051C";
-        hostname = "bold #A6E3A1";
-        directory = "bold red";
+        username = "bold cyan";
+        symbol = "bold yellow";
+        hostname = "bold cyan";
+        directory = "bold blue";
       };
     };
     git.enable = true;
