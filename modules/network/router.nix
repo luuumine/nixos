@@ -58,7 +58,7 @@ in
 
     services.resolved.enable = false;
 
-    networking.firewall = {
+    networking.firewall."${cfg.lan.interface.name}" = {
       allowedTCPPorts = [ 53 ];
       allowedUDPPorts = [
         53
