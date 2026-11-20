@@ -1,5 +1,6 @@
 use crate::{AppState, NotesConfig, SpotifyCache, SpotifyConfig};
 
+use reqwest::StatusCode;
 use serde_json::{Value, json};
 use sqlx::{migrate, sqlite::SqlitePoolOptions};
 use wiremock::{
@@ -47,7 +48,7 @@ pub async fn spotify_mock_server() -> Result<MockServer, String> {
 
     Mock::given(method("POST"))
         .and(path("/api/token"))
-        .respond_with(ResponseTemplate::new(200).set_body_json(auth_response))
+        .respond_with(ResponseTemplate::new(StatusCode::OK).set_body_json(auth_response))
         .mount(&mock_server)
         .await;
 
@@ -59,7 +60,7 @@ pub async fn spotify_mock_server() -> Result<MockServer, String> {
     Mock::given(method("GET"))
         .and(path("/v1/me/player/currently-playing"))
         .and(header("Authorization", "Bearer integration_mock_token"))
-        .respond_with(ResponseTemplate::new(200).set_body_json(playing_body))
+        .respond_with(ResponseTemplate::new(StatusCode::OK).set_body_json(playing_body))
         .mount(&mock_server)
         .await;
 
@@ -71,7 +72,7 @@ pub async fn spotify_mock_server() -> Result<MockServer, String> {
     Mock::given(method("GET"))
         .and(path("/v1/me/top/artists"))
         .and(header("Authorization", "Bearer integration_mock_token"))
-        .respond_with(ResponseTemplate::new(200).set_body_json(artists_body))
+        .respond_with(ResponseTemplate::new(StatusCode::OK).set_body_json(artists_body))
         .mount(&mock_server)
         .await;
 
@@ -83,7 +84,7 @@ pub async fn spotify_mock_server() -> Result<MockServer, String> {
     Mock::given(method("GET"))
         .and(path("/v1/me/top/tracks"))
         .and(header("Authorization", "Bearer integration_mock_token"))
-        .respond_with(ResponseTemplate::new(200).set_body_json(tracks_body))
+        .respond_with(ResponseTemplate::new(StatusCode::OK).set_body_json(tracks_body))
         .mount(&mock_server)
         .await;
 

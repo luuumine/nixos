@@ -9,7 +9,7 @@
 }:
 let
   pname = "api-lumine";
-  version = "1.2.0";
+  version = "1.3.0";
 
   src = lib.fileset.toSource {
     root = ./.;
@@ -25,7 +25,7 @@ in
 rustPlatform.buildRustPackage {
   inherit pname version src;
 
-  cargoHash = "sha256-qJKP9qg7VE6nd5DPiSQrb0q5Zf0ThzB5MzvmkQxDizI=";
+  cargoHash = "sha256-CR29icVz9wp7boPswWbKkifAelnaphpX2Se6uEAE9UY=";
 
   nativeBuildInputs = [
     cargo
@@ -36,6 +36,12 @@ rustPlatform.buildRustPackage {
   ];
 
   SSL_CERT_FILE = "${cacert}/etc/ssl/certs/ca-bundle.crt";
+
+  API_VERSION = version;
+
+  shellHook = ''
+    export API_VERSION="${version}-dev"
+  '';
 
   meta = {
     mainProgram = pname;

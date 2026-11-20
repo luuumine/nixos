@@ -1,8 +1,7 @@
-use std::time::{SystemTime, UNIX_EPOCH};
+use crate::{AppState, Cache, routes::music::models::*};
 
 use reqwest::StatusCode;
-
-use crate::{AppState, Cache, routes::music::models::*};
+use std::time::{SystemTime, UNIX_EPOCH};
 
 const LIMIT: usize = 5;
 const TOP_LIFETIME: u64 = 86400;
@@ -12,7 +11,7 @@ pub async fn fetch_top_artists(
     state: &AppState,
     access_token: &str,
     range: &TimeRange,
-) -> Result<TopArtistsResponse, String> {
+) -> Result<Vec<Artist>, String> {
     let now = SystemTime::now()
         .duration_since(UNIX_EPOCH)
         .map_err(|e| format!("time shouldnt be negative: {}", e))?
@@ -23,10 +22,10 @@ pub async fn fetch_top_artists(
     {
         // get read lock
         let cache = state.spotify.cache.top.artists.read().await;
-        if let Some(artists_data) = cache.get(range) {
-            if now + buffer < artists_data.expires_at {
-                return Ok(artists_data.data.clone());
-            }
+        if let Some(artists_data) = cache.get(range)
+            && now + buffer < artists_data.expires_at
+        {
+            return Ok(artists_data.data.clone());
         }
     } // `cache` goes out of scope there
 
@@ -34,10 +33,10 @@ pub async fn fetch_top_artists(
     let mut cache = state.spotify.cache.top.artists.write().await;
 
     // check if another thread wrote new valid data before updating it
-    if let Some(artists_data) = cache.get(range) {
-        if now < artists_data.expires_at {
-            return Ok(artists_data.data.clone());
-        }
+    if let Some(artists_data) = cache.get(range)
+        && now < artists_data.expires_at
+    {
+        return Ok(artists_data.data.clone());
     }
 
     let url = format!("{}/v1/me/top/artists", state.spotify.api_url);
@@ -78,10 +77,12 @@ pub async fn fetch_top_artists(
             Ok(response_data)
         }
         _ => {
-            eprint!("spotify api returned unexpected status: {}", status);
-
             // else, we just update the TTL and keep stale data
             if let Some(stale_entry) = cache.get_mut(range) {
+                eprintln!(
+                    "spotify api returned unexpected status: {} (serving stale cache)",
+                    status
+                );
                 stale_entry.expires_at = now + ERROR_TIMEOUT;
                 return Ok(stale_entry.data.clone());
             }
@@ -99,7 +100,7 @@ pub async fn fetch_top_tracks(
     state: &AppState,
     access_token: &str,
     range: &TimeRange,
-) -> Result<TopTracksResponse, String> {
+) -> Result<Vec<Track>, String> {
     let now = SystemTime::now()
         .duration_since(UNIX_EPOCH)
         .map_err(|e| format!("time shouldnt be negative: {}", e))?
@@ -110,10 +111,10 @@ pub async fn fetch_top_tracks(
     {
         // get read lock
         let cache = state.spotify.cache.top.tracks.read().await;
-        if let Some(tracks_data) = cache.get(range) {
-            if now + buffer < tracks_data.expires_at {
-                return Ok(tracks_data.data.clone());
-            }
+        if let Some(tracks_data) = cache.get(range)
+            && now + buffer < tracks_data.expires_at
+        {
+            return Ok(tracks_data.data.clone());
         }
     } // `cache` goes out of scope there
 
@@ -121,10 +122,10 @@ pub async fn fetch_top_tracks(
     let mut cache = state.spotify.cache.top.tracks.write().await;
 
     // check if another thread wrote new valid data before updating it
-    if let Some(tracks_data) = cache.get(range) {
-        if now < tracks_data.expires_at {
-            return Ok(tracks_data.data.clone());
-        }
+    if let Some(tracks_data) = cache.get(range)
+        && now < tracks_data.expires_at
+    {
+        return Ok(tracks_data.data.clone());
     }
 
     let url = format!("{}/v1/me/top/tracks", state.spotify.api_url);
@@ -182,7 +183,7 @@ pub async fn fetch_top_tracks(
     }
 }
 
-fn parse_artists_response(json: serde_json::Value) -> Result<TopArtistsResponse, String> {
+fn parse_artists_response(json: serde_json::Value) -> Result<Vec<Artist>, String> {
     let artists_array = json["items"].as_array().ok_or("missing artists array")?;
 
     let l = artists_array.len();
@@ -222,7 +223,7 @@ fn parse_artists_response(json: serde_json::Value) -> Result<TopArtistsResponse,
     Ok(artists)
 }
 
-fn parse_tracks_response(json: serde_json::Value) -> Result<TopTracksResponse, String> {
+fn parse_tracks_response(json: serde_json::Value) -> Result<Vec<Track>, String> {
     let tracks_array = json["items"].as_array().ok_or("missing tracks array")?;
 
     let l = tracks_array.len();
@@ -251,7 +252,7 @@ fn parse_tracks_response(json: serde_json::Value) -> Result<TopTracksResponse, S
             tracks.push(Track {
                 title: name.to_string(),
                 album: album.to_string(),
-                track_number: track_number,
+                track_number,
                 url: url.to_string(),
                 images: Image {
                     large: images_array[0]["url"]

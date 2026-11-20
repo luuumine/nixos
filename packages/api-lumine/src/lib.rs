@@ -4,11 +4,12 @@ use axum::{
     response::IntoResponse,
 };
 use reqwest::Client;
-use serde_json::json;
+use serde::Serialize;
 use sqlx::SqlitePool;
 use std::{collections::HashMap, sync::Arc};
 use tokio::sync::RwLock;
 use tower_http::cors::{Any, CorsLayer};
+use utoipa::{IntoResponses, ToSchema};
 
 use crate::routes::music::models::*;
 
@@ -26,8 +27,8 @@ pub type TokenCache = Arc<RwLock<Option<Cache<String>>>>;
 pub type PlayingCache = Arc<RwLock<Option<Cache<routes::music::NowPlayingResponse>>>>;
 
 // top
-pub type ArtistsCache = Arc<RwLock<HashMap<TimeRange, Cache<TopArtistsResponse>>>>;
-pub type TracksCache = Arc<RwLock<HashMap<TimeRange, Cache<TopTracksResponse>>>>;
+pub type ArtistsCache = Arc<RwLock<HashMap<TimeRange, Cache<Vec<Artist>>>>>;
+pub type TracksCache = Arc<RwLock<HashMap<TimeRange, Cache<Vec<Track>>>>>;
 
 #[derive(Clone, Default)]
 pub struct TopCache {
@@ -73,50 +74,94 @@ pub fn create_app(state: AppState) -> Router {
     routes::router().with_state(state).layer(cors)
 }
 
-#[derive(Debug)]
+#[derive(Debug, Serialize, ToSchema)]
+pub struct ErrorResponse {
+    pub error: ErrorDetail,
+}
+
+#[derive(Debug, Serialize, ToSchema)]
+pub struct ErrorDetail {
+    #[schema(example = "INTERNAL_SERVER_ERROR")]
+    pub code: String,
+    #[schema(example = "An unexpected error occurred.")]
+    pub message: String,
+}
+
+#[derive(Debug, IntoResponses)]
 pub enum ApiError {
-    BadRequest,          // 400
-    NotFound,            // 404
-    ServiceUnavailable,  // 503
-    InternalServerError, // 500
+    #[response(status = StatusCode::BAD_REQUEST, description = "The request was invalid or malformed.")]
+    BadRequest,
+
+    #[response(status = StatusCode::UNAUTHORIZED, description = "Missing or invalid authorization token.")]
+    Unauthorized,
+
+    #[response(
+        status = StatusCode::NOT_FOUND,
+        description = "The requested endpoint or resource does not exist."
+    )]
+    NotFound,
+
+    #[response(status = StatusCode::INTERNAL_SERVER_ERROR, description = "An internal server error occurred.")]
+    InternalServerError,
+
+    #[response(
+        status = StatusCode::SERVICE_UNAVAILABLE,
+        description = "The requested service is temporarily unavailable."
+    )]
+    ServiceUnavailable,
 }
 
 impl IntoResponse for ApiError {
     fn into_response(self) -> axum::response::Response {
-        if !matches!(self, ApiError::NotFound) {
-            eprintln!("API ERROR: {:?}", self);
-        }
-
         let (status, error_code, error_message) = match self {
             ApiError::BadRequest => (
                 StatusCode::BAD_REQUEST,
-                "BAD_REQUEST",
-                "The request was invalid or malformed.",
+                "BAD_REQUEST".to_string(),
+                "The request is invalid or contains malformed data.".to_string(),
+            ),
+            ApiError::Unauthorized => (
+                StatusCode::UNAUTHORIZED,
+                "UNAUTHORIZED".to_string(),
+                "Missing or invalid Bearer token.".to_string(),
             ),
             ApiError::NotFound => (
                 StatusCode::NOT_FOUND,
-                "NOT_FOUND",
-                "The requested endpoint does not exist.",
-            ),
-            ApiError::ServiceUnavailable => (
-                StatusCode::SERVICE_UNAVAILABLE,
-                "SERVICE_UNAVAILABLE",
-                "The requested service is not available. Try again later.",
+                "NOT_FOUND".to_string(),
+                "The requested endpoint does not exist.".to_string(),
             ),
             ApiError::InternalServerError => (
                 StatusCode::INTERNAL_SERVER_ERROR,
-                "INTERNAL_SERVER_ERROR",
-                "An internal server error occured. Try again later.",
+                "INTERNAL_SERVER_ERROR".to_string(),
+                "An unexpected internal server error occurred.".to_string(),
+            ),
+            ApiError::ServiceUnavailable => (
+                StatusCode::SERVICE_UNAVAILABLE,
+                "SERVICE_UNAVAILABLE".to_string(),
+                "The requested service is not available. Try again later.".to_string(),
             ),
         };
 
-        let body = Json(json!({
-            "error": {
-                "code": error_code,
-                "message": error_message
-            }
-        }));
+        let body = Json(ErrorResponse {
+            error: ErrorDetail {
+                code: error_code,
+                message: error_message,
+            },
+        });
 
         (status, body).into_response()
+    }
+}
+
+impl From<String> for ApiError {
+    fn from(err: String) -> Self {
+        eprintln!("INTERNAL ERROR: {}", err);
+        ApiError::InternalServerError
+    }
+}
+
+impl From<sqlx::Error> for ApiError {
+    fn from(err: sqlx::Error) -> Self {
+        eprintln!("DB ERROR: {}", err);
+        ApiError::InternalServerError
     }
 }

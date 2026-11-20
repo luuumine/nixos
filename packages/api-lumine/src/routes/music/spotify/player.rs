@@ -1,4 +1,5 @@
 use crate::{AppState, Cache, routes::music::models::*};
+
 use reqwest::StatusCode;
 use std::time::{SystemTime, UNIX_EPOCH};
 
@@ -19,10 +20,10 @@ pub async fn fetch_currently_playing(
     {
         // get read lock
         let cache = state.spotify.cache.playing.read().await;
-        if let Some(song_data) = &*cache {
-            if now + buffer < song_data.expires_at {
-                return Ok(song_data.data.clone());
-            }
+        if let Some(song_data) = &*cache
+            && now + buffer < song_data.expires_at
+        {
+            return Ok(song_data.data.clone());
         }
     } // `cache` goes out of scope there
 
@@ -30,10 +31,10 @@ pub async fn fetch_currently_playing(
     let mut cache = state.spotify.cache.playing.write().await;
 
     // check if another thread wrote new valid data before updating it
-    if let Some(song_data) = &*cache {
-        if now < song_data.expires_at {
-            return Ok(song_data.data.clone());
-        }
+    if let Some(song_data) = &*cache
+        && now < song_data.expires_at
+    {
+        return Ok(song_data.data.clone());
     }
 
     let url = format!("{}/v1/me/player/currently-playing", state.spotify.api_url);
@@ -49,57 +50,72 @@ pub async fn fetch_currently_playing(
     let status = response.status();
 
     let (response_data, ttl, api_err) = match status {
-        StatusCode::NO_CONTENT => (NowPlayingResponse::NotPlaying, SONG_LIFETIME, None),
+        StatusCode::NO_CONTENT => (
+            NowPlayingResponse {
+                status: PlaybackStatus::NotPlaying,
+                track: None,
+            },
+            SONG_LIFETIME,
+            None,
+        ),
 
         StatusCode::OK => {
             let json = response
                 .json::<serde_json::Value>()
                 .await
                 .map_err(|e| format!("failed to parse response body: {}", e))?;
-            let (song_data, b) = parse_spotify_response(json)?;
+            let (track, b) = parse_spotify_response(json)?;
 
-            let state = match b {
-                true => NowPlayingResponse::Playing(song_data),
-                false => NowPlayingResponse::Paused(song_data),
+            let status = match b {
+                true => PlaybackStatus::Playing,
+                false => PlaybackStatus::Paused,
             };
 
-            (state, SONG_LIFETIME, None)
+            let response_data = NowPlayingResponse {
+                status,
+                track: Some(track),
+            };
+
+            (response_data, SONG_LIFETIME, None)
         }
 
         StatusCode::TOO_MANY_REQUESTS => {
             let mut timeout = ERROR_TIMEOUT; // default 30 mins
 
-            if let Some(retry_val) = response.headers().get("retry-after") {
-                if let Ok(retry_str) = retry_val.to_str() {
-                    if let Ok(parsed_timeout) = retry_str.parse::<u64>() {
-                        timeout = parsed_timeout;
-                    }
-                }
+            if let Some(retry_val) = response.headers().get("retry-after")
+                && let Ok(retry_str) = retry_val.to_str()
+                && let Ok(parsed_timeout) = retry_str.parse::<u64>()
+            {
+                timeout = parsed_timeout;
             }
 
+            // need to print it there, because we swallow the error
             eprintln!(
                 "spotify api returned unexpected status: {} (cooling down for {}s)",
                 status, timeout
             );
 
             (
-                NowPlayingResponse::NotPlaying,
+                NowPlayingResponse {
+                    status: PlaybackStatus::NotPlaying,
+                    track: None,
+                },
                 timeout + SONG_LIFETIME,
                 None,
             )
         }
 
-        _ => {
-            eprintln!("spotify api returned unexpected status: {}", status);
-            (
-                NowPlayingResponse::NotPlaying,
-                ERROR_TIMEOUT,
-                Some(format!(
-                    "spotify api returned unexpected status: {}",
-                    status
-                )),
-            )
-        }
+        _ => (
+            NowPlayingResponse {
+                status: PlaybackStatus::NotPlaying,
+                track: None,
+            },
+            ERROR_TIMEOUT,
+            Some(format!(
+                "spotify api returned unexpected status: {}",
+                status
+            )),
+        ),
     };
 
     *cache = Some(Cache {
@@ -200,7 +216,7 @@ mod test {
         Mock::given(method("GET"))
             .and(path("/v1/me/player/currently-playing"))
             .and(header("Authorization", "Bearer fake_token"))
-            .respond_with(ResponseTemplate::new(200).set_body_json(spotify_mock_body))
+            .respond_with(ResponseTemplate::new(StatusCode::OK).set_body_json(spotify_mock_body))
             .mount(&mock_server)
             .await;
 
@@ -208,35 +224,36 @@ mod test {
 
         let now_playing_response = fetch_currently_playing(&state, "fake_token").await?;
 
-        if let NowPlayingResponse::Playing(track) = now_playing_response {
-            assert_eq!(track.title, "belavenir");
-            assert_eq!(track.album, "RAPPEL");
-            assert_eq!(
-                track.url,
-                "https://open.spotify.com/track/7KdLgNe9VGs7v9F39M8wl9"
-            );
+        assert_eq!(now_playing_response.status, PlaybackStatus::Playing);
+        let track = now_playing_response
+            .track
+            .ok_or("expected track to be present")?;
 
-            // images
-            assert_eq!(
-                track.images.large,
-                "https://i.scdn.co/image/ab67616d0000b273840cee3deff8dd039e25aaa5"
-            );
-            assert_eq!(
-                track.images.small,
-                "https://i.scdn.co/image/ab67616d00004851840cee3deff8dd039e25aaa5"
-            );
+        assert_eq!(track.title, "belavenir");
+        assert_eq!(track.album, "RAPPEL");
+        assert_eq!(
+            track.url,
+            "https://open.spotify.com/track/7KdLgNe9VGs7v9F39M8wl9"
+        );
 
-            // artists
-            assert_eq!(track.artists.len(), 2);
-            assert_eq!(track.artists[0].name, "Jima");
-            assert_eq!(
-                track.artists[0].url,
-                "https://open.spotify.com/artist/5kGE5WhDLFZwLude1avCuw"
-            );
-            assert_eq!(track.artists[1].name, "ysma");
-        } else {
-            return Err("expected Playing".to_string());
-        };
+        // images
+        assert_eq!(
+            track.images.large,
+            "https://i.scdn.co/image/ab67616d0000b273840cee3deff8dd039e25aaa5"
+        );
+        assert_eq!(
+            track.images.small,
+            "https://i.scdn.co/image/ab67616d00004851840cee3deff8dd039e25aaa5"
+        );
+
+        // artists
+        assert_eq!(track.artists.len(), 2);
+        assert_eq!(track.artists[0].name, "Jima");
+        assert_eq!(
+            track.artists[0].url,
+            "https://open.spotify.com/artist/5kGE5WhDLFZwLude1avCuw"
+        );
+        assert_eq!(track.artists[1].name, "ysma");
 
         Ok(())
     }
@@ -256,7 +273,7 @@ mod test {
         Mock::given(method("GET"))
             .and(path("/v1/me/player/currently-playing"))
             .and(header("Authorization", "Bearer fake_token"))
-            .respond_with(ResponseTemplate::new(200).set_body_json(spotify_mock_body))
+            .respond_with(ResponseTemplate::new(StatusCode::OK).set_body_json(spotify_mock_body))
             .mount(&mock_server)
             .await;
 
@@ -264,35 +281,36 @@ mod test {
 
         let now_playing_response = fetch_currently_playing(&state, "fake_token").await?;
 
-        if let NowPlayingResponse::Paused(track) = now_playing_response {
-            assert_eq!(track.title, "belavenir");
-            assert_eq!(track.album, "RAPPEL");
-            assert_eq!(
-                track.url,
-                "https://open.spotify.com/track/7KdLgNe9VGs7v9F39M8wl9"
-            );
+        assert_eq!(now_playing_response.status, PlaybackStatus::Paused);
+        let track = now_playing_response
+            .track
+            .ok_or("expected track to be present")?;
 
-            // images
-            assert_eq!(
-                track.images.large,
-                "https://i.scdn.co/image/ab67616d0000b273840cee3deff8dd039e25aaa5"
-            );
-            assert_eq!(
-                track.images.small,
-                "https://i.scdn.co/image/ab67616d00004851840cee3deff8dd039e25aaa5"
-            );
+        assert_eq!(track.title, "belavenir");
+        assert_eq!(track.album, "RAPPEL");
+        assert_eq!(
+            track.url,
+            "https://open.spotify.com/track/7KdLgNe9VGs7v9F39M8wl9"
+        );
 
-            // artists
-            assert_eq!(track.artists.len(), 2);
-            assert_eq!(track.artists[0].name, "Jima");
-            assert_eq!(
-                track.artists[0].url,
-                "https://open.spotify.com/artist/5kGE5WhDLFZwLude1avCuw"
-            );
-            assert_eq!(track.artists[1].name, "ysma");
-        } else {
-            return Err("expected NotPlaying".to_string());
-        };
+        // images
+        assert_eq!(
+            track.images.large,
+            "https://i.scdn.co/image/ab67616d0000b273840cee3deff8dd039e25aaa5"
+        );
+        assert_eq!(
+            track.images.small,
+            "https://i.scdn.co/image/ab67616d00004851840cee3deff8dd039e25aaa5"
+        );
+
+        // artists
+        assert_eq!(track.artists.len(), 2);
+        assert_eq!(track.artists[0].name, "Jima");
+        assert_eq!(
+            track.artists[0].url,
+            "https://open.spotify.com/artist/5kGE5WhDLFZwLude1avCuw"
+        );
+        assert_eq!(track.artists[1].name, "ysma");
 
         Ok(())
     }
@@ -304,7 +322,7 @@ mod test {
         Mock::given(method("GET"))
             .and(path("/v1/me/player/currently-playing"))
             .and(header("Authorization", "Bearer fake_token"))
-            .respond_with(ResponseTemplate::new(204))
+            .respond_with(ResponseTemplate::new(StatusCode::NO_CONTENT))
             .mount(&mock_server)
             .await;
 
@@ -312,10 +330,8 @@ mod test {
 
         let now_playing_response = fetch_currently_playing(&state, "fake_token").await?;
 
-        assert!(
-            matches!(now_playing_response, NowPlayingResponse::NotPlaying),
-            "expected NotPlaying, but got something else"
-        );
+        assert_eq!(now_playing_response.status, PlaybackStatus::NotPlaying);
+        assert!(now_playing_response.track.is_none());
 
         Ok(())
     }

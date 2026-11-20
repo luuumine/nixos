@@ -1,13 +1,14 @@
 use serde::{Deserialize, Serialize};
+use utoipa::{IntoParams, ToSchema};
 
-#[derive(Serialize, Clone, PartialEq)]
+#[derive(Clone, Serialize, ToSchema)]
 pub struct Image {
     pub small: String,
     pub medium: String,
     pub large: String,
 }
 
-#[derive(Serialize, Clone, PartialEq)]
+#[derive(Clone, Serialize, ToSchema)]
 pub struct Artist {
     pub name: String,
     pub url: String,
@@ -15,7 +16,7 @@ pub struct Artist {
     pub images: Option<Image>,
 }
 
-#[derive(Serialize, Clone)]
+#[derive(Clone, Serialize, ToSchema)]
 pub struct Track {
     pub title: String,
     pub album: String,
@@ -25,18 +26,22 @@ pub struct Track {
     pub artists: Vec<Artist>,
 }
 
-#[derive(Serialize, Clone)]
-#[serde(tag = "status", content = "track", rename_all = "snake_case")]
-pub enum NowPlayingResponse {
-    NotPlaying,     // 204
-    Paused(Track),  // 200, is_playing: false
-    Playing(Track), // 200, is_playing: true
+#[derive(Clone, Debug, PartialEq, Deserialize, Serialize, ToSchema)]
+#[serde(rename_all = "snake_case")]
+pub enum PlaybackStatus {
+    NotPlaying,
+    Paused,
+    Playing,
 }
 
-pub type TopArtistsResponse = Vec<Artist>;
-pub type TopTracksResponse = Vec<Track>;
+#[derive(Clone, Serialize, ToSchema)]
+pub struct NowPlayingResponse {
+    pub status: PlaybackStatus,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub track: Option<Track>,
+}
 
-#[derive(Deserialize, Clone, Default, Debug, PartialEq, Eq, Hash)]
+#[derive(Deserialize, Clone, Default, Debug, PartialEq, Eq, Hash, ToSchema)]
 #[serde(rename_all = "snake_case")]
 pub enum TimeRange {
     ShortTerm,
@@ -55,8 +60,9 @@ impl TimeRange {
     }
 }
 
-#[derive(Deserialize)]
+#[derive(Deserialize, IntoParams)]
 pub struct TopParams {
     #[serde(default)]
+    #[param(inline)]
     pub range: TimeRange,
 }

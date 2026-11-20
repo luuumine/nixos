@@ -1,34 +1,33 @@
-use axum::{
-    Json,
-    extract::{Query, State},
-    response::IntoResponse,
-};
-
 use crate::{
     ApiError, AppState,
     routes::music::{
         TopParams,
+        models::Track,
         spotify::{token::get_token, top::fetch_top_tracks},
     },
 };
 
-pub async fn handler(
+use axum::{
+    Json,
+    extract::{Query, State},
+};
+
+#[utoipa::path(
+    get,
+    path = "/tracks",
+    tag = "music",
+    params(TopParams),
+    responses(
+        (status = StatusCode::OK, description = "List of top tracks", body = Vec<Track>),
+        ApiError,
+    ),
+)]
+pub async fn get_top_tracks(
     State(state): State<AppState>,
     Query(params): Query<TopParams>,
-) -> Result<impl IntoResponse, ApiError> {
-    let access_token = get_token(&state).await.map_err(|e| {
-        println!("INTERNAL ERROR [get_token]: {}", e);
-        ApiError::InternalServerError
-    })?;
-
-    let range = params.range;
-
-    let top_artists = fetch_top_tracks(&state, &access_token, &range)
-        .await
-        .map_err(|e| {
-            println!("INTERNAL ERROR [fetch_top_tracks]: {}", e);
-            ApiError::InternalServerError
-        })?;
+) -> Result<Json<Vec<Track>>, ApiError> {
+    let access_token = get_token(&state).await?;
+    let top_artists = fetch_top_tracks(&state, &access_token, &params.range).await?;
 
     Ok(Json(top_artists))
 }

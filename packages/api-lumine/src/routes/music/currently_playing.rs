@@ -1,22 +1,27 @@
-use axum::{Json, extract::State, response::IntoResponse};
-
 use crate::{
     ApiError, AppState,
-    routes::music::spotify::{player::fetch_currently_playing, token::get_token},
+    routes::music::{
+        NowPlayingResponse,
+        spotify::{player::fetch_currently_playing, token::get_token},
+    },
 };
 
-pub async fn handler(State(state): State<AppState>) -> Result<impl IntoResponse, ApiError> {
-    let access_token = get_token(&state).await.map_err(|e| {
-        println!("INTERNAL ERROR [get_token]: {}", e);
-        ApiError::InternalServerError
-    })?;
+use axum::{Json, extract::State};
 
-    let currently_playing = fetch_currently_playing(&state, &access_token)
-        .await
-        .map_err(|e| {
-            println!("INTERNAL ERROR [fetch_currently_playing]: {}", e);
-            ApiError::InternalServerError
-        })?;
+#[utoipa::path(
+    get,
+    path = "/currently_playing",
+    tag = "music",
+    responses(
+        (status = StatusCode::OK, description = "Current playback state", body = NowPlayingResponse),
+        ApiError,
+    ),
+)]
+pub async fn get_currently_playing(
+    State(state): State<AppState>,
+) -> Result<Json<NowPlayingResponse>, ApiError> {
+    let access_token = get_token(&state).await?;
+    let currently_playing = fetch_currently_playing(&state, &access_token).await?;
 
     Ok(Json(currently_playing))
 }

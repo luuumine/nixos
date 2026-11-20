@@ -22,10 +22,10 @@ pub async fn get_token(state: &AppState) -> Result<String, String> {
         // get read lock
         let cache = state.spotify.cache.token.read().await;
 
-        if let Some(token_data) = &*cache {
-            if now + buffer < token_data.expires_at {
-                return Ok(token_data.data.clone());
-            }
+        if let Some(token_data) = &*cache
+            && now + buffer < token_data.expires_at
+        {
+            return Ok(token_data.data.clone());
         }
     } // `cache` goes out of scope there
 
@@ -33,10 +33,10 @@ pub async fn get_token(state: &AppState) -> Result<String, String> {
     let mut cache = state.spotify.cache.token.write().await;
 
     // check if another thread wrote a new valid token before updating it
-    if let Some(token_data) = &*cache {
-        if now + buffer < token_data.expires_at {
-            return Ok(token_data.data.clone());
-        }
+    if let Some(token_data) = &*cache
+        && now + buffer < token_data.expires_at
+    {
+        return Ok(token_data.data.clone());
     }
 
     let token_response = update_token(state).await?;
@@ -116,7 +116,7 @@ mod tests {
             )) // basic auth for "valid_client_id:valid_client_secret"
             .and(body_string_contains("grant_type=refresh_token"))
             .and(body_string_contains("refresh_token=valid_refresh_token"))
-            .respond_with(ResponseTemplate::new(200).set_body_json(auth_response_body))
+            .respond_with(ResponseTemplate::new(StatusCode::OK).set_body_json(auth_response_body))
             .mount(&mock_server)
             .await;
 
