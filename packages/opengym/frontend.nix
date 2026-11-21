@@ -12,7 +12,7 @@ buildNpmPackage {
   inherit version src;
 
   sourceRoot = "${src.name}/frontend";
-  npmDepsHash = "sha256-Kc4Jccd5JQPCqiomqCZjkDc88p0VnCU1xxjDnEOK9rQ=";
+  npmDepsHash = "sha256-P2gpYiwVSEVkVzYxf1l5OfYxrj/w+muJh5itfvkwLgg=";
 
   makeCacheWritable = true;
 
@@ -22,17 +22,11 @@ buildNpmPackage {
   ];
   buildInputs = [ vips ];
 
-  buildPhase = ''
-    npm run build
-  '';
-
   installPhase = ''
     runHook preInstall
 
-    mkdir -p $out/exercise-media
+    mkdir -p $out
     cp -R dist/* $out/
-
-    cp -R ../catalogue/media/* $out/exercise-media/
 
     runHook postInstall
   '';

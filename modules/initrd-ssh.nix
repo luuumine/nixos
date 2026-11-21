@@ -31,7 +31,6 @@ in
   config = lib.mkIf cfg.enable {
     boot.kernelParams = [ "ip=::::${config.networking.hostName}::dhcp" ];
     boot.initrd = {
-      systemd.enable = true;
       systemd.network.enable = true;
 
       availableKernelModules = cfg.networkDrivers;

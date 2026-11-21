@@ -42,7 +42,7 @@ in
           # nix run nixpkgs\#go -- list -m github.com/tailscale/caddy-tailscale@main
           "github.com/tailscale/caddy-tailscale@v0.0.0-20260826180304-de41b249af4f"
         ];
-        hash = "sha256-beuq2/ksWiZqw+/8QbkX2/7liZJfNCHpSlRkwu96Bgk=";
+        hash = "sha256-Wi8ZqTvfF7wHlQIAtbf8idQablS5TDEvtpjOc+s8LMw=";
       };
 
       globalConfig = ''

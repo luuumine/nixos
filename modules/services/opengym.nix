@@ -58,9 +58,20 @@ in
   };
 
   config = lib.mkIf cfg.enable {
+    assertions = [
+      {
+        assertion =
+          !(lib.hasInfix "://" cfg.domain)
+          && !(lib.hasInfix "/" cfg.domain)
+          && !(lib.hasInfix ":" cfg.domain);
+        message = "lumine.services.opengym.domain must be a bare hostname without scheme, port, or path.";
+      }
+    ];
+
     services.opengym = {
       enable = true;
       package = pkgs.lumine.opengym;
+      exerciseMediaPackage = pkgs.lumine.opengym.media;
 
       inherit (cfg)
         port

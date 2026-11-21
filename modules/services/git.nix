@@ -139,6 +139,11 @@ in
       };
     };
 
+    systemd.services."forgejo-runner-${hostname}" = lib.mkIf cfg.runners {
+      after = [ "forgejo.service" ];
+      wants = [ "forgejo.service" ];
+    };
+
     services.caddy = lib.mkIf caddyCfg.enable {
       virtualHosts."https://${cfg.domain}".extraConfig = ''
         reverse_proxy 127.0.0.1:${toString cfg.port}

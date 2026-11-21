@@ -6,12 +6,24 @@
 }:
 let
   cfg = config.services.opengym;
+  basePath = lib.removeSuffix "/" cfg.basePath;
+  maxBodySize = if cfg.media.uploads then "${toString (cfg.media.videoMaxMb + 12)}M" else "5M";
 in
 {
   options.services.opengym = {
     enable = lib.mkEnableOption "openGym workout tracker";
 
     package = lib.mkPackageOption pkgs "opengym" { };
+
+    exerciseMediaPackage = lib.mkOption {
+      type = lib.types.nullOr lib.types.package;
+      default = null;
+      example = lib.literalExpression "pkgs.opengym.media";
+      description = ''
+        Package providing built-in exercise stills and animations (served at `/exercise-media/`).
+        Set to `pkgs.opengym.media` to enable them (requires `nixpkgs.config.allowUnfree = true`).
+      '';
+    };
 
     rpId = lib.mkOption {
       type = lib.types.str;
@@ -23,8 +35,9 @@ in
       type = lib.types.str;
       default = "http://localhost:8080";
       description = ''
-        Full URL the app is served from ; with scheme, without trailing slash.
-        Must match the address bar exactly.'';
+        Full URL the app is served from, with scheme and without trailing slash.
+        Must match the address bar exactly.
+      '';
     };
 
     rpName = lib.mkOption {
@@ -38,7 +51,7 @@ in
       default = 3000;
       description = ''
         Port the API listens on.
-        You either need to proxy it yourself or activate `reverseProxy` to serve the frontend.
+        You either need to proxy it yourself or enable `reverseProxy` to serve the frontend.
       '';
     };
 
@@ -51,7 +64,7 @@ in
     adminUids = lib.mkOption {
       type = lib.types.listOf lib.types.str;
       default = [ ];
-      description = "Comma-separated user ids that get the admin dashboard.";
+      description = "List of user IDs that get the admin dashboard.";
     };
 
     inviteOnly = lib.mkOption {
@@ -119,8 +132,8 @@ in
 
       videoMaxMb = lib.mkOption {
         type = lib.types.ints.unsigned;
-        default = 40;
-        description = "Max size for a video (as recorded) in MB.";
+        default = 100;
+        description = "Max size for a video in MB.";
       };
 
       videoMaxSec = lib.mkOption {
@@ -171,10 +184,13 @@ in
     };
 
     vapidSubject = lib.mkOption {
-      type = lib.types.str;
-      default = cfg.origin;
-      defaultText = lib.literalExpression "config.services.opengym.origin";
-      description = "Contact URL sent with push notifications.";
+      type = lib.types.nullOr lib.types.str;
+      default = null;
+      example = "mailto:admin@example.com";
+      description = ''
+        Contact URL (`https://` or `mailto:`) sent with push notifications.
+        When `null`, openGym uses `origin` for HTTPS origins and falls back to `mailto:admin@localhost` for HTTP.
+      '';
     };
 
     coachDisabled = lib.mkOption {
@@ -188,7 +204,8 @@ in
       default = null;
       description = ''
         Raise the job budget for slow local AI models.
-        Defaults to 5min if null.'';
+        Defaults to 5min if null.
+      '';
     };
 
     firstUserAdmin = lib.mkOption {
@@ -201,7 +218,7 @@ in
       type = lib.types.str;
       default = "/";
       example = "/gym";
-      description = "Serve openGym under a sub-path. Must match the reverse proxy routing.";
+      description = "Serve openGym under a sub-path. Must start with `/`.";
     };
 
     allowedPrivateIps = lib.mkOption {
@@ -212,6 +229,30 @@ in
         "10.0.0.0/8"
       ];
       description = "List of private IPs/CIDRs the server is allowed to push to (e.g., for webhooks).";
+    };
+
+    extraEnvironment = lib.mkOption {
+      type = lib.types.attrsOf lib.types.str;
+      default = { };
+      example = {
+        TRAINERS = "on";
+        LIBRARY = "on";
+        INTEGRATIONS = "webhook";
+      };
+      description = ''
+        Additional non-secret environment variables passed to the openGym API service
+        (e.g. `TRAINERS`, `LIBRARY`, `INTEGRATIONS`, `ADMIN_DATA_VIEW`, `COACH_EFFORT`, `OIDC_ISSUER`).
+        For secrets such as `OIDC_CLIENT_SECRET` or `STRAVA_CLIENT_SECRET`, use `environmentFile`.
+      '';
+    };
+
+    environmentFile = lib.mkOption {
+      type = lib.types.nullOr lib.types.path;
+      default = null;
+      description = ''
+        Path to an environment file loaded by systemd for secrets
+        (e.g. `OIDC_CLIENT_SECRET`, `STRAVA_CLIENT_SECRET`).
+      '';
     };
 
     reverseProxy = {
@@ -236,8 +277,8 @@ in
         description = ''
           The site address the reverse proxy should bind to.
 
-          * **Caddy**: This can include a scheme to enable automatic HTTPS (e.g., `https://gym.example.com`).
-          * **Nginx**: This must be a bare hostname or IP address (e.g., `gym.example.com` or `127.0.0.1`).
+          - **Caddy**: Can include a scheme to enable automatic HTTPS (e.g., `https://gym.example.com`).
+          - **Nginx**: Must be a bare hostname or IP address (e.g., `gym.example.com` or `127.0.0.1`).
         '';
       };
 
@@ -250,6 +291,20 @@ in
   };
 
   config = lib.mkIf cfg.enable {
+    assertions = [
+      {
+        assertion = lib.hasPrefix "/" cfg.basePath;
+        message = "services.opengym.basePath must start with '/'.";
+      }
+      {
+        assertion =
+          cfg.vapidSubject == null
+          || lib.hasPrefix "https://" cfg.vapidSubject
+          || lib.hasPrefix "mailto:" cfg.vapidSubject;
+        message = "services.opengym.vapidSubject must start with 'https://' or 'mailto:'.";
+      }
+    ];
+
     systemd.services.opengym = {
       description = "openGym Backend API";
       after = [ "network.target" ];
@@ -273,7 +328,7 @@ in
         AUDIT_MAX = toString cfg.auditMax;
         AUDIT_DAYS = toString cfg.auditDays;
         AUDIT_IP = cfg.auditIp;
-        VAPID_SUBJECT = cfg.vapidSubject;
+        VAPID_SUBJECT = lib.mkIf (cfg.vapidSubject != null) cfg.vapidSubject;
         COACH_DISABLED = if cfg.coachDisabled then "1" else "0";
         COACH_JOB_TIMEOUT_MS = lib.mkIf (cfg.coachJobTimeoutSeconds != null) (
           toString (cfg.coachJobTimeoutSeconds * 1000)
@@ -291,10 +346,12 @@ in
         MEDIA_VIDEO_MAX_SEC = toString cfg.media.videoMaxSec;
         MEDIA_GC_GRACE_DAYS = toString cfg.media.gcGraceDays;
         MEDIA_UPLOADS_PER_HOUR = toString cfg.media.uploadsPerHour;
-      };
+      }
+      // cfg.extraEnvironment;
 
       serviceConfig = {
         ExecStart = "${lib.getExe cfg.package}";
+        EnvironmentFile = lib.mkIf (cfg.environmentFile != null) cfg.environmentFile;
         StateDirectory = "opengym";
         DynamicUser = true;
         ProtectSystem = "strict";
@@ -305,24 +362,52 @@ in
 
     services.caddy = lib.mkIf (cfg.reverseProxy.enable && cfg.reverseProxy.server == "caddy") {
       enable = true;
-      virtualHosts."${cfg.reverseProxy.host}:${toString cfg.reverseProxy.port}".extraConfig = ''
-        handle /api/* {
-          reverse_proxy localhost:${toString cfg.port}
-        }
+      virtualHosts."${cfg.reverseProxy.host}:${toString cfg.reverseProxy.port}".extraConfig =
+        if basePath == "" then
+          ''
+            handle /api/* {
+              reverse_proxy localhost:${toString cfg.port} {
+                header_up X-Forwarded-For {remote_host}
+              }
+            }
 
-        # Intercept built-in frontend media requests and map them to the Nix store path
-        handle_path /media/* {
-          root * ${cfg.package.passthru.frontend}/exercise-media
-          file_server
-        }
+            ${lib.optionalString (cfg.exerciseMediaPackage != null) ''
+              handle_path /exercise-media/* {
+                root * ${cfg.exerciseMediaPackage}
+                file_server
+              }
+            ''}
 
-        # Catch-all for React static files and SPA fallback
-        handle {
-          root * ${cfg.package.passthru.frontend}
-          try_files {path} /index.html
-          file_server
-        }
-      '';
+            handle {
+              root * ${cfg.package.passthru.frontend}
+              try_files {path} /index.html
+              file_server
+            }
+          ''
+        else
+          ''
+            redir ${basePath} ${basePath}/ permanent
+
+            handle ${basePath}/api/* {
+              uri strip_prefix ${basePath}
+              reverse_proxy localhost:${toString cfg.port} {
+                header_up X-Forwarded-For {remote_host}
+              }
+            }
+
+            ${lib.optionalString (cfg.exerciseMediaPackage != null) ''
+              handle_path ${basePath}/exercise-media/* {
+                root * ${cfg.exerciseMediaPackage}
+                file_server
+              }
+            ''}
+
+            handle_path ${basePath}/* {
+              root * ${cfg.package.passthru.frontend}
+              try_files {path} /index.html
+              file_server
+            }
+          '';
     };
 
     services.nginx = lib.mkIf (cfg.reverseProxy.enable && cfg.reverseProxy.server == "nginx") {
@@ -334,22 +419,37 @@ in
             port = cfg.reverseProxy.port;
           }
         ];
-        locations."/api/" = {
-          proxyPass = "http://127.0.0.1:${toString cfg.port}";
-          extraConfig = ''
-            client_max_body_size ${if cfg.media.uploads then "48M" else "5M"};
-            proxy_read_timeout 300s;
-          '';
-        };
+        locations = {
+          "${basePath}/api/" = {
+            proxyPass = "http://127.0.0.1:${toString cfg.port}/api/";
+            extraConfig = ''
+              proxy_set_header X-Forwarded-For $remote_addr;
+              client_max_body_size ${maxBodySize};
+              proxy_read_timeout 300s;
+            '';
+          };
 
-        locations."/media/" = {
-          alias = "${cfg.package.passthru.frontend}/exercise-media/";
-        };
-
-        locations."/" = {
-          root = cfg.package.passthru.frontend;
-          tryFiles = "$uri /index.html";
-        };
+          "${basePath}/exercise-media/" = lib.mkIf (cfg.exerciseMediaPackage != null) {
+            alias = "${cfg.exerciseMediaPackage}/";
+          };
+        }
+        // (
+          if basePath == "" then
+            {
+              "/" = {
+                root = cfg.package.passthru.frontend;
+                tryFiles = "$uri /index.html";
+              };
+            }
+          else
+            {
+              "= ${basePath}".return = "301 ${basePath}/";
+              "${basePath}/" = {
+                alias = "${cfg.package.passthru.frontend}/";
+                tryFiles = "$uri ${basePath}/index.html";
+              };
+            }
+        );
       };
     };
   };

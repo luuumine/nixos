@@ -5,11 +5,14 @@
   rustc,
   rust-analyzer,
   rustfmt,
+  pkg-config,
+  aws-lc,
   cacert,
+  sqlite,
 }:
 let
   pname = "api-lumine";
-  version = "1.3.0";
+  version = "1.3.1";
 
   src = lib.fileset.toSource {
     root = ./.;
@@ -25,14 +28,20 @@ in
 rustPlatform.buildRustPackage {
   inherit pname version src;
 
-  cargoHash = "sha256-CR29icVz9wp7boPswWbKkifAelnaphpX2Se6uEAE9UY=";
+  cargoHash = "sha256-lTpiNA6gOUMLlyIxOuAR0n48zz8K87QZgisnEYCXq+o=";
 
   nativeBuildInputs = [
     cargo
     rustc
     rust-analyzer
     rustfmt
+    pkg-config
     cacert
+  ];
+
+  buildInputs = [
+    aws-lc
+    sqlite
   ];
 
   SSL_CERT_FILE = "${cacert}/etc/ssl/certs/ca-bundle.crt";
